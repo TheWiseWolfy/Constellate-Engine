@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "src/Test.h"
+#include <Test.h>
 
 int main() {
 	std::cout << "Jonny bravo";
