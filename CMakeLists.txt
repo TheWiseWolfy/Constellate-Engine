@@ -9,6 +9,8 @@ set( CMAKE_VERBOSE_MAKEFILE on )   #Makes it so you can see the final linker com
 set (CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")   #Put the library and executable in the same place
 set (CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
 
+add_compile_definitions(CSL_PLATFORM_WINDOWS)
+
 add_subdirectory(ConstellateEngine) 
 add_subdirectory(Game)
 

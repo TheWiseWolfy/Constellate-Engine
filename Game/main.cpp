@@ -1,10 +1,22 @@
 #include <iostream>
 
-#include <Test.h>
+#include <Constellate.h>
+#include <iostream>
 
-int main() {
-	std::cout << "Jonny bravo";
 
-	csl::sayHello();
-	return 0;
+class Game : public csl::Application {
+
+public:
+	Game() {
+
+	}
+	~Game(){
+
+	}
+};
+
+//This is the entry point of the library
+csl::Application* csl::CreateApplication()
+{
+	return new Game();
 }
