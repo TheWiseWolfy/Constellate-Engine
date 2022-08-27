@@ -3,7 +3,6 @@
 #include <Constellate.h>
 #include <iostream>
 
-
 class Game : public csl::Application {
 
 public:
