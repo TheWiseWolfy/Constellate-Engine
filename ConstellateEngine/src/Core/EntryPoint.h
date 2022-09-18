@@ -1,8 +1,6 @@
 #pragma once
 
 
-//std::shared_ptr<spdlog::logger> csl::Log::s_CoreLogger;
-
 #ifdef CSL_PLATFORM_WINDOWS
 
 	extern csl::Application* csl::CreateApplication();

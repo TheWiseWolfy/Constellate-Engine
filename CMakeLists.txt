@@ -16,7 +16,6 @@ add_subdirectory(spdlog)
 add_subdirectory(ConstellateEngine) 
 
 #spdlog library
-target_link_libraries("ConstellateEngine" PRIVATE spdlog::spdlog)
 target_include_directories("ConstellateEngine" PUBLIC "${PROJECT_SOURCE_DIR}/spdlog/include")
 
 #_________________________
