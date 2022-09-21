@@ -1,7 +1,14 @@
 #pragma once
 
+
+#include "Platform/Windows/WindowWindow.h"
+#include "Core/Window.h"
+
 namespace csl {
 	class Application {
+	private:
+		std::unique_ptr<Window> _window;
+		bool _running = true;
 	public:
 		Application();
 		virtual ~Application();

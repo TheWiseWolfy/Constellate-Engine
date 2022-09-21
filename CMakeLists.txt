@@ -11,12 +11,19 @@ set (CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
 
 
 add_compile_definitions(CSL_PLATFORM_WINDOWS)
+add_compile_definitions(CSL_ENABLE_ASSERTS)
 
+#libraries
+add_subdirectory(glfw)
 add_subdirectory(spdlog)
+
 add_subdirectory(ConstellateEngine) 
 
-#spdlog library
+target_link_libraries("ConstellateEngine" glfw)
+target_link_libraries("ConstellateEngine" spdlog)
+
 target_include_directories("ConstellateEngine" PUBLIC "${PROJECT_SOURCE_DIR}/spdlog/include")
+target_include_directories("ConstellateEngine" PUBLIC "${PROJECT_SOURCE_DIR}/glfw/include")
 
 #_________________________
 

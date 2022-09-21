@@ -7,6 +7,7 @@
 #include "Core/Log.h"  //The container that manages the entry point of the application.
 #include "Events/Event.h"
 #include "Events/KeyEvent.h"
+#include "Core/Window.h"
 
 //Application entry
 #include "Core/EntryPoint.h"

@@ -3,6 +3,7 @@
 namespace csl {
 	Application::Application()
 	{
+		_window = std::unique_ptr<Window>(Window::Create());
 	}
 
 	Application::~Application()
@@ -11,9 +12,9 @@ namespace csl {
 
 	void Application::Run()
 	{
-		while (true)
+		while (_running)
 		{
-
+			_window->OnUpdate();
 		}
 	}
 }

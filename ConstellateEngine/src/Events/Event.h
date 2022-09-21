@@ -1,7 +1,6 @@
 #pragma once
 
 #include "cslpch.h"
-
 #include "Core/Core.h"
 
 namespace csl {
