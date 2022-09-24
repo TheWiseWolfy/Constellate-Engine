@@ -12,8 +12,7 @@ namespace csl {
 		int _keyCode; 
 		int GetKeyCOde() { return _keyCode; }
 	public:
-		KeyEvent(int keycode) : _keyCode(keycode) {
-		}
+		KeyEvent(int keycode) : _keyCode(keycode) {}
 
 	};
 

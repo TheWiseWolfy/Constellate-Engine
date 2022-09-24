@@ -4,6 +4,7 @@
 
 #include "WindowWindow.h"
 #include "Core/Log.h"
+#include "Events/ApplicationEvent.h"
 
 namespace csl{
 
@@ -35,6 +36,26 @@ namespace csl{
 		glfwMakeContextCurrent(_window);
 		glfwSetWindowUserPointer(_window, &_data);   //We store a arbitrary pointer in asociation with our window.
 		SetVSync(false);
+
+		//GLFW Callbacks 
+
+		glfwSetWindowSizeCallback(_window, [](GLFWwindow* window, int width, int height) {
+			WindowData& data = *( static_cast<WindowData*>(glfwGetWindowUserPointer(window) ) );  //Get a pointer we stored via glfw
+
+			data.Width = width;
+			data.Height = height;
+
+			WindowResizeEvent event(width, height);
+			data.EventCallback(event);
+		});
+
+		glfwSetWindowCloseCallback(_window, [](GLFWwindow* window)
+			{
+				WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
+				WindowCloseEvent event;
+				data.EventCallback(event);
+		});
+
 	}
 
 	WindowsWindow::~WindowsWindow()
@@ -62,6 +83,4 @@ namespace csl{
 	{
 		return _data.VSync;
 	}
-
-
 }

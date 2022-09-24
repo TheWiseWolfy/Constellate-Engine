@@ -26,9 +26,10 @@ namespace csl {
 		//Macro for avoiding extra code
 		//Good ol reliable macro trick
 	#define EVENT_TYPE_FUCTIONS(type) static EventType GetStaticType() {return EventType::type; } \
-									  virtual EventType GetEventType() const override { return GetStaticType();  }
+									  virtual EventType GetEventType() const override { return GetStaticType();  }\
+									
 								 
-	#define EVENT_CLASS_CATEGORY(category) virtual int GetCategoryFlags() override { return category; }
+	#define EVENT_CLASS_CATEGORY(category) virtual int GetCategoryFlags() const override { return category; }
 
 	class EngineEvent
 	{
@@ -47,13 +48,10 @@ namespace csl {
 		{
 			return GetCategoryFlags() & category;
 		}
-		
-
 	};
 
-
 	//Event dispacher scary stuffs
-	class EventDispacher {
+	class EventDispatcher {
 		template<typename T>
 		using EventFn = std::function<bool(T&)>;
 
@@ -61,7 +59,7 @@ namespace csl {
 		EngineEvent& _event;
 
 	public:
-		EventDispacher(EngineEvent& event) :_event(event) {
+		EventDispatcher(EngineEvent& event) :_event(event) {
 			 
 		}
 
