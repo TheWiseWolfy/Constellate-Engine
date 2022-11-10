@@ -3,8 +3,6 @@
 
 #ifdef CSL_PLATFORM_WINDOWS
 
-	extern csl::Application* csl::CreateApplication();
-
 	#include <Core/Log.h>
 
 	int main() {
@@ -12,7 +10,7 @@
 
 		CSL_CORE_INFO("Created entry point.");
 
-		auto* app = csl::CreateApplication();
+		auto* app = csl::Application::CreateApplication();
 		app->Run();
 		delete app;
 	}

@@ -1,9 +1,7 @@
 #pragma once
 
 #include "cslpch.h"
-
 #include "Event.h"
-
 
 namespace csl {
 	class WindowResizeEvent : public EngineEvent {

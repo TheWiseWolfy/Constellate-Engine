@@ -54,7 +54,6 @@ namespace csl{
 				WindowCloseEvent event;
 				data.EventCallback(event);
 		});
-
 	}
 
 	WindowsWindow::~WindowsWindow()

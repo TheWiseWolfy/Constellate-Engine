@@ -11,12 +11,25 @@ namespace csl {
 
 	}
 
-
 	void Application::OnEvent(EngineEvent& e){
 		EventDispatcher dispatcher(e);
 		dispatcher.Dispach<WindowCloseEvent>(std::bind( &Application::OnWindowClose, this, std::placeholders::_1) );
 
+
+		for (auto it = _layerStack.end(); it != _layerStack.begin(); )
+		{
+			(*--it)->OnEvent(e);
+			if (e.IsHandled())
+				break;
+		}
+
+
 		CSL_CORE_TRACE("{0}", e.ToString() );
+	}
+
+	void Application::PushLayer(Layer* layer)
+	{
+		_layerStack.PushLayer(layer);
 	}
 
 	bool Application::OnWindowClose(WindowCloseEvent& e)
@@ -25,10 +38,13 @@ namespace csl {
 		return true;
 	}
 
-
 	void Application::Run(){
 		while (_running)
 		{
+			//
+			for (Layer* layer : _layerStack) {
+				layer->OnUpdate();
+			}
 			_window->OnUpdate();
 		}
 	}

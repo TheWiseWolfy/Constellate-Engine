@@ -9,6 +9,9 @@ set(CMAKE_CXX_STANDARD 17)
 set (CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")   #Put the libraryes and executable in the same place
 set (CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
 
+#we make sure the dll and game run in the same c enviroment and share a heap.
+set(CMAKE_CXX_FLAGS_DEBUG "/MDd")
+set(CMAKE_CXX_FLAGS_RELEASE "/MD")
 
 add_compile_definitions(CSL_PLATFORM_WINDOWS)
 add_compile_definitions(CSL_ENABLE_ASSERTS)
