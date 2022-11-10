@@ -21,9 +21,6 @@ namespace csl{
 		 static std::shared_ptr<spdlog::logger>& GetCoreLogger();
 		 static std::shared_ptr<spdlog::logger>& GetClientLogger();
 	};
-
-
-
 }
 
 

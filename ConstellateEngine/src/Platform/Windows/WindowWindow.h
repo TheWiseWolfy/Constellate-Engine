@@ -31,7 +31,7 @@ namespace csl {
 			bool IsVSync() const override;
 
 			//Wondow attributes
-			inline void SetEventCallback(const EventCallbackFn& callback) override { _data.EventCallback = callback; }
+			void SetEventCallback(const EventCallbackFn& callback) override { _data.EventCallback = callback; }
 			
 	};
 }

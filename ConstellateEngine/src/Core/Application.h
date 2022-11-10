@@ -22,5 +22,5 @@ namespace csl {
 	};
 
 	//To be defined in CLIENT and used in ENTRY POINT
-	Application* CreateApplication();
+	extern Application* CreateApplication();
 }

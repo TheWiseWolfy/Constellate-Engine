@@ -49,8 +49,7 @@ namespace csl{
 			data.EventCallback(event);
 		});
 
-		glfwSetWindowCloseCallback(_window, [](GLFWwindow* window)
-			{
+		glfwSetWindowCloseCallback(_window, [](GLFWwindow* window){
 				WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
 				WindowCloseEvent event;
 				data.EventCallback(event);
