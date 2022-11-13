@@ -1,6 +1,7 @@
 
 
 #include "cslpch.h"
+#include "glad/glad.h"
 
 #include "WindowWindow.h"
 #include "Core/Log.h"
@@ -34,6 +35,11 @@ namespace csl{
 
 		_window = glfwCreateWindow((int)_data.Width, (int)_data.Height, _data.Title.c_str(), nullptr, nullptr);
 		glfwMakeContextCurrent(_window);
+		
+		int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
+
+		CSL_CORE_ASSERT(status, "Failed to initialize Glad!");
+		
 		glfwSetWindowUserPointer(_window, &_data);   //We store a arbitrary pointer in asociation with our window.
 		SetVSync(false);
 
