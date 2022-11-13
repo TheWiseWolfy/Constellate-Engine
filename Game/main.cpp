@@ -26,6 +26,7 @@ class Game : public csl::Application {
 public:
 	Game() {
 		PushLayer(new ExampleLayer());
+		PushLayer(new csl::ImGuiLayer());
 	}
 	~Game(){
 

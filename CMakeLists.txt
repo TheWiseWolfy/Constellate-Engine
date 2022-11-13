@@ -12,6 +12,7 @@ set (CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
 #we make sure the dll and game run in the same c enviroment and share a heap.
 set(CMAKE_CXX_FLAGS_DEBUG "/MDd")
 set(CMAKE_CXX_FLAGS_RELEASE "/MD")
+
 #set(GLFW_INCLUDE_NONE 1) not sure yet if needed
 
 add_compile_definitions(CSL_PLATFORM_WINDOWS)
@@ -21,28 +22,22 @@ add_compile_definitions(CSL_ENABLE_ASSERTS)
 add_subdirectory(vendor/glfw)
 add_subdirectory(vendor/spdlog)
 add_subdirectory(vendor/glad)
+add_subdirectory(vendor/imgui)
 
 add_subdirectory(ConstellateEngine) 
 
 target_link_libraries("ConstellateEngine" glfw)
 target_link_libraries("ConstellateEngine" spdlog)
 target_link_libraries("ConstellateEngine" Glad)
+target_link_libraries("ConstellateEngine" imgui)
 
 target_include_directories("ConstellateEngine" PUBLIC "${PROJECT_SOURCE_DIR}/vendor/spdlog/include")
 target_include_directories("ConstellateEngine" PUBLIC "${PROJECT_SOURCE_DIR}/vendor/glfw/include")
 target_include_directories("ConstellateEngine" PUBLIC "${PROJECT_SOURCE_DIR}/vendor/glad/include")
+target_include_directories("ConstellateEngine" PUBLIC "${PROJECT_SOURCE_DIR}/vendor/imgui")
 
 #_________________________
 
 add_subdirectory(Game)
 target_link_libraries("Game" PRIVATE "ConstellateEngine")
-
-
-
-
-
-
-
-
-
 

@@ -54,6 +54,7 @@ namespace csl {
 
 	//Event dispacher scary stuffs
 	class EventDispatcher {
+		
 		template<typename T>
 		using EventFn = std::function<bool(T&)>;
 

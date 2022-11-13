@@ -13,17 +13,23 @@ namespace csl {
 		std::unique_ptr<Window> _window;
 		LayerStack _layerStack;
 		bool _running = true;
+		static Application* _instance;
 
 		bool OnWindowClose(WindowCloseEvent& e);
+
 	public:
 		Application();
-
+	
+		
 		virtual ~Application();
 
 		void Run();
 		void OnEvent(EngineEvent& e);
+		Window& GetWindow() { return *_window; }
+
 		void PushLayer(Layer* layer);
 		
+		static Application& GetInstance() { return *_instance; }
 		static Application* CreateApplication();
 	};
 

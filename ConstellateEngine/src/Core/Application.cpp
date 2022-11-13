@@ -2,7 +2,12 @@
 #include "Log.h"
 
 namespace csl {
+	 
+	Application* Application::_instance = nullptr;
+
 	Application::Application(){
+		_instance = this;
+		
 		_window = std::unique_ptr<Window>(Window::Create());
 		_window->SetEventCallback(std::bind(&Application::OnEvent, this, std::placeholders::_1));
 	}
@@ -23,13 +28,13 @@ namespace csl {
 				break;
 		}
 
-
 		CSL_CORE_TRACE("{0}", e.ToString() );
 	}
 
 	void Application::PushLayer(Layer* layer)
 	{
 		_layerStack.PushLayer(layer);
+		layer->OnAttach();
 	}
 
 	bool Application::OnWindowClose(WindowCloseEvent& e)

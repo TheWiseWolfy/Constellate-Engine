@@ -24,14 +24,10 @@ namespace csl {
 			return ss.str();
 		}
 
-
 		EVENT_TYPE_FUCTIONS(WindowResize)
 		EVENT_CLASS_CATEGORY(EventCategoryApplication)
 	};
-
-	
-
-
+ 
 	class WindowCloseEvent : public EngineEvent
 	{
 	public:
