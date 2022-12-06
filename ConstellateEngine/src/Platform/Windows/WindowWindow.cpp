@@ -6,6 +6,7 @@
 #include "WindowWindow.h"
 #include "Core/Log.h"
 #include "Events/ApplicationEvent.h"
+#include "Events/MouseEvent.h"
 
 namespace csl{
 
@@ -60,6 +61,38 @@ namespace csl{
 				WindowCloseEvent event;
 				data.EventCallback(event);
 		});
+
+		glfwSetMouseButtonCallback(_window, [](GLFWwindow* window, int button, int action, int mods)
+			{
+				WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
+
+		switch (action)
+		{
+		case GLFW_PRESS:
+		{
+			MouseButtonPressedEvent event(button);
+			data.EventCallback(event);
+			break;
+		}
+		case GLFW_RELEASE:
+		{
+			MouseButtonReleasedEvent event(button);
+			data.EventCallback(event);
+			break;
+		}
+		}
+			});
+
+
+		glfwSetCursorPosCallback(_window, [](GLFWwindow* window, double xPos, double yPos)
+		{
+			WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
+
+			MouseMovedEvent event((float)xPos, (float)yPos);
+			data.EventCallback(event);
+		});
+
+
 	}
 
 	WindowsWindow::~WindowsWindow()

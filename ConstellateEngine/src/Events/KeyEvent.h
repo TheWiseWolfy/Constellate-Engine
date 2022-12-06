@@ -54,4 +54,19 @@ namespace csl {
 
 	};
 	
+	class  KeyTypedEvent : public KeyEvent
+	{
+	public:
+		KeyTypedEvent(int keycode) : KeyEvent(keycode) {}
+
+		std::string ToString() const override
+		{
+			std::stringstream ss;
+			ss << "KeyTypedEvent: " << _keyCode;
+			return ss.str();
+		}
+
+		EVENT_TYPE_FUCTIONS(KeyTyped)
+	};
+
 }

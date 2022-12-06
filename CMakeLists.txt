@@ -10,8 +10,10 @@ set (CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")   #Put the librar
 set (CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
 
 #we make sure the dll and game run in the same c enviroment and share a heap.
-set(CMAKE_CXX_FLAGS_DEBUG "/MDd")
-set(CMAKE_CXX_FLAGS_RELEASE "/MD")
+
+#set(CMAKE_CXX_FLAGS_DEBUG "/MDd")
+#set(CMAKE_CXX_FLAGS_RELEASE "/MD")
+
 
 #set(GLFW_INCLUDE_NONE 1) not sure yet if needed
 
@@ -41,3 +43,6 @@ target_include_directories("ConstellateEngine" PUBLIC "${PROJECT_SOURCE_DIR}/ven
 add_subdirectory(Game)
 target_link_libraries("Game" PRIVATE "ConstellateEngine")
 
+#This is a hell that will never leave me alone.
+#set_property(TARGET Game PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreadedDebugDLL$<$<CONFIG:Debug>:Debug>")
+#set_property(TARGET ConstellateEngine PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreadedDebugDLL$<$<CONFIG:Debug>:Debug>")

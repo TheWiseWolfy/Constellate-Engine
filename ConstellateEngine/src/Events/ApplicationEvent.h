@@ -25,7 +25,7 @@ namespace csl {
 		}
 
 		EVENT_TYPE_FUCTIONS(WindowResize)
-		EVENT_CLASS_CATEGORY(EventCategoryApplication)
+		EVENT_CLASS_CATEGORY(EventCategoryMouseButton)
 	};
  
 	class WindowCloseEvent : public EngineEvent
@@ -40,6 +40,7 @@ namespace csl {
 		EVENT_TYPE_FUCTIONS(WindowClose)
 		EVENT_CLASS_CATEGORY(EventCategoryApplication)
 	};
+
 
 
 }

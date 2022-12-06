@@ -44,7 +44,85 @@ namespace csl {
 	}
 
 	void ImGuiLayer::OnEvent(EngineEvent& event) {
-		
+
+		EventDispatcher dispacher(event);
+
+		dispacher.Dispach<MouseButtonPressedEvent>(
+			std::bind( &ImGuiLayer::OnMouseButtonPressedEvent, this, std::placeholders::_1));
+
+		dispacher.Dispach<MouseButtonReleasedEvent>(
+			std::bind(&ImGuiLayer::OnMouseButtonReleasedEvent, this, std::placeholders::_1));
+
+		dispacher.Dispach<MouseMovedEvent>(
+			std::bind(&ImGuiLayer::OnMouseMovedEvent, this, std::placeholders::_1));
+
+		dispacher.Dispach<MouseScrolledEvent>(
+			std::bind(&ImGuiLayer::OnMouseScrolledEvent, this, std::placeholders::_1));
+
+		dispacher.Dispach<KeyPressedEvent>(
+			std::bind(&ImGuiLayer::OnKeyPressedEvent, this, std::placeholders::_1));
+
+		dispacher.Dispach<KeyReleasedEvent>(
+			std::bind(&ImGuiLayer::OnKeyReleasedEvent, this, std::placeholders::_1));
+
+		dispacher.Dispach<KeyTypedEvent>(
+			std::bind(&ImGuiLayer::OnKeyTypedEvent, this, std::placeholders::_1));
+
+		dispacher.Dispach<WindowResizeEvent>(
+			std::bind(&ImGuiLayer::OnWindowResizeEvent, this, std::placeholders::_1));
+	}
+
+	bool ImGuiLayer::OnMouseButtonPressedEvent(MouseButtonPressedEvent& e)
+	{
+		ImGuiIO& io = ImGui::GetIO();
+		io.MouseDown[e.GetMouseButton()] = true;
+
+		return false;
+	}
+
+	bool ImGuiLayer::OnMouseButtonReleasedEvent(MouseButtonReleasedEvent& e)
+	{
+		ImGuiIO& io = ImGui::GetIO();
+		io.MouseDown[e.GetMouseButton()] = false;
+
+		return false;
+	}
+
+	bool ImGuiLayer::OnMouseMovedEvent(MouseMovedEvent& e)
+	{
+		ImGuiIO& io = ImGui::GetIO();
+		io.MousePos = ImVec2(e.GetX(), e.GetY());
+
+		return false;
+	}
+
+	bool ImGuiLayer::OnMouseScrolledEvent(MouseScrolledEvent& e)
+	{
+		ImGuiIO& io = ImGui::GetIO();
+		io.MouseWheelH += e.GetXOffset();
+		io.MouseWheel += e.GetYOffset();
+
+		return false;
+	}
+
+	bool ImGuiLayer::OnKeyPressedEvent(KeyPressedEvent& e)
+	{
+		return false;
+	}
+
+	bool ImGuiLayer::OnKeyReleasedEvent(KeyReleasedEvent& e)
+	{
+		return false;
+	}
+
+	bool ImGuiLayer::OnKeyTypedEvent(KeyTypedEvent& e)
+	{
+		return false;
+	}
+
+	bool ImGuiLayer::OnWindowResizeEvent(WindowResizeEvent& e)
+	{
+		return false;
 	}
 
 }

@@ -9,7 +9,7 @@ namespace csl {
 	{
 		None = 0,
 		WindowClose, WindowResize, WindowFocus, WindowLostFocus, WindowMoved,
-		KeyPressed, KeyReleased,
+		KeyPressed, KeyReleased, KeyTyped,
 		MouseButtonPressed, MouseButtonReleased, MouseMoved, MouseScrolled
 	};
 
@@ -23,11 +23,12 @@ namespace csl {
 		EventCategoryMouseButton = BIT(4)
 	};
 
-		//Macro for avoiding extra code
-		//Good ol reliable macro trick
+	//Macro for avoiding extra code
+	//_______________________________________________________
 	#define EVENT_TYPE_FUCTIONS(type) static EventType GetStaticType() {return EventType::type; } \
 									  virtual EventType GetEventType() const override { return GetStaticType();  }\
-									
+	//_______________________________________________________
+
 								 
 	#define EVENT_CLASS_CATEGORY(category) virtual int GetCategoryFlags() const override { return category; }
 
@@ -52,24 +53,30 @@ namespace csl {
 		}
 	};
 
-	//Event dispacher scary stuffs
+	
 	class EventDispatcher {
-		
 		template<typename T>
 		using EventFn = std::function<bool(T&)>;
 
 	private:
+		//An event dispacher is created to handle the generic engine event 
 		EngineEvent& _event;
 
 	public:
+		//A dispacher is created every single time an event is being handled.
 		EventDispatcher(EngineEvent& event) :_event(event) {
 			 
 		}
 
+		//We compare:
+		//the event type of the event that created the dispacher in the first place
+		//the event type required by a specific call of Dispach (Ex: Dispach<WindowsCloseEvent>( std::bind(callbackForWindowClose) )
 		template<typename T>
 		bool Dispach(EventFn<T> func) {
 			if (_event.GetEventType() == T::GetStaticType()) {
-				_event._handled = func(*(T*)&_event);    //to see later
+				//_event._handled = func(*(T*)   &_event);    //to see later
+				_event._handled = func( *static_cast<T*>(& _event) );    
+
 				return true;
 			}
 			return false;
