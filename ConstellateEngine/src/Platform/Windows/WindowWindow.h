@@ -2,7 +2,9 @@
 
 #include "Core/Window.h"
 
+#define GLFW_INCLUDE_NONE
 #include "GLFW/glfw3.h"
+#include "Renderer/RenderingContext.h"
 
 namespace csl {
 
@@ -18,6 +20,7 @@ namespace csl {
 	class WindowsWindow : public Window {
 		private: 
 			GLFWwindow* _window;
+			RenderingContext* _context;
 			WindowData _data;
 		public:
 			WindowsWindow(const WindowDetails& prop);

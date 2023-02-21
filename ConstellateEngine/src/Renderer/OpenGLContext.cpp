@@ -4,19 +4,21 @@
 #include "GLFW/glfw3.h"
 #include "Core/Core.h"
 
+
+
 namespace csl {
-	OpenGlContext::OpenGlContext(GLFWwindow* windowHandle) : _windowHandle(windowHandle)
+	OpenGLContext::OpenGLContext(GLFWwindow* windowHandle) : _windowHandle(windowHandle)
 	{
-		
+		return;
 	}
-	void OpenGlContext::Init()
+	void OpenGLContext::Init()
 	{
 		glfwMakeContextCurrent(_windowHandle);
 		int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
 		CSL_CORE_ASSERT(status, "Failed to initialize Glad!");
 	}
 
-	void OpenGlContext::SwapBuffers()
+	void OpenGLContext::SwapBuffers()
 	{
 		glfwSwapBuffers(_windowHandle);
 	}

@@ -7,6 +7,7 @@
 #include "Core/Log.h"
 #include "Events/ApplicationEvent.h"
 #include "Events/MouseEvent.h"
+#include "Renderer/OpenGLContext.h"
 
 namespace csl{
 
@@ -35,11 +36,8 @@ namespace csl{
 		}
 
 		_window = glfwCreateWindow((int)_data.Width, (int)_data.Height, _data.Title.c_str(), nullptr, nullptr);
-		glfwMakeContextCurrent(_window);
-		
-		int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
-
-		CSL_CORE_ASSERT(status, "Failed to initialize Glad!");
+		_context = new OpenGLContext(_window);
+		_context->Init();
 		
 		glfwSetWindowUserPointer(_window, &_data);   //We store a arbitrary pointer in asociation with our window.
 		SetVSync(false);
@@ -103,7 +101,10 @@ namespace csl{
 	void WindowsWindow::OnUpdate()
 	{
 		glfwPollEvents();
-		glfwSwapBuffers(_window);
+
+		_context->SwapBuffers();
+
+		
 	}
 
 	void WindowsWindow::SetVSync(bool enabled)

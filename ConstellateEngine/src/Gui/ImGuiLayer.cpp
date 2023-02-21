@@ -1,7 +1,8 @@
 #include "ImGuiLayer.h"
+#include "imgui.h"
 #include "cslpch.h"
 
-#include "imgui.h"
+#define IM
 #include "Platform/OpenGL/imgui_impl_opengl3.h"
 #include "Core/Application.h"
 
@@ -23,6 +24,8 @@ namespace csl {
 		Application& app = Application::GetInstance();
 		io.DisplaySize = ImVec2((float)app.GetWindow().GetWidth(), (float)app.GetWindow().GetHeigth());
 		//Hey whatever
+
+		//ImGui_ImplGlfw_InitForOpenGL(window, true); this is a rabbit whole not worth going into
 
 		ImGui_ImplOpenGL3_Init("#version 410");
 

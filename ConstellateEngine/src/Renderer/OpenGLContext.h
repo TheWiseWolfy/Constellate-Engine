@@ -6,9 +6,9 @@ struct GLFWwindow;
 
 namespace csl {
 	
-	class OpenGlContext : public RenderingContext{
+	class OpenGLContext : public RenderingContext{
 	public:
-		OpenGlContext(GLFWwindow* windowHandle);
+		OpenGLContext(GLFWwindow* windowHandle);
 
 		virtual void Init() override;
 		virtual void SwapBuffers() override;
