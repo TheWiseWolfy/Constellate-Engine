@@ -7,6 +7,8 @@
 #include "Events/ApplicationEvent.h"
 #include "Layer/LayerStack.h"
 
+#include "Renderer/Shader.h"
+
 namespace csl {
 	class Application {
 	private:
@@ -31,6 +33,10 @@ namespace csl {
 		
 		static Application& GetInstance() { return *_instance; }
 		static Application* CreateApplication();
+
+		unsigned int _VertexArray, _VertexBuffer, _IndexBuffer;
+
+		std::unique_ptr<Shader> _shader;
 	};
 
 	//To be defined in CLIENT and used in ENTRY POINT

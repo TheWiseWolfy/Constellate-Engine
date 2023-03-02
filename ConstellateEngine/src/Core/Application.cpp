@@ -5,7 +5,6 @@
 #include <glad/glad.h> //Look buddy, sometimes around february, GLFW became dependend on this exact include, so you won't be able to delete it anymore.
 
 
-unsigned int m_VertexArray, m_VertexBuffer, m_IndexBuffer;
 
 namespace csl {
 	 
@@ -19,11 +18,11 @@ namespace csl {
 
 
 		//This is temporary, my boy_____________________________________________________
-		glGenVertexArrays(1, &m_VertexArray);
-		glBindVertexArray(m_VertexArray);
+		glGenVertexArrays(1, &_VertexArray);
+		glBindVertexArray(_VertexArray);
 
-		glGenBuffers(1, &m_VertexBuffer);
-		glBindBuffer(GL_ARRAY_BUFFER, m_VertexBuffer);
+		glGenBuffers(1, &_VertexBuffer);
+		glBindBuffer(GL_ARRAY_BUFFER, _VertexBuffer);
 
 		float vertices[3 * 3] = {
 			-0.5f, -0.5f, 0.0f,
@@ -36,11 +35,38 @@ namespace csl {
 		glEnableVertexAttribArray(0);
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), nullptr);
 
-		glGenBuffers(1, &m_IndexBuffer);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_IndexBuffer);
+		glGenBuffers(1, &_IndexBuffer);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _IndexBuffer);
 
 		unsigned int indices[3] = { 0, 1, 2 };
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+
+		std::string vertexSource = R"(
+			#version 330 core
+			
+			layout(location = 0) in vec3 a_Position;
+
+			void main()
+			{
+				gl_Position = vec4(a_Position, 1.0);
+			}
+		)";
+
+		std::string fragmentShader = R"(
+			#version 330 core
+			
+			layout(location = 0) out vec4 color;
+
+			void main()
+			{
+				color = vec4(0.8, 0.2, 0.3, 1.0);
+			}
+
+
+		)";
+
+		_shader = std::make_unique<Shader>(vertexSource, fragmentShader);
+
 	}
 
 	Application::~Application(){
@@ -81,7 +107,9 @@ namespace csl {
 			glClear(GL_COLOR_BUFFER_BIT);
 
 			//this is also temporary 
-			glBindVertexArray(m_VertexArray);
+
+			_shader->Bind();
+			glBindVertexArray(_VertexArray);
 			glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, nullptr);
 
 
