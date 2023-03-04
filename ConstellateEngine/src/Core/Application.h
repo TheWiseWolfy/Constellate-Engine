@@ -8,6 +8,7 @@
 #include "Layer/LayerStack.h"
 
 #include "Renderer/Shader.h"
+#include "Renderer/RenderBuffer.h"
 
 namespace csl {
 	class Application {
@@ -34,9 +35,11 @@ namespace csl {
 		static Application& GetInstance() { return *_instance; }
 		static Application* CreateApplication();
 
-		unsigned int _VertexArray, _VertexBuffer, _IndexBuffer;
+		unsigned int _VertexArray, _IndexBuffer;
 
 		std::unique_ptr<Shader> _shader;
+		std::unique_ptr<VertexBuffer> _vertexBuffer;
+		std::unique_ptr<IndexBuffer>_indexBuffer;
 	};
 
 	//To be defined in CLIENT and used in ENTRY POINT
