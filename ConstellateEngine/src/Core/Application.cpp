@@ -10,6 +10,28 @@ namespace csl {
 	 
 	Application* Application::_instance = nullptr;
 
+	static GLenum ShaderDataTypeToOpenGLBaseType(OpenGLDataType type)
+	{
+		using enum OpenGLDataType;
+		switch (type)
+		{	 
+		case OpenGLDataType::Float:    return GL_FLOAT;
+		case OpenGLDataType::Float2:   return GL_FLOAT;
+		case OpenGLDataType::Float3:   return GL_FLOAT;
+		case OpenGLDataType::Float4:   return GL_FLOAT;
+		case OpenGLDataType::Mat3:     return GL_FLOAT;
+		case OpenGLDataType::Mat4:     return GL_FLOAT;
+		case OpenGLDataType::Int:      return GL_INT;
+		case OpenGLDataType::Int2:     return GL_INT;
+		case OpenGLDataType::Int3:     return GL_INT;
+		case OpenGLDataType::Int4:     return GL_INT;
+		case OpenGLDataType::Bool:     return GL_BOOL;
+		}
+
+		return 0;
+	}
+
+
 	Application::Application(){
 		_instance = this;
 		
@@ -22,31 +44,58 @@ namespace csl {
 		glBindVertexArray(_VertexArray);
 
 
-		float vertices[3 * 3] = {
-			-0.5f, -0.5f, 0.0f,
-			 0.5f, -0.5f, 0.0f,
-			 0.0f,  0.5f, 0.0f
+		float vertices[3 * 7] = {
+		-0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f,
+		 0.5f, -0.5f, 0.0f, 0.2f, 0.3f, 0.8f, 1.0f,
+		 0.0f,  0.5f, 0.0f, 0.8f, 0.8f, 0.8f, 1.0f
 		};
 
 		unsigned int indices[3] = { 0, 1, 2 };
 
-		//_vertexBuffer = std::make_unique<VertexBuffer>( VertexBuffer::VertexBufferOf(vertices, sizeof(vertices)));
+		//_vertexBuffer = std::make_unique<VertexBuffer>W( VertexBuffer::VertexBufferOf(vertices, sizeof(vertices)));
 		//_vertexBuffer->Bind();
 
 		_vertexBuffer.reset(VertexBuffer::VertexBufferOf(vertices, sizeof(vertices)));
 		_indexBuffer.reset(IndexBuffer::IndexBufferOf(indices, sizeof(indices)));
 
-		glEnableVertexAttribArray(0);
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), nullptr);
+
+		BufferLayout layout = {
+			{ OpenGLDataType::Float3, "a_Position" },
+			{ OpenGLDataType::Float4, "a_Color" }
+		};
+		_vertexBuffer->SetLayout(layout);
+
+		//glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), nullptr);
+		//glEnableVertexAttribArray(0);
+
+		unsigned int index = 0;
+		BufferLayout thisLayout = _vertexBuffer->GetLayout();
+		for ( BufferElements element : thisLayout.GetElements() )
+		{
+			glEnableVertexAttribArray(index);
+			glVertexAttribPointer(index,
+				element.GetComponentCount(),
+				ShaderDataTypeToOpenGLBaseType(element._type),
+				element._normalized ? GL_TRUE : GL_FALSE,
+				layout.GetStride(),
+				(const void*)element._offset);
+			index++;
+		}
 
 		std::string vertexSource = R"(
 			#version 330 core
 			
 			layout(location = 0) in vec3 a_Position;
+			layout(location = 1) in vec4 a_Color;
+
+			out vec3 v_Position;
+			out vec4 v_Color;
 
 			void main()
 			{
-				gl_Position = vec4(a_Position, 1.0);
+				v_Position = a_Position;
+				v_Color = a_Color;
+				gl_Position = vec4(a_Position, 1.0);	
 			}
 		)";
 
@@ -55,9 +104,13 @@ namespace csl {
 			
 			layout(location = 0) out vec4 color;
 
+			in vec3 v_Position;
+			in vec4 v_Color;
+
 			void main()
 			{
-				color = vec4(0.8, 0.2, 0.3, 1.0);
+				//color = vec4(v_Position * 0.5 + 0.5, 1.0);
+				color = v_Color;
 			}
 		)";
 		_shader = std::make_unique<Shader>(vertexSource, fragmentShader);

@@ -1,5 +1,4 @@
 #include "RenderBuffer.h"
-#include "cslpch.h"
 
 #include "Platform/OpenGL/OpenGLBuffer.h"
 #include "Renderer/Renderer.h"

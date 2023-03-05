@@ -3,5 +3,5 @@
 #include "Renderer.h"
 
 namespace csl {
-	RendererAPI Renderer::_rendererAPI = RendererAPI::OpenGL;;
+	RendererAPI Renderer::_rendererAPI = RendererAPI::OpenGL;
 }
