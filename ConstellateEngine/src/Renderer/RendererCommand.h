@@ -4,6 +4,7 @@
 
 #include "OpenGLRenderer/OpenGLRenderer.h"
 #include "Renderer/Shader.h"
+#include "Renderer/VertexArray.h"
 #include "Renderer/RenderBuffer.h"
 
 namespace csl {
@@ -15,9 +16,10 @@ namespace csl {
 		std::unique_ptr<IRenderer> currentRenderer;
 		unsigned int _VertexArray;
 
-		std::unique_ptr<Shader> _shader;
-		std::unique_ptr<VertexBuffer> _vertexBuffer;
-		std::unique_ptr<IndexBuffer>_indexBuffer;
+		std::shared_ptr<VertexArray> _vertexArray;
+		std::shared_ptr<Shader> _shader;
+		std::shared_ptr<VertexBuffer> _vertexBuffer;
+		std::shared_ptr<IndexBuffer>_indexBuffer;
 	public:
 		RendererCommand();
 
