@@ -9,6 +9,7 @@
 
 #include "Renderer/Shader.h"
 #include "Renderer/RenderBuffer.h"
+#include "Renderer/VertexArray.h"
 
 namespace csl {
 	class Application {
@@ -37,9 +38,10 @@ namespace csl {
 
 		unsigned int _VertexArray, _IndexBuffer;
 
-		std::unique_ptr<Shader> _shader;
-		std::unique_ptr<VertexBuffer> _vertexBuffer;
-		std::unique_ptr<IndexBuffer>_indexBuffer;
+		std::shared_ptr<VertexArray> _vertexArray;
+		std::shared_ptr<Shader> _shader;
+		std::shared_ptr<VertexBuffer> _vertexBuffer;
+		std::shared_ptr<IndexBuffer>_indexBuffer;
 	};
 
 	//To be defined in CLIENT and used in ENTRY POINT

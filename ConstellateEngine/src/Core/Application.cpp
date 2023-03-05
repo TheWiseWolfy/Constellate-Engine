@@ -10,26 +10,6 @@ namespace csl {
 	 
 	Application* Application::_instance = nullptr;
 
-	static GLenum ShaderDataTypeToOpenGLBaseType(OpenGLDataType type)
-	{
-		using enum OpenGLDataType;
-		switch (type)
-		{	 
-		case OpenGLDataType::Float:    return GL_FLOAT;
-		case OpenGLDataType::Float2:   return GL_FLOAT;
-		case OpenGLDataType::Float3:   return GL_FLOAT;
-		case OpenGLDataType::Float4:   return GL_FLOAT;
-		case OpenGLDataType::Mat3:     return GL_FLOAT;
-		case OpenGLDataType::Mat4:     return GL_FLOAT;
-		case OpenGLDataType::Int:      return GL_INT;
-		case OpenGLDataType::Int2:     return GL_INT;
-		case OpenGLDataType::Int3:     return GL_INT;
-		case OpenGLDataType::Int4:     return GL_INT;
-		case OpenGLDataType::Bool:     return GL_BOOL;
-		}
-
-		return 0;
-	}
 
 
 	Application::Application(){
@@ -39,9 +19,8 @@ namespace csl {
 		_window->SetEventCallback(std::bind(&Application::OnEvent, this, std::placeholders::_1));
 
 
-		//This is temporary, my boy_____________________________________________________
-		glGenVertexArrays(1, &_VertexArray);
-		glBindVertexArray(_VertexArray);
+
+		_vertexArray.reset(VertexArray::Create());
 
 
 		float vertices[3 * 7] = {
@@ -58,7 +37,6 @@ namespace csl {
 		_vertexBuffer.reset(VertexBuffer::VertexBufferOf(vertices, sizeof(vertices)));
 		_indexBuffer.reset(IndexBuffer::IndexBufferOf(indices, sizeof(indices)));
 
-
 		BufferLayout layout = {
 			{ OpenGLDataType::Float3, "a_Position" },
 			{ OpenGLDataType::Float4, "a_Color" }
@@ -68,19 +46,9 @@ namespace csl {
 		//glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), nullptr);
 		//glEnableVertexAttribArray(0);
 
-		unsigned int index = 0;
-		BufferLayout thisLayout = _vertexBuffer->GetLayout();
-		for ( BufferElements element : thisLayout.GetElements() )
-		{
-			glEnableVertexAttribArray(index);
-			glVertexAttribPointer(index,
-				element.GetComponentCount(),
-				ShaderDataTypeToOpenGLBaseType(element._type),
-				element._normalized ? GL_TRUE : GL_FALSE,
-				layout.GetStride(),
-				(const void*)element._offset);
-			index++;
-		}
+		
+		_vertexArray->AddVertexBuffer(_vertexBuffer);
+		_vertexArray->SetIndexBuffer(_indexBuffer);
 
 		std::string vertexSource = R"(
 			#version 330 core
