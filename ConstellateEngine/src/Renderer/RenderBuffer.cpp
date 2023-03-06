@@ -1,32 +1,15 @@
 #include "RenderBuffer.h"
 
-#include "Platform/OpenGL/OpenGLBuffer.h"
-#include "Renderer/Renderer.h"
+#include "Renderer/OpenGLRenderer/OpenGLBuffer.h"
 
 namespace csl {
 	VertexBuffer* VertexBuffer::VertexBufferOf(float* vertices, size_t size)
 	{
-		switch ( Renderer::getAPI() )
-		{
-		case RendererAPI::OpenGL:
-			return new OpenGLVertexBuffer(vertices, size);
-		default:
-			return nullptr;
-			break;
-		}
+		return new OpenGLVertexBuffer(vertices, size);
 	}
 
 	IndexBuffer* IndexBuffer::IndexBufferOf(unsigned int* indices, size_t size)
 	{
-		switch (Renderer::getAPI())
-		{
-		case RendererAPI::OpenGL:
-			return new OpenGLIndexBuffer(indices, size);
-		default:
-			return nullptr;
-			break;
-		}
+		return new OpenGLIndexBuffer(indices, size);
 	}
-
-
 }

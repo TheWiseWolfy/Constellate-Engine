@@ -6,15 +6,13 @@
 #include "Events/Event.h"
 #include "Events/ApplicationEvent.h"
 #include "Layer/LayerStack.h"
-
-
 #include "Renderer/RendererCommand.h"
 
 namespace csl {
 	class Application {
 	private:
 		std::unique_ptr<Window> _window;
-		RendererCommand* _renCom;
+		std::unique_ptr<RendererCommand> _renCom;
 
 		LayerStack _layerStack;
 		bool _running = true;

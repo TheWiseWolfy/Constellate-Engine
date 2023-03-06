@@ -17,7 +17,7 @@ namespace csl {
 		_window->SetEventCallback(std::bind(&Application::OnEvent, this, std::placeholders::_1));
 
 		//_renCom = std::unique_ptr<RendererCommand>();
-		_renCom = new RendererCommand();
+		_renCom.reset(new RendererCommand());
 	}
 
 	Application::~Application(){
