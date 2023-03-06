@@ -130,6 +130,9 @@ namespace csl {
 		virtual void Bind() = 0;
 		virtual void Unbind() = 0;
 
+		virtual unsigned int GetCount() const = 0;
+
+
 		static IndexBuffer* IndexBufferOf(unsigned int* vertices, size_t size);
 	};
 

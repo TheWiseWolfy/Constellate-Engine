@@ -6,8 +6,9 @@
 
 csl::RendererCommand::RendererCommand()
 {
-	currentRenderer.reset(new OpenGLRenderer);
+	_currentRenderer = std::make_unique<OpenGLRenderer>();
 
+	_currentRenderer.reset(new OpenGLRenderer);
 
 	_vertexArray.reset(VertexArray::Create());
 
@@ -19,9 +20,6 @@ csl::RendererCommand::RendererCommand()
 
 	unsigned int indices[3] = { 0, 1, 2 };
 
-	//_vertexBuffer = std::make_unique<VertexBuffer>W( VertexBuffer::VertexBufferOf(vertices, sizeof(vertices)));
-	//_vertexBuffer->Bind();
-
 	_vertexBuffer.reset(VertexBuffer::VertexBufferOf(vertices, sizeof(vertices)));
 	_indexBuffer.reset(IndexBuffer::IndexBufferOf(indices, sizeof(indices)));
 
@@ -30,10 +28,6 @@ csl::RendererCommand::RendererCommand()
 		{ OpenGLDataType::Float4, "a_Color" }
 	};
 	_vertexBuffer->SetLayout(layout);
-
-	//glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), nullptr);
-	//glEnableVertexAttribArray(0);
-
 
 	_vertexArray->AddVertexBuffer(_vertexBuffer);
 	_vertexArray->SetIndexBuffer(_indexBuffer);
@@ -74,10 +68,8 @@ csl::RendererCommand::RendererCommand()
 
 void csl::RendererCommand::DrawGame()
 {
+	_currentRenderer->Clear();
+	_currentRenderer->SetClearColor();
 	_shader->Bind();
-	glBindVertexArray(_VertexArray);
-	glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, nullptr);
-
-
-	
+	_currentRenderer->DrawElement(_vertexArray);
 }

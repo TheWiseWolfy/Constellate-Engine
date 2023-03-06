@@ -28,7 +28,7 @@ namespace csl {
 	}
 
 	//__________________________________INDEX BUFFER______________
-	OpenGLIndexBuffer::OpenGLIndexBuffer(unsigned int* indices, size_t size)
+	OpenGLIndexBuffer::OpenGLIndexBuffer(unsigned int* indices, size_t size) : _count(size)
 	{
 		glGenBuffers(1, &_bufferID);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _bufferID);

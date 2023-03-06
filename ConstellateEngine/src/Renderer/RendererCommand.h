@@ -13,7 +13,7 @@ namespace csl {
 	//manage the drawing queue and other API agnosting things
 	class RendererCommand {
 	private:
-		std::unique_ptr<IRenderer> currentRenderer;
+		std::unique_ptr<IRenderer> _currentRenderer;
 		unsigned int _VertexArray;
 
 		std::shared_ptr<VertexArray> _vertexArray;

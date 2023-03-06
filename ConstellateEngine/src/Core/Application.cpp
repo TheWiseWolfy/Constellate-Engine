@@ -10,8 +10,6 @@ namespace csl {
 	 
 	Application* Application::_instance = nullptr;
 
-
-
 	Application::Application(){
 		_instance = this;
 		
@@ -56,11 +54,7 @@ namespace csl {
 	void Application::Run(){
 		while (_running)
 		{
-			glClearColor(0.2f, 0.2f, 0.2f, 0.2f);
-			glClear(GL_COLOR_BUFFER_BIT);
-
 			//this is also temporary 
-
 			_renCom->DrawGame();
 
 			for (Layer* layer : _layerStack) {

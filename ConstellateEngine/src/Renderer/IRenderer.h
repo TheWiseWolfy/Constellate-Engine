@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Renderer/VertexArray.h"
+
 
 namespace csl {
 
@@ -10,12 +12,11 @@ namespace csl {
 
 	class IRenderer {
 
-
+	public:
 		virtual void Clear() = 0;
 		virtual void SetClearColor() = 0;
 
-
-		virtual void DrawElement() = 0;
+		virtual void DrawElement(const std::shared_ptr<VertexArray>& _vertexArray) = 0;
 
 		virtual API GetAPI() = 0;
 	};
