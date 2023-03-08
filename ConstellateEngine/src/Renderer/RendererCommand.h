@@ -6,6 +6,7 @@
 #include "Renderer/Shader.h"
 #include "Renderer/VertexArray.h"
 #include "Renderer/RenderBuffer.h"
+#include "Camera.h"
 
 namespace csl {
 
@@ -20,10 +21,14 @@ namespace csl {
 		std::shared_ptr<Shader> _shader;
 		std::shared_ptr<VertexBuffer> _vertexBuffer;
 		std::shared_ptr<IndexBuffer>_indexBuffer;
+		std::unique_ptr<Camera> _camera;
 	public:
 		RendererCommand();
 
 		void DrawGame();
+
+	private:
+		glm::mat4 PerspectiveView(glm::mat4 model, std::unique_ptr<Camera>& camera);
 	};
 
 }

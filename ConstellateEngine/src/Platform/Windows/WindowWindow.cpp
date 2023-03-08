@@ -7,7 +7,7 @@
 #include "Core/Log.h"
 #include "Events/ApplicationEvent.h"
 #include "Events/MouseEvent.h"
-#include "Renderer/OpenGLContext.h"
+#include "Renderer/OpenGLRenderer/OpenGLContext.h"
 
 namespace csl{
 

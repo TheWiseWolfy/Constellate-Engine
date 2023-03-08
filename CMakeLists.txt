@@ -25,6 +25,7 @@ add_subdirectory(vendor/glfw)
 add_subdirectory(vendor/spdlog)
 add_subdirectory(vendor/glad)
 add_subdirectory(vendor/imgui)
+add_subdirectory(vendor/glm)
 
 add_subdirectory(ConstellateEngine) 
 
@@ -32,11 +33,13 @@ target_link_libraries("ConstellateEngine" glfw)
 target_link_libraries("ConstellateEngine" spdlog)
 target_link_libraries("ConstellateEngine" Glad)
 target_link_libraries("ConstellateEngine" imgui)
+target_link_libraries("ConstellateEngine" glm)
 
 target_include_directories("ConstellateEngine" PUBLIC "${PROJECT_SOURCE_DIR}/vendor/spdlog/include")
 target_include_directories("ConstellateEngine" PUBLIC "${PROJECT_SOURCE_DIR}/vendor/glfw/include")
 target_include_directories("ConstellateEngine" PUBLIC "${PROJECT_SOURCE_DIR}/vendor/glad/include")
 target_include_directories("ConstellateEngine" PUBLIC "${PROJECT_SOURCE_DIR}/vendor/imgui")
+target_include_directories("ConstellateEngine" PUBLIC "${PROJECT_SOURCE_DIR}/vendor/glm/glm")
 
 #_________________________
 
