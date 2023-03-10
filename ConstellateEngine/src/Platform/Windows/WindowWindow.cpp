@@ -7,6 +7,8 @@
 #include "Core/Log.h"
 #include "Events/ApplicationEvent.h"
 #include "Events/MouseEvent.h"
+#include "Events/KeyEvent.h"
+
 #include "Renderer/OpenGLRenderer/OpenGLContext.h"
 
 namespace csl{
@@ -24,7 +26,7 @@ namespace csl{
 		_data.Height = props.Height;
 
 
-		CSL_CORE_TRACE("Creating window {0} ({1}, {2})", props.Title, props.Width, props.Height);
+		CSL_CORE_LOG("Creating window {0} ({1}, {2})", props.Title, props.Width, props.Height);
 
 		if (!s_GLFWInitialized)
 		{
@@ -43,7 +45,6 @@ namespace csl{
 		SetVSync(false);
 
 		//GLFW Callbacks 
-
 		glfwSetWindowSizeCallback(_window, [](GLFWwindow* window, int width, int height) {
 			WindowData& data = *( static_cast<WindowData*>(glfwGetWindowUserPointer(window) ) );  //Get a pointer we stored via glfw
 
@@ -61,25 +62,25 @@ namespace csl{
 		});
 
 		glfwSetMouseButtonCallback(_window, [](GLFWwindow* window, int button, int action, int mods)
-			{
-				WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
+		{
+			WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
 
-		switch (action)
-		{
-		case GLFW_PRESS:
-		{
-			MouseButtonPressedEvent event(button);
-			data.EventCallback(event);
-			break;
-		}
-		case GLFW_RELEASE:
-		{
-			MouseButtonReleasedEvent event(button);
-			data.EventCallback(event);
-			break;
-		}
-		}
-			});
+			switch (action)
+			{
+			case GLFW_PRESS:
+			{
+				MouseButtonPressedEvent event(button);
+				data.EventCallback(event);
+				break;
+			}
+			case GLFW_RELEASE:
+			{
+				MouseButtonReleasedEvent event(button);
+				data.EventCallback(event);
+				break;
+			}
+			}
+		});
 
 
 		glfwSetCursorPosCallback(_window, [](GLFWwindow* window, double xPos, double yPos)
@@ -90,6 +91,13 @@ namespace csl{
 			data.EventCallback(event);
 		});
 
+		glfwSetKeyCallback(_window, [](GLFWwindow* window, int key, int scancode, int action, int mods) {
+			WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
+
+			KeyPressedEvent event(key, 0);
+			data.EventCallback(event);
+
+		});
 
 	}
 

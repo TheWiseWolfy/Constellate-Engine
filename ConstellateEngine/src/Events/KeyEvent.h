@@ -10,9 +10,15 @@ namespace csl {
 	class KeyEvent : public EngineEvent {
 	protected:
 		int _keyCode; 
-		int GetKeyCOde() { return _keyCode; }
 	public:
+		int GetKeyCode() { return _keyCode; }
+
 		KeyEvent(int keycode) : _keyCode(keycode) {}
+
+		const char* GetName() const override {
+			return "KeyEvent";
+		}
+		EVENT_CLASS_CATEGORY(EventCategoryKeyboard || EventCategoryInput)
 
 	};
 
@@ -20,11 +26,12 @@ namespace csl {
 	class KeyPressedEvent : public KeyEvent{
 	private:
 		int _repeatCount;
-
 	public:
 
 		KeyPressedEvent(int keycode, int repeatCount) : KeyEvent(keycode), _repeatCount(repeatCount) {
 		}
+
+
 
 		std::string ToString()  const override {
 			std::stringstream sstream;
@@ -51,7 +58,6 @@ namespace csl {
 		}
 
 		EVENT_TYPE_FUCTIONS(KeyPressed)
-
 	};
 	
 	class  KeyTypedEvent : public KeyEvent

@@ -10,6 +10,7 @@ namespace csl {
 	 
 	Application* Application::_instance = nullptr;
 
+	//PUBLIC INTERFACE FUCTIONS
 	Application::Application(){
 		_instance = this;
 		
@@ -24,34 +25,15 @@ namespace csl {
 
 	}
 
-	void Application::OnEvent(EngineEvent& e){
-		EventDispatcher dispatcher(e);
-		dispatcher.Dispach<WindowCloseEvent>(std::bind( &Application::OnWindowClose, this, std::placeholders::_1) );
-
-
-		for (auto it = _layerStack.end(); it != _layerStack.begin(); )
-		{
-			(*--it)->OnEvent(e);
-			if (e.IsHandled())
-				break;
-		}
-
-		CSL_CORE_TRACE("{0}", e.ToString() );
-	}
-
 	void Application::PushLayer(Layer* layer)
 	{
 		_layerStack.PushLayer(layer);
 		layer->OnAttach();
 	}
 
-	bool Application::OnWindowClose(WindowCloseEvent& e)
-	{
-		_running = false;
-		return true;
-	}
 
-	void Application::Run(){
+
+	void Application::Run() {
 		while (_running)
 		{
 			//this is also temporary 
@@ -64,5 +46,25 @@ namespace csl {
 		}
 	}
 
+	void Application::OnEvent(EngineEvent& e) {
+		EventDispatcher dispatcher(e);
 
+		dispatcher.Dispach<WindowCloseEvent>(std::bind(&Application::OnWindowClose, this, std::placeholders::_1));
+
+		for (auto it = _layerStack.end(); it != _layerStack.begin(); )
+		{
+			(*--it)->OnEvent(e);
+			if (e.IsHandled())
+				break;
+		}
+
+		CSL_CORE_LOG("{0}", e.ToString());
+	}
+
+	//PRIVATE EVENT CALLBACKS
+	bool Application::OnWindowClose(WindowCloseEvent& e)
+	{
+		_running = false;
+		return true;
+	}
 }

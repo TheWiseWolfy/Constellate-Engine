@@ -3,6 +3,13 @@
 #include "cslpch.h"
 #include "Events/Event.h"
 
+
+/*
+The layer abtraction is a abtraction centered around draw ordering and incapsulating certain logic that in naturally separate: graphics and UI
+
+Any layer pushed into the _layerStack contain in Application will receive updates and events every frame cycle.
+*/
+
 namespace csl {
 	class Layer {
 	protected:

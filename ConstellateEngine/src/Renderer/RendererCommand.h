@@ -26,6 +26,9 @@ namespace csl {
 		RendererCommand();
 
 		void DrawGame();
+		void SetCameraPosition(glm::vec3 position);
+		void SetCameraRotation(glm::vec2 rotation);
+		glm::vec3 GetCameraPosition();
 
 	private:
 		glm::mat4 PerspectiveView(glm::mat4 model, std::unique_ptr<Camera>& camera);

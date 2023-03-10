@@ -26,7 +26,7 @@ namespace csl{
 
 
 // Core log macros
-#define CSL_CORE_TRACE(...)    ::csl::Log::GetCoreLogger()->trace(__VA_ARGS__)
+#define CSL_CORE_LOG(...)    ::csl::Log::GetCoreLogger()->trace(__VA_ARGS__)
 #define CSL_CORE_INFO(...)     ::csl::Log::GetCoreLogger()->info(__VA_ARGS__)
 #define CSL_CORE_WARN(...)     ::csl::Log::GetCoreLogger()->warn(__VA_ARGS__)
 #define CSL_CORE_ERROR(...)    ::csl::Log::GetCoreLogger()->error(__VA_ARGS__)
