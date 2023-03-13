@@ -6,7 +6,7 @@
 #include "Events/Event.h"
 #include "Events/ApplicationEvent.h"
 #include "Layer/LayerStack.h"
-#include "Renderer/RendererCommand.h"
+#include "Renderer/RendererController.h"
 
 namespace csl {
 	class Application {
@@ -19,7 +19,7 @@ namespace csl {
 
 		bool OnWindowClose(WindowCloseEvent& e);
 	public:
-		std::unique_ptr<RendererCommand> _renCom;
+		std::unique_ptr<RendererController> _renCom;
 
 		Application();
 		virtual ~Application();

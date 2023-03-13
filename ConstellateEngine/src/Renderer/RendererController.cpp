@@ -1,4 +1,4 @@
-#include "RendererCommand.h"
+#include "RendererController.h"
 
 #include "glm/glm.hpp"
 #include <gtc/matrix_transform.hpp>
@@ -7,20 +7,23 @@
 
 #include "OpenGLRenderer/OpenGLRenderer.h"
 #include "Renderer/Shader.h"
-#include "Renderer/RenderBuffer.h"
-
+#include "Renderer/Geometry/RenderBuffer.h"
+#include "Geometry/RenderBuffer.h"
 
 namespace csl {
 
 
-	RendererCommand::RendererCommand()
+	RendererController::RendererController()
 	{
+
+		std::unique_ptr<VertexBuffer> vertexBuffer;
+		std::unique_ptr<IndexBuffer> indexBuffer;
+		std::unique_ptr<VertexArray> vertexArray;
+
 		_currentRenderer = std::make_unique<OpenGLRenderer>();
-		_currentRenderer.reset(new OpenGLRenderer);
+		//_currentRenderer.reset(new OpenGLRenderer);
+		vertexArray.reset(VertexArray::Create());
 
-		_vertexArray.reset(VertexArray::Create());
-
-	
 		glm::vec3 position = glm::vec3(0.0f, 0.0f, 1.0f);
 		glm::vec3  up = glm::vec3(0.0f, 1.0f, 0.0f);
 		float yaw = -50.0f;
@@ -36,17 +39,19 @@ namespace csl {
 
 		unsigned int indices[3] = { 0, 1, 2 };
 
-		_vertexBuffer.reset(VertexBuffer::VertexBufferOf(vertices, sizeof(vertices)));
-		_indexBuffer.reset(IndexBuffer::IndexBufferOf(indices, sizeof(indices)));
+		vertexBuffer.reset(VertexBuffer::VertexBufferOf(vertices, sizeof(vertices)));
+		indexBuffer.reset(IndexBuffer::IndexBufferOf(indices, sizeof(indices)));
 
 		BufferLayout layout = {
 			{ OpenGLDataType::Float3, "a_Position" },
 			{ OpenGLDataType::Float4, "a_Color" }
 		};
-		_vertexBuffer->SetLayout(layout);
+		vertexBuffer->SetLayout(layout);
 
-		_vertexArray->AddVertexBuffer(_vertexBuffer);
-		_vertexArray->SetIndexBuffer(_indexBuffer);
+		vertexArray->AddVertexBuffer(std::move(vertexBuffer));
+		vertexArray->SetIndexBuffer(std::move(indexBuffer));
+
+		_drawingList.push_back( std::move(vertexArray));
 
 		std::string vertexSource = R"(
 				#version 330 core
@@ -83,43 +88,44 @@ namespace csl {
 				}
 			)";
 		_shader = std::make_unique<Shader>(vertexSource, fragmentShader);
-
-
 	}
 
-	void RendererCommand::DrawGame()
+	void RendererController::DrawGame()
 	{
 		_currentRenderer->Clear();
 		_currentRenderer->SetClearColor();
 		_shader->Bind();
 
+		//This has to be changed.
 		glm::mat4 model = glm::mat4(1.0f);
 		model = glm::translate(model, glm::vec3(0, 0.3, 0.3));
 		model = glm::scale(model, glm::vec3(1, 1, 1));
-
 		model = PerspectiveView(model, _camera);
 
 		GLuint uniformID = _shader->GetUniform("modelViewProjectionMatrix");
 		glUniformMatrix4fv(uniformID, 1, GL_FALSE, glm::value_ptr(model));
 
-		_currentRenderer->DrawElement(_vertexArray);
+		for (auto&& vertexArray : _drawingList) {
+			_currentRenderer->DrawElement(vertexArray);
+		}
+		
 	}
 
-	void RendererCommand::SetCameraPosition(glm::vec3 position)
+	void RendererController::SetCameraPosition(glm::vec3 position)
 	{
 		_camera->SetPosition(position);
 	}
 
-	glm::vec3 RendererCommand::GetCameraPosition()
+	glm::vec3 RendererController::GetCameraPosition()
 	{
 		return _camera->GetPostion();
 	}
-	void RendererCommand::SetCameraRotation(glm::vec2 rotation)
+	void RendererController::SetCameraRotation(glm::vec2 rotation)
 	{
 		_camera->SetRotation(rotation);
 	}
 
-	glm::mat4  RendererCommand::PerspectiveView(glm::mat4 model, std::unique_ptr<Camera>& camera) {
+	glm::mat4  RendererController::PerspectiveView(glm::mat4 model, std::unique_ptr<Camera>& camera) {
 		glm::mat4 projectionMatrix;
 
 		//Perspective Matrix

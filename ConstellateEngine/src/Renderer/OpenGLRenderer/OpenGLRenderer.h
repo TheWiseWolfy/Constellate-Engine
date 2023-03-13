@@ -7,7 +7,7 @@ namespace csl {
 
 	class OpenGLRenderer : public IRenderer {
 
-		virtual void DrawElement(const std::shared_ptr<VertexArray>& _vertexArray) override;
+		virtual void DrawElement(const std::unique_ptr<VertexArray>& _vertexArray) override;
 
 		virtual API GetAPI() override;
 

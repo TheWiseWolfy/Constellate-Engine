@@ -29,6 +29,6 @@ file(GLOB_RECURSE  csl_src CONFIGURE_DEPENDS
      "*.cpp"
 )
 
-add_library("${PROJECT_NAME}" STATIC ${csl_src})
+add_library("${PROJECT_NAME}" STATIC ${csl_src} )
 
 target_include_directories("${PROJECT_NAME}" PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/src")

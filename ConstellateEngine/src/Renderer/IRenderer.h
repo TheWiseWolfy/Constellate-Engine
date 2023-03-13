@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Renderer/VertexArray.h"
+#include "Renderer/Geometry/VertexArray.h"
 
 
 namespace csl {
@@ -16,7 +16,7 @@ namespace csl {
 		virtual void Clear() = 0;
 		virtual void SetClearColor() = 0;
 
-		virtual void DrawElement(const std::shared_ptr<VertexArray>& _vertexArray) = 0;
+		virtual void DrawElement(const std::unique_ptr<VertexArray>& _vertexArray) = 0;
 
 		virtual API GetAPI() = 0;
 	};

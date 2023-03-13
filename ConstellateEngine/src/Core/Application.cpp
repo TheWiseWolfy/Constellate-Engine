@@ -17,8 +17,9 @@ namespace csl {
 		_window = std::unique_ptr<Window>(Window::Create());
 		_window->SetEventCallback(std::bind(&Application::OnEvent, this, std::placeholders::_1));
 
+		_renCom = std::make_unique<RendererController>();
 		//_renCom = std::unique_ptr<RendererCommand>();
-		_renCom.reset(new RendererCommand());
+		//_renCom.reset(new RendererCommand());
 	}
 
 	Application::~Application(){

@@ -2,7 +2,7 @@
 #include <glad/glad.h>
 #include "cslpch.h"
 
-#include "Renderer/RenderBuffer.h"
+#include "RenderBuffer.h"
 
 namespace csl {
 

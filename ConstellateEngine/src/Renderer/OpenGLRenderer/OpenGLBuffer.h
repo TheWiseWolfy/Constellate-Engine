@@ -1,11 +1,9 @@
 #pragma once
 
 #include "cslpch.h"
-#include "Renderer/RenderBuffer.h"
+#include "Renderer/Geometry/RenderBuffer.h"
 
 namespace csl {
-
-
 
 	class OpenGLVertexBuffer : public VertexBuffer 
 	{

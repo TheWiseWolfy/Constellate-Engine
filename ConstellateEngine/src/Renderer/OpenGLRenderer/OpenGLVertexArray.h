@@ -1,8 +1,8 @@
 #pragma once
 
 #include "cslpch.h"
-#include "Renderer/RenderBuffer.h"
-#include "Renderer/VertexArray.h"
+#include "Renderer/Geometry/RenderBuffer.h"
+#include "Renderer/Geometry/VertexArray.h"
 
 namespace csl {
 

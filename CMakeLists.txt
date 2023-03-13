@@ -13,8 +13,6 @@ set (CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
 
 #set(CMAKE_CXX_FLAGS_DEBUG "/MDd")
 #set(CMAKE_CXX_FLAGS_RELEASE "/MD")
-
-
 #set(GLFW_INCLUDE_NONE 1) not sure yet if needed
 
 add_compile_definitions(CSL_PLATFORM_WINDOWS)

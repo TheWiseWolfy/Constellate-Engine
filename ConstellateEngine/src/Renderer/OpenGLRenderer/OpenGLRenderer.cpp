@@ -3,12 +3,14 @@
 #include "cslpch.h"
 #include "glad/glad.h"
 
-#include "Renderer/VertexArray.h"
+#include "Renderer/Geometry/VertexArray.h"
 
 namespace csl {
 
-	void OpenGLRenderer::DrawElement(const std::shared_ptr<VertexArray>& _vertexArray)
+
+	void OpenGLRenderer::DrawElement(const std::unique_ptr<VertexArray>& _vertexArray)
 	{
+		_vertexArray->Bind();
 		glDrawElements(GL_TRIANGLES, _vertexArray->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);
 
 	}
