@@ -7,40 +7,38 @@
 
 #include "OpenGLRenderer/OpenGLRenderer.h"
 #include "Renderer/Shader.h"
+
 #include "Renderer/Geometry/RenderBuffer.h"
-#include "Geometry/RenderBuffer.h"
 
 namespace csl {
 
 
 	RendererController::RendererController()
 	{
-
-		std::unique_ptr<VertexBuffer> vertexBuffer;
-		std::unique_ptr<IndexBuffer> indexBuffer;
-		std::unique_ptr<VertexArray> vertexArray;
-
 		_currentRenderer = std::make_unique<OpenGLRenderer>();
-		//_currentRenderer.reset(new OpenGLRenderer);
-		vertexArray.reset(VertexArray::Create());
+		{
+			glm::vec3 position = glm::vec3(0.0f, 0.0f, 1.0f);
+			glm::vec3  up = glm::vec3(0.0f, 1.0f, 0.0f);
+			float yaw = -50.0f;
+			float pitch = 0.0f;
 
-		glm::vec3 position = glm::vec3(0.0f, 0.0f, 1.0f);
-		glm::vec3  up = glm::vec3(0.0f, 1.0f, 0.0f);
-		float yaw = -50.0f;
-		float pitch = 0.0f;
+			_camera = std::make_unique<Camera>(position, up, yaw, pitch);
+		}
 
-		_camera = std::make_unique<Camera>(position, up, yaw, pitch);
+
+		//////////////////////////////////
+		{
+		std::unique_ptr<VertexArray> vertexArray(VertexArray::Create());
 
 		float vertices[3 * 7] = {
 		-0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f,
 		 0.5f, -0.5f, 0.0f, 0.2f, 0.3f, 0.8f, 1.0f,
 		 0.0f,  0.5f, 0.0f, 0.8f, 0.8f, 0.8f, 1.0f
 		};
-
 		unsigned int indices[3] = { 0, 1, 2 };
 
-		vertexBuffer.reset(VertexBuffer::VertexBufferOf(vertices, sizeof(vertices)));
-		indexBuffer.reset(IndexBuffer::IndexBufferOf(indices, sizeof(indices)));
+		std::unique_ptr<VertexBuffer> vertexBuffer(VertexBuffer::VertexBufferOf(vertices, sizeof(vertices)));
+		std::unique_ptr<IndexBuffer> indexBuffer(IndexBuffer::IndexBufferOf(indices, sizeof(indices)));
 
 		BufferLayout layout = {
 			{ OpenGLDataType::Float3, "a_Position" },
@@ -51,7 +49,40 @@ namespace csl {
 		vertexArray->AddVertexBuffer(std::move(vertexBuffer));
 		vertexArray->SetIndexBuffer(std::move(indexBuffer));
 
-		_drawingList.push_back( std::move(vertexArray));
+		glm::vec3 positionModel = glm::vec3(0, 0.3, 0.3);
+		GraphicsComponent* wah = new GraphicsComponent(std::move(vertexArray), positionModel, glm::vec3(1, 1, 1));
+		_componentList.emplace_back(std::move(wah));
+
+		}
+		//////////////////////////////////
+		{
+			std::unique_ptr<VertexArray> vertexArray(VertexArray::Create());
+
+			float vertices[3 * 7] = {
+			-0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f,
+			 0.5f, -0.5f, 0.0f, 0.2f, 0.3f, 0.8f, 1.0f,
+			 0.0f,  0.5f, 0.0f, 0.8f, 0.8f, 0.8f, 1.0f
+			};
+			unsigned int indices[3] = { 0, 1, 2 };
+
+			std::unique_ptr<VertexBuffer> vertexBuffer(VertexBuffer::VertexBufferOf(vertices, sizeof(vertices)));
+			std::unique_ptr<IndexBuffer> indexBuffer(IndexBuffer::IndexBufferOf(indices, sizeof(indices)));
+
+			BufferLayout layout = {
+				{ OpenGLDataType::Float3, "a_Position" },
+				{ OpenGLDataType::Float4, "a_Color" }
+			};
+			vertexBuffer->SetLayout(layout);
+
+			vertexArray->AddVertexBuffer(std::move(vertexBuffer));
+			vertexArray->SetIndexBuffer(std::move(indexBuffer));
+
+			glm::vec3 positionModel = glm::vec3(0, 0.9, 0.8);
+			GraphicsComponent* wah = new GraphicsComponent(std::move(vertexArray), positionModel, glm::vec3(1, 1, 1));
+			_componentList.emplace_back(std::move(wah));
+		}
+		//////////////////////////////////
+	
 
 		std::string vertexSource = R"(
 				#version 330 core
@@ -96,17 +127,21 @@ namespace csl {
 		_currentRenderer->SetClearColor();
 		_shader->Bind();
 
-		//This has to be changed.
-		glm::mat4 model = glm::mat4(1.0f);
-		model = glm::translate(model, glm::vec3(0, 0.3, 0.3));
-		model = glm::scale(model, glm::vec3(1, 1, 1));
-		model = PerspectiveView(model, _camera);
 
-		GLuint uniformID = _shader->GetUniform("modelViewProjectionMatrix");
-		glUniformMatrix4fv(uniformID, 1, GL_FALSE, glm::value_ptr(model));
+		glm::mat4 model;
 
-		for (auto&& vertexArray : _drawingList) {
-			_currentRenderer->DrawElement(vertexArray);
+		for (auto&& component : _componentList) {
+			//This has to be changed.
+			model = glm::mat4(1.0f);
+			model = glm::translate(model, component->GetPosition()  );
+			model = glm::scale(model, component->GetScale() );
+			model = PerspectiveView(model, _camera);
+
+			GLuint uniformID = _shader->GetUniform("modelViewProjectionMatrix");
+			glUniformMatrix4fv(uniformID, 1, GL_FALSE, glm::value_ptr(model));
+
+
+			_currentRenderer->DrawElement( component->GetVertexArray() );
 		}
 		
 	}
@@ -120,6 +155,10 @@ namespace csl {
 	{
 		return _camera->GetPostion();
 	}
+	//GraphicsComponent& RendererController::AddGraphicsComponent(GraphicsComponent component)
+	//{
+	//	
+	//}
 	void RendererController::SetCameraRotation(glm::vec2 rotation)
 	{
 		_camera->SetRotation(rotation);

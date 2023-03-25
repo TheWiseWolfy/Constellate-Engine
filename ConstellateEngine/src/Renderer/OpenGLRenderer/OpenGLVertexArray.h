@@ -35,6 +35,8 @@ namespace csl {
 		std::shared_ptr<IndexBuffer> _indexBuffer;
 	public:
 		OpenGLVertexArray();
+		OpenGLVertexArray(const OpenGLVertexArray& vertexArray);
+
 		virtual ~OpenGLVertexArray();
 
 		virtual void Bind() const override;
@@ -45,6 +47,7 @@ namespace csl {
 
 		virtual const std::vector<std::shared_ptr<VertexBuffer>>& GetVertexBuffers() const { return _vertexBuffers; }
 		virtual const std::shared_ptr<IndexBuffer>& GetIndexBuffer() const { return _indexBuffer; }
+
 
 	};
 

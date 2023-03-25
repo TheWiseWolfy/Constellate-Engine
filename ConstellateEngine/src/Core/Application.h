@@ -12,6 +12,7 @@ namespace csl {
 	class Application {
 	private:
 		std::unique_ptr<Window> _window;
+		std::unique_ptr<RendererController> _renCom;
 
 		LayerStack _layerStack;
 		bool _running = true;
@@ -19,7 +20,6 @@ namespace csl {
 
 		bool OnWindowClose(WindowCloseEvent& e);
 	public:
-		std::unique_ptr<RendererController> _renCom;
 
 		Application();
 		virtual ~Application();
@@ -33,6 +33,8 @@ namespace csl {
 		//GETTERS
 		static Application& GetInstance() { return *_instance; }
 		Window& GetWindow() { return *_window; }
+		RendererController& GetRenderer() { return *_renCom; }
+
 
 		//CREATION HANDLE - implemented in client
 		static Application* CreateApplication();

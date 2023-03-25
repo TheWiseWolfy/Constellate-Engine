@@ -10,6 +10,8 @@ class ExampleLayer : public Layer
 public:
 	ExampleLayer(): Layer("Example")
 	{
+
+
 	}
 
 	void OnUpdate() override
@@ -35,7 +37,7 @@ public:
 
 	bool OnKeyPressed(KeyPressedEvent& e) {
 
-		glm::vec3 poz = Application::GetInstance()._renCom->GetCameraPosition();
+		glm::vec3 poz = Application::GetInstance().GetRenderer().GetCameraPosition();
 
 		if (e.GetKeyCode() == 87 ) {
 			poz.z -= 0000.1;
@@ -62,7 +64,7 @@ public:
 		}
 
 
-		Application::GetInstance()._renCom->SetCameraPosition(poz);
+		Application::GetInstance().GetRenderer().SetCameraPosition(poz);
 
 		return false;
 	}
@@ -113,7 +115,7 @@ public:
 		}
 
 		// update Front, Right and Up Vectors using the updated Euler angles
-		Application::GetInstance()._renCom->SetCameraRotation(glm::vec2(Yaw, Pitch));
+		Application::GetInstance().GetRenderer().SetCameraRotation(glm::vec2(Yaw, Pitch));
 
 	}
 };

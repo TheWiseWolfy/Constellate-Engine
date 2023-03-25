@@ -6,6 +6,8 @@
 #include "Shader.h"
 #include "Geometry/VertexArray.h"
 #include "Camera.h"
+#include "Components/GraphicsComponent.h"
+
 
 namespace csl {
 
@@ -13,7 +15,8 @@ namespace csl {
 	//manage the drawing queue and other API agnosting things
 	class RendererController {
 	private:
-		std::vector<std::unique_ptr<VertexArray>> _drawingList;
+		std::vector<std::unique_ptr<GraphicsComponent>> _componentList;
+
 		std::unique_ptr<IRenderer> _currentRenderer;
 		unsigned int _VertexArray;
 
@@ -27,10 +30,13 @@ namespace csl {
 	public:
 		RendererController();
 
+
 		void DrawGame();
 		void SetCameraPosition(glm::vec3 position);
 		void SetCameraRotation(glm::vec2 rotation);
 		glm::vec3 GetCameraPosition();
+
+		//GraphicsComponent& AddGraphicsComponent(GraphicsComponent component);
 
 	private:
 		glm::mat4 PerspectiveView(glm::mat4 model, std::unique_ptr<Camera>& camera);
