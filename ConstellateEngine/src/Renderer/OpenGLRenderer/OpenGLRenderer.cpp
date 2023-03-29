@@ -7,6 +7,10 @@
 
 namespace csl {
 
+	OpenGLRenderer::OpenGLRenderer() {
+		glEnable(GL_DEPTH_TEST);
+	}
+
 
 	void OpenGLRenderer::DrawElement(const std::unique_ptr<VertexArray>& _vertexArray)
 	{
@@ -27,7 +31,7 @@ namespace csl {
 
 	void OpenGLRenderer::Clear()
 	{
-		glClear(GL_COLOR_BUFFER_BIT);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	}
 
 }

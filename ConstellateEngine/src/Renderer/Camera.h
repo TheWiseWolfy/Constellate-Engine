@@ -66,7 +66,6 @@ public:
         return _position;
     }
 
-
     void SetPosition(glm::vec3 position) {
         _position = position;
     }

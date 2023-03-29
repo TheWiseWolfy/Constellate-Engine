@@ -3,8 +3,6 @@
 
 
 namespace csl {
-
-
 	OpenGLVertexArray::OpenGLVertexArray()
 	{
 		glCreateVertexArrays(1, &_vertexArrayId);
@@ -33,7 +31,7 @@ namespace csl {
 
 		uint32_t index = 0;
 		BufferLayout layout = vertexBuffer->GetLayout();
-		for (BufferElements element : layout.GetElements())
+		for (BufferElement element : layout.GetElements())
 		{
 			glEnableVertexAttribArray(index);
 			glVertexAttribPointer(index,

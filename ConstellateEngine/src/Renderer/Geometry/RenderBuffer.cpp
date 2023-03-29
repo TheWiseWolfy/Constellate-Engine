@@ -1,6 +1,7 @@
 #include "RenderBuffer.h"
 
-#include "Renderer/OpenGLRenderer/OpenGLBuffer.h"
+#include "Renderer/OpenGLRenderer/Geometry/OpenGLVertexBuffer.h"
+#include "Renderer/OpenGLRenderer/Geometry/OpenGLIndexBuffer.h"
 
 namespace csl {
 	VertexBuffer* VertexBuffer::VertexBufferOf(float* vertices, size_t size)

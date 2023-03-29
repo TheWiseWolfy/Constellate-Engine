@@ -4,11 +4,12 @@
 #include <gtc/matrix_transform.hpp>
 #include <gtc/type_ptr.hpp>
 
-
 #include "OpenGLRenderer/OpenGLRenderer.h"
-#include "Renderer/Shader.h"
 
+#include "Renderer/Shader.h"
 #include "Renderer/Geometry/RenderBuffer.h"
+
+#include "Resources/AssetImporter.h"
 
 namespace csl {
 
@@ -54,6 +55,7 @@ namespace csl {
 		_componentList.emplace_back(std::move(wah));
 
 		}
+
 		//////////////////////////////////
 		{
 			std::unique_ptr<VertexArray> vertexArray(VertexArray::Create());

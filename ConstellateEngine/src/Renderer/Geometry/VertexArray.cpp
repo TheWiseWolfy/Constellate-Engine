@@ -1,6 +1,6 @@
 #include "VertexArray.h"
 
-#include "Renderer/OpenGLRenderer/OpenGLVertexArray.h"
+#include "Renderer/OpenGLRenderer/Geometry/OpenGLVertexArray.h"
 
 namespace csl {
 
@@ -8,5 +8,4 @@ namespace csl {
 	{
 		return new OpenGLVertexArray();
 	}
-
 }

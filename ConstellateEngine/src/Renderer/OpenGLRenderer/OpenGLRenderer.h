@@ -6,6 +6,8 @@ namespace csl {
 
 
 	class OpenGLRenderer : public IRenderer {
+	public:
+		OpenGLRenderer();
 
 		virtual void DrawElement(const std::unique_ptr<VertexArray>& _vertexArray) override;
 
