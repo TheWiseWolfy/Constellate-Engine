@@ -6,14 +6,15 @@
 #include "Shader.h"
 #include "Geometry/VertexArray.h"
 #include "Camera.h"
-#include "Components/GraphicsComponent.h"
+#include "Entity-Component/Components/GraphicsComponent.h"
+#include "Entity-Component/Entity.h"
 
 
 namespace csl {
 
 	//This is the class that will interact with the currently loaded RendererAPI and 
 	//manage the drawing queue and other API agnosting things
-	class RendererController {
+	class RendererManager {
 	private:
 		std::vector<std::unique_ptr<GraphicsComponent>> _componentList;
 
@@ -28,7 +29,7 @@ namespace csl {
 
 		std::unique_ptr<Camera> _camera;
 	public:
-		RendererController();
+		RendererManager();
 
 
 		void DrawGame();

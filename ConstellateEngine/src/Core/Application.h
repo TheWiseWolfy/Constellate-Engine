@@ -6,13 +6,14 @@
 #include "Events/Event.h"
 #include "Events/ApplicationEvent.h"
 #include "Layer/LayerStack.h"
-#include "Renderer/RendererController.h"
+#include "Renderer/RendererManager.h"
+#include "Entity-Component/EntityManager.h"
 
 namespace csl {
 	class Application {
 	private:
 		std::unique_ptr<Window> _window;
-		std::unique_ptr<RendererController> _renCom;
+		std::unique_ptr<RendererManager> _renCom;
 
 		LayerStack _layerStack;
 		bool _running = true;
@@ -33,7 +34,7 @@ namespace csl {
 		//GETTERS
 		static Application& GetInstance() { return *_instance; }
 		Window& GetWindow() { return *_window; }
-		RendererController& GetRenderer() { return *_renCom; }
+		RendererManager& GetRenderer() { return *_renCom; }
 
 
 		//CREATION HANDLE - implemented in client

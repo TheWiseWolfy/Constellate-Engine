@@ -1,4 +1,4 @@
-#include "RendererController.h"
+#include "RendererManager.h"
 
 #include "glm/glm.hpp"
 #include <gtc/matrix_transform.hpp>
@@ -9,12 +9,14 @@
 #include "Renderer/Shader.h"
 #include "Renderer/Geometry/RenderBuffer.h"
 
+
 #include "Resources/AssetImporter.h"
+
 
 namespace csl {
 
 
-	RendererController::RendererController()
+	RendererManager::RendererManager()
 	{
 		_currentRenderer = std::make_unique<OpenGLRenderer>();
 		{
@@ -25,6 +27,8 @@ namespace csl {
 
 			_camera = std::make_unique<Camera>(position, up, yaw, pitch);
 		}
+
+		AssetImporter ass;
 
 
 		//////////////////////////////////
@@ -84,7 +88,23 @@ namespace csl {
 			_componentList.emplace_back(std::move(wah));
 		}
 		//////////////////////////////////
-	
+		{
+
+
+			Entity* wa = AssetImporter::ModelToEntityHierachy("C:\\Users\\Gabriel\\Desktop\\pillarobj.obj");
+			
+			std::vector<std::unique_ptr<Entity>>& children = wa->GetChildren();
+
+			for (auto& entity : children) {
+				GraphicsComponent* our = (GraphicsComponent * )entity.get()->_components[0].get();
+				
+				_componentList.emplace_back(std::move(our));
+
+			}
+		}
+
+
+
 
 		std::string vertexSource = R"(
 				#version 330 core
@@ -123,7 +143,7 @@ namespace csl {
 		_shader = std::make_unique<Shader>(vertexSource, fragmentShader);
 	}
 
-	void RendererController::DrawGame()
+	void RendererManager::DrawGame()
 	{
 		_currentRenderer->Clear();
 		_currentRenderer->SetClearColor();
@@ -148,12 +168,12 @@ namespace csl {
 		
 	}
 
-	void RendererController::SetCameraPosition(glm::vec3 position)
+	void RendererManager::SetCameraPosition(glm::vec3 position)
 	{
 		_camera->SetPosition(position);
 	}
 
-	glm::vec3 RendererController::GetCameraPosition()
+	glm::vec3 RendererManager::GetCameraPosition()
 	{
 		return _camera->GetPostion();
 	}
@@ -161,12 +181,12 @@ namespace csl {
 	//{
 	//	
 	//}
-	void RendererController::SetCameraRotation(glm::vec2 rotation)
+	void RendererManager::SetCameraRotation(glm::vec2 rotation)
 	{
 		_camera->SetRotation(rotation);
 	}
 
-	glm::mat4  RendererController::PerspectiveView(glm::mat4 model, std::unique_ptr<Camera>& camera) {
+	glm::mat4  RendererManager::PerspectiveView(glm::mat4 model, std::unique_ptr<Camera>& camera) {
 		glm::mat4 projectionMatrix;
 
 		//Perspective Matrix
