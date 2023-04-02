@@ -11,6 +11,7 @@
 
 #include "Gui/ImGuiLayer.h"
 #include "Renderer/RendererManager.h"
+#include "Resources/AssetImporter.h"
 
 //Application entry
 #include "Core/EntryPoint.h"

@@ -9,7 +9,7 @@ namespace csl {
 	void processNode(aiNode* node, const aiScene* scene, Entity* root);
 
 
-	Entity* AssetImporter::ModelToEntityHierachy(std::string path) {
+	Entity* AssetImporter::ModelToEntityHierachy(std::string path, Entity* root) {
 		Assimp::Importer importer;
 		//std::string path = "C:\\Users\\Gabriel\\3D Objects\\Hidrant_hightPoly.fbx";
 		const aiScene* scene = importer.ReadFile(path, aiProcess_Triangulate | aiProcess_FlipUVs);
@@ -20,7 +20,7 @@ namespace csl {
 		}
 		//directory = path.substr(0, path.find_last_of('/'));
 
-		Entity* root = new Entity();
+		//Entity* root = new Entity();
 		processNode(scene->mRootNode, scene, root);
 
 		return root;

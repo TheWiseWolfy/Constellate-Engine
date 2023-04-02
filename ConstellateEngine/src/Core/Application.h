@@ -13,7 +13,8 @@ namespace csl {
 	class Application {
 	private:
 		std::unique_ptr<Window> _window;
-		std::unique_ptr<RendererManager> _renCom;
+		std::unique_ptr<RendererManager> _rendererManager;
+		std::unique_ptr<EntityManager> _entityManager;
 
 		LayerStack _layerStack;
 		bool _running = true;
@@ -34,7 +35,9 @@ namespace csl {
 		//GETTERS
 		static Application& GetInstance() { return *_instance; }
 		Window& GetWindow() { return *_window; }
-		RendererManager& GetRenderer() { return *_renCom; }
+
+		RendererManager& GetRenderer() { return *_rendererManager; }
+		EntityManager& GetEntityManager() { return *_entityManager; }
 
 
 		//CREATION HANDLE - implemented in client

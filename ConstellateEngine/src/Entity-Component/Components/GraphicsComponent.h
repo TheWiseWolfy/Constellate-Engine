@@ -92,6 +92,10 @@ namespace csl {
         glm::vec3 GetScale() {
             return _scale;
         }
+
+        ComponentType GetComponentType() override {
+            return ComponentType::GraphicsComponentType;
+        }
     };
 
 }

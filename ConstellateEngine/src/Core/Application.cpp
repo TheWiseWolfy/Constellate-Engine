@@ -17,9 +17,10 @@ namespace csl {
 		_window = std::unique_ptr<Window>(Window::Create());
 		_window->SetEventCallback(std::bind(&Application::OnEvent, this, std::placeholders::_1));
 
-		_renCom = std::make_unique<RendererManager>();
-		//_renCom = std::unique_ptr<RendererCommand>();
-		//_renCom.reset(new RendererCommand());
+		_entityManager = std::make_unique<EntityManager>();
+		_rendererManager = std::make_unique<RendererManager>();
+
+
 	}
 
 	Application::~Application(){
@@ -38,7 +39,7 @@ namespace csl {
 		while (_running)
 		{
 			//this is also temporary 
-			_renCom->DrawGame();
+			_rendererManager->DrawGame();
 
 			for (Layer* layer : _layerStack) {
 				layer->OnUpdate();

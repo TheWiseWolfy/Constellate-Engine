@@ -127,7 +127,16 @@ public:
 		PushLayer(new ExampleLayer());
 		PushLayer(new ImGuiLayer());
 
+		Entity* wa = Application::GetInstance().GetEntityManager().addEntity();
 
+		AssetImporter::ModelToEntityHierachy("C:\\Users\\Gabriel\\Desktop\\pillarobj.obj", wa);
+
+
+		Entity* wa2 = Application::GetInstance().GetEntityManager().addEntity();
+
+		AssetImporter::ModelToEntityHierachy("C:\\Users\\Gabriel\\Desktop\\pillar2.obj", wa);
+
+		this->GetEntityManager().addEntity();
 	}
 	~Game(){
 

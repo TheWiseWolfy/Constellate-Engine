@@ -10,7 +10,7 @@ namespace csl {
 	class AssetImporter {
 	private:
 	public:
-		static Entity*  ModelToEntityHierachy(std::string path);
+		static Entity* ModelToEntityHierachy(std::string path, Entity* root);
 	};
 
 

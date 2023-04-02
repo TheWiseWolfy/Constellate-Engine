@@ -3,6 +3,12 @@
 
 namespace csl {
 
+    enum class ComponentType {
+        PositionComponentType,
+        PhysicsComponentType,
+        GraphicsComponentType
+    };
+
     class Entity;
 
     class Component
@@ -20,6 +26,9 @@ namespace csl {
         void SetEntity(Entity* entity) {
             _entity = entity;
         }
+
+        virtual ComponentType GetComponentType() = 0;
+
     };
 
 }

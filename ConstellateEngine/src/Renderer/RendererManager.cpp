@@ -11,7 +11,7 @@
 
 
 #include "Resources/AssetImporter.h"
-
+#include "Core/Application.h"
 
 namespace csl {
 
@@ -27,84 +27,6 @@ namespace csl {
 
 			_camera = std::make_unique<Camera>(position, up, yaw, pitch);
 		}
-
-		AssetImporter ass;
-
-
-		//////////////////////////////////
-		{
-		std::unique_ptr<VertexArray> vertexArray(VertexArray::Create());
-
-		float vertices[3 * 7] = {
-		-0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f,
-		 0.5f, -0.5f, 0.0f, 0.2f, 0.3f, 0.8f, 1.0f,
-		 0.0f,  0.5f, 0.0f, 0.8f, 0.8f, 0.8f, 1.0f
-		};
-		unsigned int indices[3] = { 0, 1, 2 };
-
-		std::unique_ptr<VertexBuffer> vertexBuffer(VertexBuffer::VertexBufferOf(vertices, sizeof(vertices)));
-		std::unique_ptr<IndexBuffer> indexBuffer(IndexBuffer::IndexBufferOf(indices, sizeof(indices)));
-
-		BufferLayout layout = {
-			{ OpenGLDataType::Float3, "a_Position" },
-			{ OpenGLDataType::Float4, "a_Color" }
-		};
-		vertexBuffer->SetLayout(layout);
-
-		vertexArray->AddVertexBuffer(std::move(vertexBuffer));
-		vertexArray->SetIndexBuffer(std::move(indexBuffer));
-
-		glm::vec3 positionModel = glm::vec3(0, 0.3, 0.3);
-		GraphicsComponent* wah = new GraphicsComponent(std::move(vertexArray), positionModel, glm::vec3(1, 1, 1));
-		_componentList.emplace_back(std::move(wah));
-
-		}
-
-		//////////////////////////////////
-		{
-			std::unique_ptr<VertexArray> vertexArray(VertexArray::Create());
-
-			float vertices[3 * 7] = {
-			-0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f,
-			 0.5f, -0.5f, 0.0f, 0.2f, 0.3f, 0.8f, 1.0f,
-			 0.0f,  0.5f, 0.0f, 0.8f, 0.8f, 0.8f, 1.0f
-			};
-			unsigned int indices[3] = { 0, 1, 2 };
-
-			std::unique_ptr<VertexBuffer> vertexBuffer(VertexBuffer::VertexBufferOf(vertices, sizeof(vertices)));
-			std::unique_ptr<IndexBuffer> indexBuffer(IndexBuffer::IndexBufferOf(indices, sizeof(indices)));
-
-			BufferLayout layout = {
-				{ OpenGLDataType::Float3, "a_Position" },
-				{ OpenGLDataType::Float4, "a_Color" }
-			};
-			vertexBuffer->SetLayout(layout);
-
-			vertexArray->AddVertexBuffer(std::move(vertexBuffer));
-			vertexArray->SetIndexBuffer(std::move(indexBuffer));
-
-			glm::vec3 positionModel = glm::vec3(0, 0.9, 0.8);
-			GraphicsComponent* wah = new GraphicsComponent(std::move(vertexArray), positionModel, glm::vec3(1, 1, 1));
-			_componentList.emplace_back(std::move(wah));
-		}
-		//////////////////////////////////
-		{
-
-
-			Entity* wa = AssetImporter::ModelToEntityHierachy("C:\\Users\\Gabriel\\Desktop\\pillarobj.obj");
-			
-			std::vector<std::unique_ptr<Entity>>& children = wa->GetChildren();
-
-			for (auto& entity : children) {
-				GraphicsComponent* our = (GraphicsComponent * )entity.get()->_components[0].get();
-				
-				_componentList.emplace_back(std::move(our));
-
-			}
-		}
-
-
-
 
 		std::string vertexSource = R"(
 				#version 330 core
@@ -143,16 +65,38 @@ namespace csl {
 		_shader = std::make_unique<Shader>(vertexSource, fragmentShader);
 	}
 
+	void aux(std::unique_ptr<Entity>& entity, std::vector<GraphicsComponent*>& graphicsComponents) {
+		auto& childrenEntitys = entity->GetChildren();
+
+		for (auto& entity : childrenEntitys) {
+			if (entity->HasComponent(ComponentType::GraphicsComponentType)) {
+				graphicsComponents.push_back((GraphicsComponent*)entity->GetComponent(ComponentType::GraphicsComponentType));
+			}
+			aux(entity, graphicsComponents);
+		}
+
+	}
+
+
 	void RendererManager::DrawGame()
 	{
 		_currentRenderer->Clear();
 		_currentRenderer->SetClearColor();
 		_shader->Bind();
 
+		std::vector<std::unique_ptr<Entity>>& entities = Application::GetInstance().GetEntityManager().GetEntityVector();
+		std::vector<GraphicsComponent*> graphicsComponents;
+		for (auto& entity : entities) {
+			if (entity->HasComponent(ComponentType::GraphicsComponentType)) {
+				graphicsComponents.push_back((GraphicsComponent*)entity->GetComponent(ComponentType::GraphicsComponentType));
+			}
+			aux(entity,graphicsComponents);
+		}
+
 
 		glm::mat4 model;
 
-		for (auto&& component : _componentList) {
+		for (auto&& component : graphicsComponents) {
 			//This has to be changed.
 			model = glm::mat4(1.0f);
 			model = glm::translate(model, component->GetPosition()  );
@@ -167,6 +111,8 @@ namespace csl {
 		}
 		
 	}
+
+
 
 	void RendererManager::SetCameraPosition(glm::vec3 position)
 	{
