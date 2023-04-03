@@ -127,16 +127,21 @@ public:
 		PushLayer(new ExampleLayer());
 		PushLayer(new ImGuiLayer());
 
-		Entity* wa = Application::GetInstance().GetEntityManager().addEntity();
+		Entity* entity = Application::GetInstance().GetEntityManager().addEntity();
+		entity->setTransform(Transform(glm::vec3(4, 1, -5)));
+		AssetImporter::ModelToEntityHierachy("C:\\Users\\Gabriel\\Desktop\\pillarobj.obj", entity);
 
-		AssetImporter::ModelToEntityHierachy("C:\\Users\\Gabriel\\Desktop\\pillarobj.obj", wa);
+		Entity* entity2 = Application::GetInstance().GetEntityManager().addEntity();
+		AssetImporter::ModelToEntityHierachy("C:\\Users\\Gabriel\\Desktop\\mga_pillar.fbx", entity2);
+		entity2->setTransform( Transform(glm::vec3(8,1,1)) );
 
+		Entity* entity3 = Application::GetInstance().GetEntityManager().addEntity();
+		AssetImporter::ModelToEntityHierachy("C:\\Users\\Gabriel\\Desktop\\pillar2.obj", entity3);
 
-		Entity* wa2 = Application::GetInstance().GetEntityManager().addEntity();
+		Entity* entity4 = Application::GetInstance().GetEntityManager().addEntity();
+		AssetImporter::ModelToEntityHierachy("C:\\Users\\Gabriel\\Desktop\\trueHidrant.obj", entity4);
+		entity4->setTransform(Transform(glm::vec3(20, 5, 0)));
 
-		AssetImporter::ModelToEntityHierachy("C:\\Users\\Gabriel\\Desktop\\pillar2.obj", wa);
-
-		this->GetEntityManager().addEntity();
 	}
 	~Game(){
 

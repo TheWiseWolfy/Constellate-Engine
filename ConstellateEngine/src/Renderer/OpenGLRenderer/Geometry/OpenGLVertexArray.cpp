@@ -39,7 +39,8 @@ namespace csl {
 				StandardTypeToOpenGLType(element._type),
 				element._normalized ? GL_TRUE : GL_FALSE,
 				layout.GetStride(),
-				(const void*)element._normalized);
+				(const void*)element._offset);
+
 			index++;
 		}
 

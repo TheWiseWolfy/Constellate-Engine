@@ -10,31 +10,101 @@ namespace csl {
 
     class EntityManager;
 
+    struct Transform {
+        //Transform data
+        glm::vec3 _position;
+        glm::vec3 _scale;
+        glm::vec3 _rotation;
+
+        Transform() {
+            _position = { 0.0, 0.0, 0.0 };
+            _scale = { 1.0,1.0,1.0 };
+            _rotation = { 1.0,1.0,1.0 };
+        }
+
+        Transform(glm::vec3 pozition) {
+            _position = pozition;
+            _scale = { 1.0,1.0,1.0 };
+            _rotation = { 1.0,1.0,1.0 };
+
+        }
+
+        Transform(glm::vec3 pozition, glm::vec3 scale) {
+            _position = pozition;
+            _scale = scale;
+            _rotation = { 1.0,1.0,1.0 };
+
+        }
+
+        Transform(glm::vec3 pozition, glm::vec3 scale, glm::vec3 rotation) {
+            _position = pozition;
+            _scale = scale;
+            _rotation = rotation;
+
+        }
+    };
+
     class Entity {
     private:
         std::vector<std::unique_ptr<Entity>> _childrenEntities;
         std::map< ComponentType, std::unique_ptr<Component> > componentReference;
 
-        Entity* _parent = nullptr;
-        EntityManager* _manager = nullptr;
+        const std::variant<Entity*, EntityManager*> _parent;
 
-        //Spacial data
-        glm::vec3 _position;
-        glm::vec3 _rotation;
-        float _scale;
+        Transform _transform;
     public:
 
-        Entity(EntityManager* manager) : _manager(manager) {
+        Entity(EntityManager* manager) : _parent(manager) {
         }
-        Entity(Entity* parent) : _parent(parent) {
-
-        }
-
-        Entity() {
-
+        Entity(Entity* entityParent) : _parent(entityParent) {
         }
 
-        Entity* addEntity() {
+        //Transform 
+        Transform& getTransform() {
+            return _transform;
+        }
+
+        void setTransform(Transform transform) {
+            _transform = transform;
+        }
+
+        glm::vec3 getAbsolutePosition() {
+            glm::vec3 absolutePosition = _transform._position;
+            for (Entity* currentEntity = getParentEntity(); currentEntity != nullptr; currentEntity = currentEntity->getParentEntity()) {
+                absolutePosition += currentEntity->_transform._position;
+            }
+            return absolutePosition;
+        }
+
+        glm::vec3 getAbsoluteScale() {
+        glm::vec3 absoluteScale = _transform._scale;
+        for (Entity* currentEntity = getParentEntity(); currentEntity != nullptr; currentEntity = currentEntity->getParentEntity()) {
+            absoluteScale *= currentEntity->_transform._scale;
+        }
+        return absoluteScale;
+    }
+
+        //Parent pattern
+        bool isParentedByEntity() const { return std::holds_alternative<Entity*>(_parent); }
+        bool isParentedByManager() const { return std::holds_alternative<EntityManager*>(_parent); }
+
+        Entity* getParentEntity() const { 
+            if (isParentedByEntity()) {
+                return std::get<Entity*>(_parent);
+            }
+            return nullptr;
+        }
+        EntityManager* getParentManager() const { 
+            if (isParentedByManager()) {
+                return std::get<EntityManager*>(_parent);
+            }
+            return nullptr;
+        }
+
+       //Parent Child Dynamic
+        std::variant<Entity*, EntityManager*> getParent() const { return _parent; }
+
+        Entity* createChildEntity() {
 
             _childrenEntities.emplace_back(std::make_unique<Entity>(this));
 
@@ -45,6 +115,7 @@ namespace csl {
             return _childrenEntities;
         }
 
+        //Component Entity Dynammic
         template <typename T, typename... TArgs>
         T& addComponent(TArgs&&... mArgs) {
             T* c(new T(std::forward<TArgs>(mArgs)...));
@@ -53,7 +124,6 @@ namespace csl {
 
             ComponentType type = c->GetComponentType();
             componentReference.insert(std::make_pair(type, std::move(uPtr)));
-            c->init();
             return *c;
         }
 
@@ -70,18 +140,5 @@ namespace csl {
         Component* GetComponent(ComponentType type) {
             return componentReference[type].get();
         }
-
-        //Component* addGraphicsComponent(aiMesh* mesh) {
-        //    GraphicsComponent* comp = new GraphicsComponent(mesh);
-        //    comp->SetEntity(this);
-
-        //    std::unique_ptr<Component> uPtr{ comp };
-
-
-        //    _components.emplace_back(std::move(uPtr));
-        //    return _components.back().get();
-
-        //}
-
     };
 }

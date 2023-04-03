@@ -7,5 +7,7 @@
 #include <functional>
 #include <sstream>
 #include <string>
+#include <tuple>
 #include <vector>
 #include <map>
+#include <variant>

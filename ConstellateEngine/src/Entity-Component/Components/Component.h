@@ -19,12 +19,15 @@ namespace csl {
         bool alive = true;
 
     public:
-        virtual void init() {}
         virtual void update(float mFT) {}
         virtual void draw() {}
 
         void SetEntity(Entity* entity) {
             _entity = entity;
+        }
+
+        Entity* getEntity() {
+            return _entity;
         }
 
         virtual ComponentType GetComponentType() = 0;
