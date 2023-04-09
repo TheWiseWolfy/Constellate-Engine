@@ -10,6 +10,7 @@ namespace csl {
 
 
 	Entity* AssetImporter::ModelToEntityHierachy(std::string path, Entity* root) {
+
 		Assimp::Importer importer;
 		//std::string path = "C:\\Users\\Gabriel\\3D Objects\\Hidrant_hightPoly.fbx";
 		//const aiScene* scene = importer.ReadFile(path, aiProcess_Triangulate | aiProcess_FlipUVs );

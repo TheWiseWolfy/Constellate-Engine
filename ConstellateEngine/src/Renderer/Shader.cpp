@@ -3,6 +3,8 @@
 #include "Core/Log.h"
 #include "cslpch.h"
 
+#include <iostream>
+
 namespace csl {
 	Shader::Shader(const std::string& vertexPath, const std::string& fragmentPath)
 	{
@@ -97,6 +99,7 @@ namespace csl {
 	}
 
 	Shader::~Shader() {
+		std::cout << "wah";
 		glDeleteProgram(_shaderID);
 	}
 

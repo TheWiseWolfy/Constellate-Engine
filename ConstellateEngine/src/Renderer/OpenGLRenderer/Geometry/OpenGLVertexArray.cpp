@@ -45,6 +45,7 @@ namespace csl {
 		}
 
 		_vertexBuffers.push_back(vertexBuffer);
+		glBindVertexArray(0);
 	}
 
 	void OpenGLVertexArray::SetIndexBuffer(const std::shared_ptr<IndexBuffer>& indexBuffer)
@@ -53,6 +54,7 @@ namespace csl {
 		indexBuffer->Bind();
 
 		_indexBuffer = indexBuffer;
+		glBindVertexArray(0);
 	}
 
 }

@@ -21,12 +21,6 @@ namespace csl {
 		std::unique_ptr<IRenderer> _currentRenderer;
 		unsigned int _VertexArray;
 
-
-		std::shared_ptr<Shader> _shader;
-		//std::shared_ptr<VertexBuffer> _vertexBuffer;
-		//std::shared_ptr<IndexBuffer>_indexBuffer;
-		//std::shared_ptr<VertexArray> _vertexArray;
-
 		std::unique_ptr<Camera> _camera;
 	public:
 		RendererManager();

@@ -10,7 +10,23 @@ namespace csl {
 	{
 		glGenBuffers(1, &_bufferID);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _bufferID);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, size, indices, GL_STATIC_DRAW);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, size * sizeof(unsigned int), indices, GL_STATIC_DRAW);
+
+		//void* dataPtr = glMapBuffer(GL_ELEMENT_ARRAY_BUFFER, GL_READ_ONLY);
+
+		//if (dataPtr != nullptr)
+		//{
+		//	// Copy the indices data to the buffer
+		//	for (size_t i = 0; i < size; i++)
+		//	{
+		//		_indicesCopy.push_back(( (unsigned int*)dataPtr)[i]);
+		//	}
+
+		//	// Unmap the buffer
+		//	glUnmapBuffer(GL_ELEMENT_ARRAY_BUFFER);
+		//}
+		//glUnmapBuffer(GL_ELEMENT_ARRAY_BUFFER);
+
 	}
 
 	OpenGLIndexBuffer::~OpenGLIndexBuffer()

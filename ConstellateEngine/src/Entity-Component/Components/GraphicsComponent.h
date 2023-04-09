@@ -20,6 +20,8 @@ namespace csl {
         GraphicsComponent(aiMesh* mesh) : _vertexArray(std::move(VertexArray::Create()))
         {
             std::vector<float> vertices;
+            std::vector<unsigned int> indices;
+
 
             for (unsigned int i = 0; i < mesh->mNumVertices; i++)
             {
@@ -47,17 +49,17 @@ namespace csl {
             };
             vertexBuffer->SetLayout(layout);
 
-            std::vector<unsigned int> indices;
-
 
             for (unsigned int i = 0; i < mesh->mNumFaces; i++)
             {
                 for (unsigned int j = 0; j < mesh->mFaces[i].mNumIndices; j++)
                 {
+                    
                     indices.push_back(mesh->mFaces[i].mIndices[j]);
                 }
             }
-            std::unique_ptr<IndexBuffer> indexBuffer(IndexBuffer::IndexBufferOf(&indices[0], indices.size() *sizeof(int)));
+
+            std::unique_ptr<IndexBuffer> indexBuffer(IndexBuffer::IndexBufferOf(&indices[0], indices.size() ));
 
             _vertexArray->AddVertexBuffer(std::move(vertexBuffer));
             _vertexArray->SetIndexBuffer(std::move(indexBuffer));

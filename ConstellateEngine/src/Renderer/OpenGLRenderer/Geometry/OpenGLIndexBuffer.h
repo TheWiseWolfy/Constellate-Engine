@@ -8,6 +8,7 @@ namespace csl {
 	private:
 		unsigned int _bufferID;
 		unsigned int _count;
+	//	std::vector<unsigned int> _indicesCopy;
 
 	public:
 		OpenGLIndexBuffer(unsigned int* indices, size_t size);

@@ -129,18 +129,15 @@ public:
 
 		Entity* entity = Application::GetInstance().GetEntityManager().addEntity();
 		entity->setTransform(Transform(glm::vec3(4, 1, -5)));
-		AssetImporter::ModelToEntityHierachy("C:\\Users\\Gabriel\\Desktop\\pillarobj.obj", entity);
+		AssetImporter::ModelToEntityHierachy("E:\\Projects\\Git\\Constellate-Engine\\Game\\Assets\\pillarobj.obj", entity);
 
-		Entity* entity2 = Application::GetInstance().GetEntityManager().addEntity();
-		AssetImporter::ModelToEntityHierachy("C:\\Users\\Gabriel\\Desktop\\mga_pillar.fbx", entity2);
-		entity2->setTransform( Transform(glm::vec3(8,1,1)) );
+				Entity* entity4 = Application::GetInstance().GetEntityManager().addEntity();
+		AssetImporter::ModelToEntityHierachy("E:\\Projects\\Git\\Constellate-Engine\\Game\\Assets\\trueHidrant.obj", entity4);
+		entity4->setTransform(Transform(glm::vec3(4, 0, 0), glm::vec3(5, 5, 5)));
+
 
 		Entity* entity3 = Application::GetInstance().GetEntityManager().addEntity();
-		AssetImporter::ModelToEntityHierachy("C:\\Users\\Gabriel\\Desktop\\pillar2.obj", entity3);
-
-		Entity* entity4 = Application::GetInstance().GetEntityManager().addEntity();
-		AssetImporter::ModelToEntityHierachy("C:\\Users\\Gabriel\\Desktop\\trueHidrant.obj", entity4);
-		entity4->setTransform(Transform(glm::vec3(20, 5, 0)));
+		AssetImporter::ModelToEntityHierachy("E:\\Projects\\Git\\Constellate-Engine\\Game\\Assets\\pillar2.obj", entity3);
 
 	}
 	~Game(){
