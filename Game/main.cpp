@@ -131,8 +131,8 @@ public:
 		entity->setTransform(Transform(glm::vec3(4, 1, -5)));
 		AssetImporter::ModelToEntityHierachy("E:\\Projects\\Git\\Constellate-Engine\\Game\\Assets\\pillarobj.obj", entity);
 
-				Entity* entity4 = Application::GetInstance().GetEntityManager().addEntity();
-		AssetImporter::ModelToEntityHierachy("E:\\Projects\\Git\\Constellate-Engine\\Game\\Assets\\trueHidrant.obj", entity4);
+		Entity* entity4 = Application::GetInstance().GetEntityManager().addEntity();
+		AssetImporter::ModelToEntityHierachy("E:\\Projects\\Git\\Constellate-Engine\\Game\\Assets\\trueHidrant.obj", entity4, true, "shader2");
 		entity4->setTransform(Transform(glm::vec3(4, 0, 0), glm::vec3(5, 5, 5)));
 
 

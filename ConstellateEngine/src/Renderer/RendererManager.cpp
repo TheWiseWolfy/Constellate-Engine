@@ -34,6 +34,11 @@ namespace csl {
 			"E:\\Projects\\Git\\Constellate-Engine\\Game\\Shaders\\shader1.vert",
 			"E:\\Projects\\Git\\Constellate-Engine\\Game\\Shaders\\shader1.frag"
 		);
+
+		ShaderLoader::getInstance().loadShader("shader2",
+			"E:\\Projects\\Git\\Constellate-Engine\\Game\\Shaders\\shader2.vert",
+			"E:\\Projects\\Git\\Constellate-Engine\\Game\\Shaders\\shader2.frag"
+		);
 	}
 
 	//This is an ugly piece of code that sadly has to live on for now
@@ -55,8 +60,6 @@ namespace csl {
 		_currentRenderer->Clear();
 		_currentRenderer->SetClearColor();
 
-		auto& shader = ShaderLoader::getInstance().getShader("shader1");
-		shader.Bind();
 		//_shader->Bind();
 
 		std::vector<std::unique_ptr<Entity>>& entities = Application::GetInstance().GetEntityManager().GetEntityVector();
@@ -71,6 +74,18 @@ namespace csl {
 
 
 		for (auto&& component : graphicsComponents) {
+
+
+			auto& shader = ShaderLoader::getInstance().getShader( component->getShader() );
+			shader.Bind();
+
+			if (component->isWireframe()) {
+				glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+			}
+			else {
+				glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+			}
+
 			glm::mat4 model;
 			glm::mat4 perspective;
 

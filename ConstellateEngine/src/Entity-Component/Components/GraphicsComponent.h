@@ -13,6 +13,8 @@ namespace csl {
     class GraphicsComponent : public Component {
     private:
         std::unique_ptr<VertexArray> _vertexArray;
+        bool _isWireframe;
+        std::string _shader;
     public:
 
         GraphicsComponent(std::unique_ptr<VertexArray> vertexArray) : _vertexArray(std::move(vertexArray)) {}
@@ -65,6 +67,23 @@ namespace csl {
             _vertexArray->SetIndexBuffer(std::move(indexBuffer));
 
         }
+
+        bool isWireframe() {
+            return _isWireframe;
+        }
+
+        void SetIsWireframe(bool isWireframe) {
+            _isWireframe = isWireframe;
+        }
+
+        std::string getShader() {
+            return _shader;
+        }
+
+       void setShader(std::string shader) {
+           _shader = shader;
+        }
+
 
         void update(float mFT) override
         {
