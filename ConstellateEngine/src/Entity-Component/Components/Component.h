@@ -6,6 +6,7 @@ namespace csl {
     enum class ComponentType {
         PositionComponentType,
         PhysicsComponentType,
+        ColliderComponentType,
         GraphicsComponentType
     };
 

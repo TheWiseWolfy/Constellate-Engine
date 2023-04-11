@@ -13,5 +13,7 @@
 #include "Renderer/RendererManager.h"
 #include "Resources/AssetImporter.h"
 
+#include "Entity-Component/EntityFactory.h"
+
 //Application entry
 #include "Core/EntryPoint.h"

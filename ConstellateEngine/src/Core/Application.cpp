@@ -19,8 +19,6 @@ namespace csl {
 
 		_entityManager = std::make_unique<EntityManager>();
 		_rendererManager = std::make_unique<RendererManager>();
-
-
 	}
 
 	Application::~Application(){

@@ -7,13 +7,16 @@
 #include "Events/ApplicationEvent.h"
 #include "Layer/LayerStack.h"
 #include "Renderer/RendererManager.h"
+#include "Physics/PhysicManagers.h"
 #include "Entity-Component/EntityManager.h"
 
 namespace csl {
 	class Application {
 	private:
 		std::unique_ptr<Window> _window;
+		std::unique_ptr<PhysicsManager> _physicsManager;
 		std::unique_ptr<RendererManager> _rendererManager;
+
 		std::unique_ptr<EntityManager> _entityManager;
 
 		LayerStack _layerStack;
