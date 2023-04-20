@@ -7,7 +7,7 @@
 #include "Events/ApplicationEvent.h"
 #include "Layer/LayerStack.h"
 #include "Renderer/RendererManager.h"
-#include "Physics/PhysicManagers.h"
+#include "Physics/PhysicsManager.h"
 #include "Entity-Component/EntityManager.h"
 
 namespace csl {

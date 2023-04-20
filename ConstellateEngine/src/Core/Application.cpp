@@ -38,6 +38,7 @@ namespace csl {
 		{
 			//this is also temporary 
 			_rendererManager->DrawGame();
+			_physicsManager->CheckCollisions();
 
 			for (Layer* layer : _layerStack) {
 				layer->OnUpdate();

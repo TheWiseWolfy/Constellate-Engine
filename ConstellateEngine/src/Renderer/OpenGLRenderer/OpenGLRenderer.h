@@ -10,6 +10,7 @@ namespace csl {
 		OpenGLRenderer();
 
 		virtual void DrawElement(const std::unique_ptr<VertexArray>& _vertexArray) override;
+		virtual void DrawTriangle(const glm::vec3& v1, const glm::vec3& v2, const glm::vec3& v3) override;
 
 		virtual API GetAPI() override;
 

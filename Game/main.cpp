@@ -136,6 +136,9 @@ public:
 		const aiScene* scene3 = AssetImporter::LoadModel("E:\\Projects\\Git\\Constellate-Engine\\Game\\Assets\\pillar2.obj");
 		EntityFactory::SceneToEntityHierachy(scene3, entity3);
 
+		const aiScene* sceneCube = AssetImporter::LoadModel("E:\\Projects\\Git\\Constellate-Engine\\Game\\Assets\\cube.obj");
+		ColliderComponent& component = entity3->addComponent<ColliderComponent>(sceneCube);
+
 		Entity* entity4 = Application::GetInstance().GetEntityManager().addEntity();
 		const aiScene* scene4 = AssetImporter::LoadModel("E:\\Projects\\Git\\Constellate-Engine\\Game\\Assets\\trueHidrant.obj");
 		EntityFactory::SceneToEntityHierachy(scene4, entity4);

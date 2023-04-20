@@ -5,6 +5,8 @@
 namespace csl {
 
 	class PhysicsManager {
-
+	private:
+	public:
+		void CheckCollisions();
 	};
 }
