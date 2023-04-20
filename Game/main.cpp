@@ -127,22 +127,38 @@ public:
 		PushLayer(new ExampleLayer());
 		PushLayer(new ImGuiLayer());
 
-		Entity* entity = Application::GetInstance().GetEntityManager().addEntity();
-		const aiScene* scene = AssetImporter::LoadModel("E:\\Projects\\Git\\Constellate-Engine\\Game\\Assets\\pillarobj.obj");
-		EntityFactory::SceneToEntityHierachy(scene, entity);
-		entity->setTransform(Transform(glm::vec3(4, 1, -5)));
+		{
+			Entity* entity = Application::GetInstance().GetEntityManager().addEntity();
+			const aiScene* scene = AssetImporter::LoadModel("E:\\Projects\\Git\\Constellate-Engine\\Game\\Assets\\pillarobj.obj");
+			EntityFactory::SceneToEntityHierachy(scene, entity);
+			const aiScene* sceneCube = AssetImporter::LoadModel("E:\\Projects\\Git\\Constellate-Engine\\Game\\Assets\\cube.obj");
+			ColliderComponent& component = entity->addComponent<ColliderComponent>(sceneCube);
+			entity->setTransform(Transform(glm::vec3(4, 1, -5)));
+		}
 
+
+		{
+			Entity* entity = Application::GetInstance().GetEntityManager().addEntity();
+			const aiScene* scene = AssetImporter::LoadModel("E:\\Projects\\Git\\Constellate-Engine\\Game\\Assets\\pillarobj.obj");
+			EntityFactory::SceneToEntityHierachy(scene, entity);
+			const aiScene* sceneCube = AssetImporter::LoadModel("E:\\Projects\\Git\\Constellate-Engine\\Game\\Assets\\cube.obj");
+			ColliderComponent& component = entity->addComponent<ColliderComponent>(sceneCube);
+			entity->setTransform(Transform(glm::vec3(7, 1, -5)));
+		}
+
+
+		{
 		Entity* entity3 = Application::GetInstance().GetEntityManager().addEntity();
 		const aiScene* scene3 = AssetImporter::LoadModel("E:\\Projects\\Git\\Constellate-Engine\\Game\\Assets\\pillar2.obj");
 		EntityFactory::SceneToEntityHierachy(scene3, entity3);
-
-		const aiScene* sceneCube = AssetImporter::LoadModel("E:\\Projects\\Git\\Constellate-Engine\\Game\\Assets\\cube.obj");
-		ColliderComponent& component = entity3->addComponent<ColliderComponent>(sceneCube);
-
-		Entity* entity4 = Application::GetInstance().GetEntityManager().addEntity();
-		const aiScene* scene4 = AssetImporter::LoadModel("E:\\Projects\\Git\\Constellate-Engine\\Game\\Assets\\trueHidrant.obj");
-		EntityFactory::SceneToEntityHierachy(scene4, entity4);
-		entity4->setTransform(Transform(glm::vec3(4, 0, 0), glm::vec3(5, 5, 5)));
+		}
+	
+		{
+			Entity* entity4 = Application::GetInstance().GetEntityManager().addEntity();
+			const aiScene* scene4 = AssetImporter::LoadModel("E:\\Projects\\Git\\Constellate-Engine\\Game\\Assets\\trueHidrant.obj");
+			EntityFactory::SceneToEntityHierachy(scene4, entity4);
+			entity4->setTransform(Transform(glm::vec3(4, 0, 0), glm::vec3(5, 5, 5)));
+		}
 	}
 	~Game(){
 

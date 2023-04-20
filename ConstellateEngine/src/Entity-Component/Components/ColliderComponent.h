@@ -7,6 +7,7 @@
 #include "glm.hpp"
 #include "Component.h"
 #include "Physics/CollisionPrimitives.h"
+#include "Entity-Component/Entity.h"
 
 namespace csl {
     
@@ -67,8 +68,22 @@ namespace csl {
             }
         }
 
-        const std::vector<Triangle>& GetTriangles() const {
-            return triangles;
+        const std::vector<Triangle> GetTriangles() {
+            std::vector<Triangle> transformedTriangles;
+            transformedTriangles.reserve(triangles.size());
+
+            glm::vec3 position  = this->getEntity()->getAbsolutePosition();
+
+            for (const auto& triangle : triangles) {
+                Triangle transformedTriangle;
+
+                transformedTriangle.vertices[0] = triangle.vertices[0] + position;
+                transformedTriangle.vertices[1] = triangle.vertices[1] + position;
+                transformedTriangle.vertices[2] = triangle.vertices[2] + position;
+                transformedTriangles.push_back(transformedTriangle);
+            }
+
+            return transformedTriangles;
         }
 
         void update(float mFT) override
