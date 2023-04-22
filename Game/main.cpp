@@ -141,8 +141,8 @@ public:
 			Entity* entity = Application::GetInstance().GetEntityManager().addEntity();
 			const aiScene* scene = AssetImporter::LoadModel("E:\\Projects\\Git\\Constellate-Engine\\Game\\Assets\\pillarobj.obj");
 			EntityFactory::SceneToEntityHierachy(scene, entity);
-			const aiScene* sceneCube = AssetImporter::LoadModel("E:\\Projects\\Git\\Constellate-Engine\\Game\\Assets\\cube.obj");
-			entity->addComponent<ColliderComponent>(sceneCube);
+			//const aiScene* sceneCube = AssetImporter::LoadModel("E:\\Projects\\Git\\Constellate-Engine\\Game\\Assets\\cube.obj");
+			entity->addComponent<ColliderComponent>();
 			 entity->addComponent<PhysicsComponent>();
 
 			entity->setTransform(Transform(glm::vec3(4, 1, -5)));
@@ -153,8 +153,8 @@ public:
 			Entity* entity = Application::GetInstance().GetEntityManager().addEntity();
 			const aiScene* scene = AssetImporter::LoadModel("E:\\Projects\\Git\\Constellate-Engine\\Game\\Assets\\pillarobj.obj");
 			EntityFactory::SceneToEntityHierachy(scene, entity);
-			const aiScene* sceneCube = AssetImporter::LoadModel("E:\\Projects\\Git\\Constellate-Engine\\Game\\Assets\\cube.obj");
-			entity->addComponent<ColliderComponent>(sceneCube);
+			//const aiScene* sceneCube = AssetImporter::LoadModel("E:\\Projects\\Git\\Constellate-Engine\\Game\\Assets\\cube.obj");
+			entity->addComponent<ColliderComponent>();
 			entity->addComponent<PhysicsComponent>();
 			entity->setTransform(Transform(glm::vec3(7, 1, -5)));
 		}
