@@ -83,6 +83,7 @@ namespace csl{
 		});
 
 
+
 		glfwSetCursorPosCallback(_window, [](GLFWwindow* window, double xPos, double yPos)
 		{
 			WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
@@ -123,6 +124,11 @@ namespace csl{
 			glfwSwapInterval(0);
 
 		_data.VSync = enabled;
+	}
+
+	void  WindowsWindow::SetMousePosition(int x, int y) {
+
+		glfwSetCursorPos(_window, x, y);
 	}
 
 	bool WindowsWindow::IsVSync() const

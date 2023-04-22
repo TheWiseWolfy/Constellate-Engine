@@ -99,7 +99,6 @@ namespace csl {
 	}
 
 	Shader::~Shader() {
-		std::cout << "wah";
 		glDeleteProgram(_shaderID);
 	}
 

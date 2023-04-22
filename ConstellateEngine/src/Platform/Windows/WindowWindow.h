@@ -35,7 +35,8 @@ namespace csl {
 
 			//Wondow attributes
 			void SetEventCallback(const EventCallbackFn& callback) override { _data.EventCallback = callback; }
-			
+		    void SetMousePosition(int x, int y) override;
+
 	};
 }
 

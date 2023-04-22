@@ -33,7 +33,7 @@ namespace csl {
 		virtual bool IsVSync() const = 0;
 
 		virtual void SetEventCallback(const EventCallbackFn& callback) = 0;
-
+		virtual void SetMousePosition(int x, int y) = 0;
 
 		static std::unique_ptr<Window> Create(const WindowDetails& props = WindowDetails());
 	};

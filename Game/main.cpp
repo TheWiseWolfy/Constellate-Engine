@@ -88,7 +88,17 @@ public:
 		lastX = xpos;
 		lastY = ypos;
 
+		// Wrap the mouse input so that it continues to rotate the camera
+		int windowHeight = Application::GetInstance().GetWindow().GetHeigth();
+		int windowWidth = Application::GetInstance().GetWindow().GetWidth();
+
+		Application::GetInstance().GetWindow().SetMousePosition(windowWidth / 2, windowHeight / 2);
+		lastX = windowWidth / 2;
+		lastY = windowHeight / 2;
+
 		ProcessMouseMovement(xoffset, yoffset);
+		
+
 		return true;
 	}
 
