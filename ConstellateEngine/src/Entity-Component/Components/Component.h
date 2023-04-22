@@ -7,7 +7,7 @@ namespace csl {
         PositionComponentType,
         PhysicsComponentType,
         ColliderComponentType,
-        GraphicsComponentType
+        GraphicsComponentType,
     };
 
     class Entity;

@@ -19,6 +19,7 @@ namespace csl {
 
 		_entityManager = std::make_unique<EntityManager>();
 		_rendererManager = std::make_unique<RendererManager>();
+		_physicsManager = std::make_unique<PhysicsManager>();
 	}
 
 	Application::~Application(){
@@ -34,11 +35,18 @@ namespace csl {
 
 
 	void Application::Run() {
+		auto lastTime = std::chrono::high_resolution_clock::now();
+
 		while (_running)
 		{
+			//Calculate delta time
+			auto now = std::chrono::high_resolution_clock::now();
+			float deltaTime = std::chrono::duration_cast<std::chrono::milliseconds>(now - lastTime).count() / 1000.0f;
+			lastTime = now;
+
 			//this is also temporary 
 			_rendererManager->DrawGame();
-			_physicsManager->CheckCollisions();
+			_physicsManager->CalculatePhysics(deltaTime);
 
 			for (Layer* layer : _layerStack) {
 				layer->OnUpdate();

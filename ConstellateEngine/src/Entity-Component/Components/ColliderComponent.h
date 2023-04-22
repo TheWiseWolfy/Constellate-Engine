@@ -86,6 +86,11 @@ namespace csl {
             return transformedTriangles;
         }
 
+        const std::vector<Plane> GetPlanes() {
+            return planes;
+
+        }
+
         void update(float mFT) override
         {
         }
