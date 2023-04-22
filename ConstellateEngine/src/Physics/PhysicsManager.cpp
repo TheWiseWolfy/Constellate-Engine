@@ -66,11 +66,10 @@ namespace csl {
 		CheckCollisions();
 
 		for (auto&& component : physicsComponents) {
-		
-			component->acceleration += gravitationalAcceleration * mFT;
-			component->velocity += component->acceleration * mFT;
-			auto calculatedPozition = component->getEntity()->getTransform()._position + component->velocity * mFT;
-			component->getEntity()->getTransform()._position = calculatedPozition;
+			component->setAcceleration(component->getAcceleration() + gravitationalAcceleration * mFT);
+			component->setVelocity(component->getVelocity() + component->getAcceleration() * mFT);
+			auto calculatedPosition = component->getEntity()->getTransform().getPosition() + component->getVelocity() * mFT;
+			component->getEntity()->getTransform().setPosition(calculatedPosition);
 		}
 	}
 

@@ -12,8 +12,6 @@
 #include "Resources/AssetImporter.h"
 #include "Resources/ShaderLoader.h"
 
-#include "Entity-Component/Components/ColliderComponent.h"
-
 #include "Core/Application.h"
 
 namespace csl {

@@ -42,6 +42,16 @@ namespace csl {
             _rotation = rotation;
 
         }
+
+        //Getters
+        glm::vec3 getPosition() const { return _position; }
+        glm::vec3 getScale() const { return _scale; }
+        glm::vec3 getRotation() const { return _rotation; }
+
+        //Setters
+        void setPosition(const glm::vec3& position) { _position = position; }
+        void setScale(const glm::vec3& scale) { _scale = scale; }
+        void setRotation(const glm::vec3& rotation) { _rotation = rotation; }
     };
 
     class Entity {

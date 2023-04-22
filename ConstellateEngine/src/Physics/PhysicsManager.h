@@ -1,7 +1,8 @@
 #pragma once
 
 #include "Entity-Component/Components/PhysicsComponent.h"
-#include "Entity-Component/Components/ColliderComponent.h"
+
+#include "Entity-Component/Components/Colliders/ShpereCollider.h"
 
 #include "glm.hpp"
 
