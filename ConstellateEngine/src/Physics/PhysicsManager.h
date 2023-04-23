@@ -3,6 +3,7 @@
 #include "Entity-Component/Components/PhysicsComponent.h"
 
 #include "Entity-Component/Components/Colliders/ShpereCollider.h"
+#include "Entity-Component/Components/Colliders/PlaneCollider.h"
 
 #include "glm.hpp"
 
@@ -13,7 +14,7 @@ namespace csl {
 		glm::vec3 gravitationalAcceleration;
 	public:
 		PhysicsManager();
-		void CheckCollisions();
+		std::vector<Collision> CheckCollisions();
 		void CalculatePhysics(float mFT);
 	};
 }

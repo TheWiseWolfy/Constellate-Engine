@@ -2,19 +2,12 @@
 
 #include "CollisionPrimitives.h"
 
-#include "Entity-Component/Components/Colliders/ShpereCollider.h"
-#include "Entity-Component/Components/Colliders/PlaneCollider.h"
-
 namespace csl {
 
-	CollisionDetails FindShereAgainstShere(SphereCollider* collider1, SphereCollider* collider2){
-		CollisionDetails wa;
-		return wa;
-	}
+	class SphereCollider;
+	class PlaneColider;
 
-	CollisionDetails FindShereAgainstPlane(SphereCollider* collider1, PlaneColider* collider2){
-		CollisionDetails wa;
-		return wa;
-	}
+	CollisionDetails FindShereAgainstShere(SphereCollider* collider1, SphereCollider* collider2);
+	CollisionDetails FindShereAgainstPlane(SphereCollider* colliderSphere, PlaneColider* colliderPlane);
 
 }

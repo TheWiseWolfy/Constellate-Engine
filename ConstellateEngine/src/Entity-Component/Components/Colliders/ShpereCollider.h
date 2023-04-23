@@ -11,11 +11,11 @@ namespace csl {
 
     class SphereCollider : public ColliderComponent {
     private:
-
+        float _radius;
     public:
 
-        SphereCollider() {
-
+        SphereCollider(float radius ) {
+            _radius = radius;
         }
 
         void update(float mFT) override
@@ -23,6 +23,14 @@ namespace csl {
         }
         void draw() override
         {
+        }
+
+        float getRadius() {
+            return _radius;
+        }
+
+        glm::vec3 getPosition() {
+            return this->getEntity()->getAbsolutePosition();
         }
 
         //Here is the scary stuff

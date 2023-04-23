@@ -11,15 +11,23 @@ namespace csl {
 
         glm::vec3 normal; // B - A normalized
         float depth; // lenght of B-A
-        
+        bool hasCollided;
+
         CollisionDetails() {
             pointA = glm::vec3(0, 0, 0);
             pointB = glm::vec3(0, 0, 0);
             normal = glm::vec3(0, 0, 0);
             depth = 0;
+            hasCollided = false;
         }
     };
 
+    class ColliderComponent;
+    struct Collision {
+        ColliderComponent* objectA;
+        ColliderComponent* objectB;
+        CollisionDetails details;
+    };
 
     //struct Triangle {
     //    glm::vec3 vertices[3];
