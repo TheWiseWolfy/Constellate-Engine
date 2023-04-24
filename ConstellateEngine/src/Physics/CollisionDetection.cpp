@@ -7,9 +7,35 @@
 
 namespace csl {
 
-	CollisionDetails FindShereAgainstShere(SphereCollider* collider1, SphereCollider* collider2) {
-		CollisionDetails wa;
-		return wa;
+	CollisionDetails FindShereAgainstShere(SphereCollider* colliderSphere1, SphereCollider* colliderSphere2) {
+		CollisionDetails colDetails;
+
+		// Calculate the distance between the centers of the spheres
+		glm::vec3 centerToCenter = colliderSphere2->getPosition() - colliderSphere1->getPosition();
+		float distance = glm::length(centerToCenter);
+
+		// Check if the spheres are colliding
+		float sumRadii = colliderSphere1->getRadius() + colliderSphere2->getRadius();
+		if (distance < sumRadii) {
+			colDetails.hasCollided = true;
+
+			// Calculate penetration depth
+			colDetails.depth = sumRadii - distance;
+
+			// Calculate the collision normal
+			colDetails.normal = glm::normalize(centerToCenter);
+
+			// Calculate the collision point on sphere1
+			colDetails.pointA = colliderSphere1->getPosition() + colDetails.normal * colliderSphere1->getRadius();
+
+			// Calculate the collision point on sphere2
+			colDetails.pointB = colliderSphere2->getPosition() - colDetails.normal * colliderSphere2->getRadius();
+		}
+		else {
+			colDetails.hasCollided = false;
+		}
+
+		return colDetails;
 	}
 
 	CollisionDetails FindShereAgainstPlane(SphereCollider* colliderSphere, PlaneColider* colliderPlane) {

@@ -35,6 +35,58 @@ namespace csl {
 		}
 	}
 
+	void solveCollision(Collision collision) {
+
+		// Get the two collider components involved in the collision
+		ColliderComponent* objectA = collision.objectA;
+		ColliderComponent* objectB = collision.objectB;
+
+		PhysicsComponent* rigidbodyA = (PhysicsComponent*)objectA->getEntity()->GetComponent(ComponentType::PhysicsComponentType);
+		PhysicsComponent* rigidbodyB = (PhysicsComponent*)objectB->getEntity()->GetComponent(ComponentType::PhysicsComponentType);
+
+		// Get the collision details
+		CollisionDetails details = collision.details;
+
+		// Calculate the new velocity and position for each component
+		glm::vec3 velA = rigidbodyA->getVelocity();
+		glm::vec3 velB = rigidbodyB->getVelocity();
+
+		// Calculate the relative velocity
+		glm::vec3 relVel = velA - velB;
+
+
+		// Calculate the mass of each object
+		float massA = rigidbodyA->getMass();
+		float massB = rigidbodyB->getMass();
+
+		float e = 0.9f; // Restitution coefficient (set to 0.5 for example purposes)
+		float impulse = (-(1.0f + e) * glm::dot(relVel, details.normal)) / (1.0f / massA + 1.0f / massB);
+
+		// Calculate the total mass
+		float totalMass = massA + massB;
+
+		// Calculate the new velocities
+		velA += impulse / massA * details.normal;
+		velB -= impulse / massB * details.normal;
+
+		// Calculate the new positions
+		glm::vec3 newPosA = objectA->getEntity()->getTransform().getPosition() + details.normal * (details.depth / totalMass) * massB;
+		glm::vec3 newPosB = objectB->getEntity()->getTransform().getPosition() - details.normal * (details.depth / totalMass) * massA;
+
+		// Set the new velocities and positions for each component
+
+		if (!rigidbodyA->getStatic()) {
+
+			rigidbodyA->setVelocity(velA);
+			objectA->getEntity()->getTransform().setPosition(newPosA);
+		}
+
+		if (!rigidbodyB->getStatic()) {
+
+			rigidbodyB->setVelocity(velB);
+			objectB->getEntity()->getTransform().setPosition(newPosB);
+		}
+	}
 
 
 	std::vector<Collision> PhysicsManager::CheckCollisions() {
@@ -70,69 +122,15 @@ namespace csl {
 					myCollision.details = details;
 
 					collisions.push_back(myCollision);
+
+					solveCollision(myCollision);
 				}
 			}
 		}
-
 		return collisions;
 	}
 
-	void solveCollisions(std::vector<Collision>& collisions) {
-
-		for (auto&& collision : collisions) {
-			// Get the two collider components involved in the collision
-			ColliderComponent* objectA = collision.objectA;
-			ColliderComponent* objectB = collision.objectB;
-
-			PhysicsComponent* rigidbodyA = (PhysicsComponent*)objectA->getEntity()->GetComponent(ComponentType::PhysicsComponentType);
-			PhysicsComponent* rigidbodyB = (PhysicsComponent*)objectB->getEntity()->GetComponent(ComponentType::PhysicsComponentType);
-
-			// Get the collision details
-			CollisionDetails details = collision.details;
-
-			// Calculate the new velocity and position for each component
-			glm::vec3 velA = rigidbodyA->getVelocity();
-			glm::vec3 velB = rigidbodyB->getVelocity();
-
-			// Calculate the relative velocity
-			glm::vec3 relVel = velA - velB;
-
-			// Calculate the impulse
-			float impulse = -1.0f * glm::dot(relVel, details.normal);
-
-			// Calculate the mass of each object
-			float massA = rigidbodyA->getMass();
-			float massB = rigidbodyB->getMass();
-
-			// Calculate the total mass
-			float totalMass = massA + massB;
-
-			// Calculate the new velocities
-			velA += impulse / massA * details.normal;
-			velB -= impulse / massB * details.normal;
-
-			// Calculate the new positions
-			glm::vec3 newPosA = objectA->getEntity()->getTransform().getPosition() + details.normal * (details.depth / totalMass) * massB;
-			glm::vec3 newPosB = objectB->getEntity()->getTransform().getPosition() - details.normal * (details.depth / totalMass) * massA;
-
-			// Set the new velocities and positions for each component
-
-			if (!rigidbodyA->getStatic()) {
-
-				rigidbodyA->setVelocity(velA);
-				objectA->getEntity()->getTransform().setPosition(newPosA);
-			}
-
-			if (!rigidbodyB->getStatic()) {
-
-				rigidbodyA->setVelocity(velB);
-				objectB->getEntity()->getTransform().setPosition(newPosB);
-			}
-		
-		}
-
-	}
-
+	
 
 	void PhysicsManager::CalculatePhysics(float mFT) {
 
@@ -148,17 +146,14 @@ namespace csl {
 
 		auto collisions = CheckCollisions();
 
-		if (collisions.size() != 0) {
-			solveCollisions(collisions);
-		}
-
 		for (auto&& component : physicsComponents) {
 
 			if (!component->getStatic()) {
-				component->setAcceleration(component->getAcceleration() + gravitationalAcceleration * mFT);
-				component->setVelocity(component->getVelocity() + component->getAcceleration() * mFT);
+
 				auto calculatedPosition = component->getEntity()->getTransform().getPosition() + component->getVelocity() * mFT;
 				component->getEntity()->getTransform().setPosition(calculatedPosition);
+				component->setVelocity(component->getVelocity() + component->getAcceleration() * mFT);
+				component->setAcceleration(component->getAcceleration() + gravitationalAcceleration * mFT);
 			}
 		}
 		

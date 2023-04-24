@@ -137,25 +137,36 @@ public:
 		PushLayer(new ExampleLayer());
 		PushLayer(new ImGuiLayer());
 
+
 		{
 			Entity* entity = Application::GetInstance().GetEntityManager().addEntity();
-			const aiScene* scene = AssetImporter::LoadModel("E:\\Projects\\Git\\Constellate-Engine\\Game\\Assets\\pillarobj.obj");
+			const aiScene* scene = AssetImporter::LoadModel("E:\\Projects\\Git\\Constellate-Engine\\Game\\Assets\\sphere.obj");
 			EntityFactory::SceneToEntityHierachy(scene, entity);
 			//const aiScene* sceneCube = AssetImporter::LoadModel("E:\\Projects\\Git\\Constellate-Engine\\Game\\Assets\\cube.obj");
-			entity->addComponent<SphereCollider>(1.3f);
+			entity->addComponent<SphereCollider>(1.f);
 			entity->addComponent<PhysicsComponent>();
-			entity->setTransform(Transform(glm::vec3(4, 1, -5)));
+			entity->setTransform(Transform(glm::vec3(4.5, 7, -5.5)));
+		}
+
+		{
+			Entity* entity = Application::GetInstance().GetEntityManager().addEntity();
+			const aiScene* scene = AssetImporter::LoadModel("E:\\Projects\\Git\\Constellate-Engine\\Game\\Assets\\sphere.obj");
+			EntityFactory::SceneToEntityHierachy(scene, entity);
+			//const aiScene* sceneCube = AssetImporter::LoadModel("E:\\Projects\\Git\\Constellate-Engine\\Game\\Assets\\cube.obj");
+			entity->addComponent<SphereCollider>(1.f);
+			entity->addComponent<PhysicsComponent>();
+			entity->setTransform(Transform(glm::vec3(7, 1, -5.8)));
 		}
 
 
 		{
 			Entity* entity = Application::GetInstance().GetEntityManager().addEntity();
-			const aiScene* scene = AssetImporter::LoadModel("E:\\Projects\\Git\\Constellate-Engine\\Game\\Assets\\pillarobj.obj");
+			const aiScene* scene = AssetImporter::LoadModel("E:\\Projects\\Git\\Constellate-Engine\\Game\\Assets\\sphere.obj");
 			EntityFactory::SceneToEntityHierachy(scene, entity);
 			//const aiScene* sceneCube = AssetImporter::LoadModel("E:\\Projects\\Git\\Constellate-Engine\\Game\\Assets\\cube.obj");
-			entity->addComponent<SphereCollider>(1.3f);
+			entity->addComponent<SphereCollider>(1.f);
 			entity->addComponent<PhysicsComponent>();
-			entity->setTransform(Transform(glm::vec3(7, 1, -5)));
+			entity->setTransform(Transform(glm::vec3(4, 5, -5)));
 		}
 
 
