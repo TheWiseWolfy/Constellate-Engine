@@ -15,7 +15,7 @@ namespace csl {
     public:
 
         PlaneColider(glm::vec3 normal) {
-            _normal - normal;
+            _normal = normal;
         }
 
         void update(float mFT) override

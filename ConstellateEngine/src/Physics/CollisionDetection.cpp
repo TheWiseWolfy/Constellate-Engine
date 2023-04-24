@@ -16,7 +16,7 @@ namespace csl {
 		CollisionDetails colDetails;
 
 		// Calculate the distance between the plane and the center of the sphere
-		float dist = glm::dot(colliderPlane->getNormal(), colliderPlane->getPosition() - colliderSphere->getPosition());
+		float dist =abs( glm::dot(colliderPlane->getNormal(), colliderPlane->getPosition() - colliderSphere->getPosition()) );
 
 		if (dist < colliderSphere->getRadius()) {
 			colDetails.hasCollided = true;

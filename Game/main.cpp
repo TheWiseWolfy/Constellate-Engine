@@ -142,7 +142,7 @@ public:
 			const aiScene* scene = AssetImporter::LoadModel("E:\\Projects\\Git\\Constellate-Engine\\Game\\Assets\\pillarobj.obj");
 			EntityFactory::SceneToEntityHierachy(scene, entity);
 			//const aiScene* sceneCube = AssetImporter::LoadModel("E:\\Projects\\Git\\Constellate-Engine\\Game\\Assets\\cube.obj");
-			entity->addComponent<SphereCollider>(10.0f);
+			entity->addComponent<SphereCollider>(1.3f);
 			entity->addComponent<PhysicsComponent>();
 			entity->setTransform(Transform(glm::vec3(4, 1, -5)));
 		}
@@ -153,7 +153,7 @@ public:
 			const aiScene* scene = AssetImporter::LoadModel("E:\\Projects\\Git\\Constellate-Engine\\Game\\Assets\\pillarobj.obj");
 			EntityFactory::SceneToEntityHierachy(scene, entity);
 			//const aiScene* sceneCube = AssetImporter::LoadModel("E:\\Projects\\Git\\Constellate-Engine\\Game\\Assets\\cube.obj");
-			entity->addComponent<SphereCollider>(10.0f);
+			entity->addComponent<SphereCollider>(1.3f);
 			entity->addComponent<PhysicsComponent>();
 			entity->setTransform(Transform(glm::vec3(7, 1, -5)));
 		}
@@ -167,7 +167,7 @@ public:
 		 	entity->addComponent<PlaneColider>(glm::vec3 ( 0.0, 1.0, 0.0 ) );
 			auto& physics = entity->addComponent<PhysicsComponent>();
 			physics.setStatic(true);
-			entity->setTransform(Transform(glm::vec3(0, -5, 0)));
+			entity->setTransform(Transform(glm::vec3(0, -3, 0)));
 
 		}
 

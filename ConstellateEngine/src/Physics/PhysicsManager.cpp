@@ -7,7 +7,7 @@
 namespace csl {
 
 	PhysicsManager::PhysicsManager() {
-		gravitationalAcceleration = glm::vec3(0, -1.9, 0);
+		gravitationalAcceleration = glm::vec3(0, -9.2, 0);
 	}
 
 	//This is an ugly piece of code that sadly has to live on for now
