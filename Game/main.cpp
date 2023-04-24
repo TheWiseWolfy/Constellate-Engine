@@ -2,6 +2,8 @@
 
 #include <Constellate.h>
 #include <iostream>
+#include <random>
+#include <chrono>
 
 using namespace csl;
 
@@ -61,8 +63,39 @@ public:
 
 		if (e.GetKeyCode() == 88) {
 			poz.y -= 0000.1;
+
+			
 		}
 
+		if (e.GetKeyCode() == 88) {
+			{
+				Entity* entity = Application::GetInstance().GetEntityManager().addEntity();
+				const aiScene* scene = AssetImporter::LoadModel("E:\\Projects\\Git\\Constellate-Engine\\Game\\Assets\\sphere.obj");
+				EntityFactory::SceneToEntityHierachy(scene, entity);
+				//const aiScene* sceneCube = AssetImporter::LoadModel("E:\\Projects\\Git\\Constellate-Engine\\Game\\Assets\\cube.obj");
+				entity->addComponent<SphereCollider>(1.f);
+				entity->addComponent<PhysicsComponent>();
+
+				unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
+				std::default_random_engine generator(seed);
+
+				// Define distribution for random values
+				std::uniform_real_distribution<float> distribution(-1.0f, 1.0f);
+
+				// Generate random values
+				float x = 4.5f + distribution(generator);
+				float y = 7.0f + distribution(generator);
+				float z = -5.5f + distribution(generator);
+
+				// Create the transformed entity
+				Transform transform(glm::vec3(x, y, z));
+
+				// Print the transformed entity position
+				glm::vec3 position = entity->getTransform().getPosition();
+
+				entity->setTransform(transform);
+			}
+		}
 
 		Application::GetInstance().GetRenderer().SetCameraPosition(poz);
 
