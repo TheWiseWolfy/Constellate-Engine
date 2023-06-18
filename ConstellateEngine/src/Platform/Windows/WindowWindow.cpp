@@ -82,8 +82,6 @@ namespace csl{
 			}
 		});
 
-
-
 		glfwSetCursorPosCallback(_window, [](GLFWwindow* window, double xPos, double yPos)
 		{
 			WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
@@ -97,9 +95,7 @@ namespace csl{
 
 			KeyPressedEvent event(key, 0);
 			data.EventCallback(event);
-
 		});
-
 	}
 
 	WindowsWindow::~WindowsWindow()
@@ -112,8 +108,6 @@ namespace csl{
 		glfwPollEvents();
 
 		_context->SwapBuffers();
-
-		
 	}
 
 	void WindowsWindow::SetVSync(bool enabled)

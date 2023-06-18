@@ -5,10 +5,18 @@
 #include <random>
 #include <chrono>
 
+#include "FirstPersonCamera.h"
+
 using namespace csl;
 
 class ExampleLayer : public Layer
 {
+private:
+	bool _firstMouse = true;
+	float _lastX = 0;
+	float _lastY = 0;
+	FPCamera _camera;
+
 public:
 	ExampleLayer(): Layer("Example")
 	{
@@ -18,7 +26,6 @@ public:
 
 	void OnUpdate() override
 	{
-		//CSL_TRACE("ExampleLayer::Update");
 	}
 
 	void OnEvent(EngineEvent& event) override
@@ -27,47 +34,39 @@ public:
 
 		dispatcher.Dispach<MouseMovedEvent>(std::bind(&ExampleLayer::OnMouseMoved, this, std::placeholders::_1));
 		dispatcher.Dispach<KeyPressedEvent>(std::bind(&ExampleLayer::OnKeyPressed, this, std::placeholders::_1));
-
-		//CSL_TRACE("ExampleLayer::Event");
-
-
 	}
 
-	bool _firstMouse = true;
-	float lastX = 0;
-	float lastY = 0;
 
 	bool OnKeyPressed(KeyPressedEvent& e) {
 
 		glm::vec3 poz = Application::GetInstance().GetRenderer().GetCameraPosition();
 
-		if (e.GetKeyCode() == 87 ) {
-			poz.z -= 0000.1;
+		if (e.GetKeyCode() == CSL_KEY_W) {
+			poz += _camera.getCameraDirection() * 0.1f;
 		}
 
-		if (e.GetKeyCode() == 83) {
-			poz.z += 0000.1;
+		if (e.GetKeyCode() == CSL_KEY_S) {
+			poz -= _camera.getCameraDirection() * 0.1f;
 		}
 
-		if (e.GetKeyCode() == 65) {
-			poz.x -= 0000.1;
-		}
-
-		if (e.GetKeyCode() == 68) {
-			poz.x += 0000.1;
-		}
-		 
-		if (e.GetKeyCode() == 90) {
-			poz.y += 0000.1;
-		}
-
-		if (e.GetKeyCode() == 88) {
-			poz.y -= 0000.1;
-
+		if (e.GetKeyCode() == CSL_KEY_A) {
+			poz -= _camera.getRightVector() * 0.1f;
 			
 		}
 
-		if (e.GetKeyCode() == 88) {
+		if (e.GetKeyCode() == CSL_KEY_D) {
+			poz += _camera.getRightVector() * 0.1f;
+		}
+		 
+		if (e.GetKeyCode() == CSL_KEY_Z) {
+			poz.y += 0.1;
+		}
+
+		if (e.GetKeyCode() == CSL_KEY_X) {
+			poz.y -= 0.1;
+		}
+
+		if (e.GetKeyCode() == CSL_KEY_C) {
 			{
 				Entity* entity = Application::GetInstance().GetEntityManager().addEntity();
 				const aiScene* scene = AssetImporter::LoadModel("E:\\Projects\\Git\\Constellate-Engine\\Game\\Assets\\sphere.obj");
@@ -108,59 +107,34 @@ public:
 		float xpos = e.GetX();
 		float ypos = e.GetY();
 
-		if (_firstMouse)
-		{
-			lastX = xpos;
-			lastY = ypos;
+		if (_firstMouse){
+			_lastX = xpos;
+			_lastY = ypos;
 			_firstMouse = false;
 		}
 
-		float xoffset = xpos - lastX;
-		float yoffset = lastY - ypos; // reversed since y-coordinates go from bottom to top
+		float xoffset = xpos - _lastX;
+		float yoffset = _lastY - ypos; // reversed since y-coordinates go from bottom to top
 
-		lastX = xpos;
-		lastY = ypos;
+		_lastX = xpos;
+		_lastY = ypos;
 
 		// Wrap the mouse input so that it continues to rotate the camera
 		int windowHeight = Application::GetInstance().GetWindow().GetHeigth();
 		int windowWidth = Application::GetInstance().GetWindow().GetWidth();
 
-		Application::GetInstance().GetWindow().SetMousePosition(windowWidth / 2, windowHeight / 2);
-		lastX = windowWidth / 2;
-		lastY = windowHeight / 2;
+		_lastX = windowWidth / 2;
+		_lastY = windowHeight / 2;
 
-		ProcessMouseMovement(xoffset, yoffset);
+		_camera.ProcessMouseMovement(xoffset, yoffset);
 		
+		Application::GetInstance().GetRenderer().SetCameraRotation(_camera.getYaw(), _camera.getPitch());
+		//The mouse gets stuck in the middle of the window to accomoate the camera.
+		Application::GetInstance().GetWindow().SetMousePosition(windowWidth / 2, windowHeight / 2);
 
 		return true;
 	}
 
-	float Yaw = 0;
-	float Pitch = 0;
-	// processes input received from a mouse input system. Expects the offset value in both the x and y direction.
-	void ProcessMouseMovement(float xoffset, float yoffset, GLboolean constrainPitch = true , float mouseSensitivity = 0.1f)
-	{
-		// euler Angles
-	
-		xoffset *= mouseSensitivity;
-		yoffset *= mouseSensitivity;
-
-		Yaw += xoffset;
-		Pitch += yoffset;
-
-		// make sure that when pitch is out of bounds, screen doesn't get flipped
-		if (constrainPitch)
-		{
-			if (Pitch > 89.0f)
-				Pitch = 89.0f;
-			if (Pitch < -89.0f)
-				Pitch = -89.0f;
-		}
-
-		// update Front, Right and Up Vectors using the updated Euler angles
-		Application::GetInstance().GetRenderer().SetCameraRotation(glm::vec2(Yaw, Pitch));
-
-	}
 };
 
 class Game : public Application {
@@ -194,11 +168,14 @@ public:
 
 		{
 			Entity* entity = Application::GetInstance().GetEntityManager().addEntity();
-			const aiScene* scene = AssetImporter::LoadModel("E:\\Projects\\Git\\Constellate-Engine\\Game\\Assets\\sphere.obj");
-			EntityFactory::SceneToEntityHierachy(scene, entity);
-			//const aiScene* sceneCube = AssetImporter::LoadModel("E:\\Projects\\Git\\Constellate-Engine\\Game\\Assets\\cube.obj");
+
 			entity->addComponent<SphereCollider>(1.f);
 			entity->addComponent<PhysicsComponent>();
+			//here entity->addComponent<RendererComponent>() is called
+
+			const aiScene* scene = AssetImporter::LoadModel("E:\\Projects\\Git\\Constellate-Engine\\Game\\Assets\\sphere.obj");
+			EntityFactory::SceneToEntityHierachy(scene, entity);
+
 			entity->setTransform(Transform(glm::vec3(4, 5, -5)));
 		}
 
@@ -212,14 +189,13 @@ public:
 			auto& physics = entity->addComponent<PhysicsComponent>();
 			physics.setStatic(true);
 			entity->setTransform(Transform(glm::vec3(0, -3, 0)));
-
 		}
 
 
 		{
-		Entity* entity3 = Application::GetInstance().GetEntityManager().addEntity();
-		const aiScene* scene3 = AssetImporter::LoadModel("E:\\Projects\\Git\\Constellate-Engine\\Game\\Assets\\pillar2.obj");
-		EntityFactory::SceneToEntityHierachy(scene3, entity3);
+			Entity* entity3 = Application::GetInstance().GetEntityManager().addEntity();
+			const aiScene* scene3 = AssetImporter::LoadModel("E:\\Projects\\Git\\Constellate-Engine\\Game\\Assets\\pillar2.obj");
+			EntityFactory::SceneToEntityHierachy(scene3, entity3);
 		}
 	
 		{

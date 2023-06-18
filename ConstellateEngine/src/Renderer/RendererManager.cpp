@@ -172,9 +172,9 @@ namespace csl {
 	//{
 	//	
 	//}
-	void RendererManager::SetCameraRotation(glm::vec2 rotation)
+	void RendererManager::SetCameraRotation(float yaw, float pitch)
 	{
-		_camera->SetRotation(rotation);
+		_camera->SetRotation(yaw, pitch);
 	}
 
 	glm::mat4  RendererManager::PerspectiveView(glm::mat4 model, std::unique_ptr<Camera>& camera) {

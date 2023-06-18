@@ -61,9 +61,9 @@ public:
         _position = position;
     }
 
-    void SetRotation(glm::vec2 rotation) {
-        _yaw = rotation.x;
-        _pitch = rotation.y;
+    void SetRotation(float yaw, float pitch) {
+        _yaw = yaw;
+        _pitch = pitch;
     }
 
     // returns the view matrix calculated using Euler Angles and the LookAt Matrix

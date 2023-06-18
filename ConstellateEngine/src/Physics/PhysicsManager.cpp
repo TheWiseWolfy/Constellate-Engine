@@ -59,7 +59,7 @@ namespace csl {
 		float massA = rigidbodyA->getMass();
 		float massB = rigidbodyB->getMass();
 
-		float e = 0.9f; // Restitution coefficient (set to 0.5 for example purposes)
+		float e = 0.1f; // Restitution coefficient (set to 0.5 for example purposes)
 		float impulse = (-(1.0f + e) * glm::dot(relVel, details.normal)) / (1.0f / massA + 1.0f / massB);
 
 		// Calculate the total mass

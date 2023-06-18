@@ -18,8 +18,6 @@ namespace csl {
 	class RendererManager {
 	private:
 		std::unique_ptr<IRenderer> _currentRenderer;
-		unsigned int _VertexArray;
-
 		std::unique_ptr<Camera> _camera;
 	public:
 		RendererManager();
@@ -28,7 +26,7 @@ namespace csl {
 		void DrawGame();
 		void RenderCollider(ColliderComponent* colliderComponent);
 		void SetCameraPosition(glm::vec3 position);
-		void SetCameraRotation(glm::vec2 rotation);
+		void SetCameraRotation(float yaw, float pitch);
 		glm::vec3 GetCameraPosition();
 
 	private:
