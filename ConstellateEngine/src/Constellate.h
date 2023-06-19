@@ -14,6 +14,9 @@
 #include "Resources/AssetImporter.h"
 
 #include "Entity-Component/EntityFactory.h"
+#include "Entity-Component/Components/Component.h"
+
+#include "Input/InputManager.h"
 
 //Application entry
 #include "Core/EntryPoint.h"

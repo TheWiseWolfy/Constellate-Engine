@@ -1,3 +1,14 @@
+/*
+File: Application.cpp
+
+TODO: Implement propper key pooling in order to capture key presses sincroniusly
+
+*/
+
+
+
+
+
 #include "Application.h"
 #include "Log.h"
 
@@ -51,6 +62,7 @@ namespace csl {
 			//this is also temporary 
 			_rendererManager->DrawGame();
 			_physicsManager->CalculatePhysics(deltaTime);
+			_entityManager->update(deltaTime);
 
 			for (Layer* layer : _layerStack) {
 				layer->OnUpdate();

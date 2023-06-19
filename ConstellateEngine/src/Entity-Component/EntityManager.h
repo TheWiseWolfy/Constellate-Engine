@@ -15,6 +15,14 @@ namespace csl {
             return _entityList;
         }
 
+        void update(float mFT)
+        {
+            for (auto const& entity : _entityList)
+            {
+                entity->update(mFT);
+            }
+        }
+
         Entity* addEntity()
         {
             Entity* e(new Entity(this));
@@ -30,6 +38,7 @@ namespace csl {
             _entityList.emplace_back(std::move(uPtr));
             return e;
         }
+
 
 
     };

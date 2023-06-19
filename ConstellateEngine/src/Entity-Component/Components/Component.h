@@ -1,3 +1,14 @@
+/*
+File:Component.h
+
+Class describing the component from the Entity-Component pattern.
+
+TODO:Replace enum with registration system, because for now, the engine user cannot properly declare his own component types.
+
+*/
+
+
+
 #pragma once
 
 
@@ -8,6 +19,7 @@ namespace csl {
         PhysicsComponentType,
         ColliderComponentType,
         GraphicsComponentType,
+        CustomComponentType1
     };
 
     class Entity;

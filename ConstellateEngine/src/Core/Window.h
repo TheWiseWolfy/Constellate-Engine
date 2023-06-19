@@ -5,6 +5,7 @@
 #include "Core.h"
 #include "Events/Event.h"
 
+
 namespace csl {
 	using EventCallbackFn = std::function<void(EngineEvent&)>;
 
@@ -20,6 +21,7 @@ namespace csl {
 	};
 
 	//Main window implementations for diffrent platforms and APIs
+
 	class Window
 	{
 	public:
@@ -34,6 +36,9 @@ namespace csl {
 
 		virtual void SetEventCallback(const EventCallbackFn& callback) = 0;
 		virtual void SetMousePosition(int x, int y) = 0;
+
+		//From The Cerno
+		virtual void* GetNativeWindow() = 0;
 
 		static std::unique_ptr<Window> Create(const WindowDetails& props = WindowDetails());
 	};

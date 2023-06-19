@@ -30,13 +30,16 @@ namespace csl {
 	
 			inline unsigned int GetWidth() const override { return _data.Width; }
 			inline unsigned int GetHeigth() const override { return _data.Height; }
+
+			//TODO: Fix this
 			void SetVSync(bool enabled) override;
 			bool IsVSync() const override;
+			
+			void* GetNativeWindow() override { return _window; }
 
 			//Wondow attributes
 			void SetEventCallback(const EventCallbackFn& callback) override { _data.EventCallback = callback; }
 		    void SetMousePosition(int x, int y) override;
-
 	};
 }
 

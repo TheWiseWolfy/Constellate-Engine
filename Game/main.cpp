@@ -6,6 +6,7 @@
 #include <chrono>
 
 #include "FirstPersonCamera.h"
+#include "PlayerComponent.h"
 
 using namespace csl;
 
@@ -44,7 +45,7 @@ public:
 		if (e.GetKeyCode() == CSL_KEY_W) {
 			poz += _camera.getCameraDirection() * 0.1f;
 		}
-
+		
 		if (e.GetKeyCode() == CSL_KEY_S) {
 			poz -= _camera.getCameraDirection() * 0.1f;
 		}
@@ -71,7 +72,7 @@ public:
 				Entity* entity = Application::GetInstance().GetEntityManager().addEntity();
 				const aiScene* scene = AssetImporter::LoadModel("E:\\Projects\\Git\\Constellate-Engine\\Game\\Assets\\sphere.obj");
 				EntityFactory::SceneToEntityHierachy(scene, entity);
-				//const aiScene* sceneCube = AssetImporter::LoadModel("E:\\Projects\\Git\\Constellate-Engine\\Game\\Assets\\cube.obj");
+
 				entity->addComponent<SphereCollider>(1.f);
 				entity->addComponent<PhysicsComponent>();
 
@@ -145,6 +146,13 @@ public:
 		PushLayer(new ImGuiLayer());
 
 
+		TestFuction();
+	}
+	~Game(){
+		
+	}
+
+	void TestFuction() {
 		{
 			Entity* entity = Application::GetInstance().GetEntityManager().addEntity();
 			const aiScene* scene = AssetImporter::LoadModel("E:\\Projects\\Git\\Constellate-Engine\\Game\\Assets\\sphere.obj");
@@ -152,6 +160,8 @@ public:
 			//const aiScene* sceneCube = AssetImporter::LoadModel("E:\\Projects\\Git\\Constellate-Engine\\Game\\Assets\\cube.obj");
 			entity->addComponent<SphereCollider>(1.f);
 			entity->addComponent<PhysicsComponent>();
+			entity->addComponent<PlayerComponent>();
+
 			entity->setTransform(Transform(glm::vec3(4.5, 7, -5.5)));
 		}
 
@@ -185,7 +195,7 @@ public:
 			const aiScene* scene = AssetImporter::LoadModel("E:\\Projects\\Git\\Constellate-Engine\\Game\\Assets\\floor.obj");
 			EntityFactory::SceneToEntityHierachy(scene, entity);
 			//const aiScene* sceneCube = AssetImporter::LoadModel("E:\\Projects\\Git\\Constellate-Engine\\Game\\Assets\\cube.obj");
-		 	entity->addComponent<PlaneColider>(glm::vec3 ( 0.0, 1.0, 0.0 ) );
+			entity->addComponent<PlaneColider>(glm::vec3(0.0, 1.0, 0.0));
 			auto& physics = entity->addComponent<PhysicsComponent>();
 			physics.setStatic(true);
 			entity->setTransform(Transform(glm::vec3(0, -3, 0)));
@@ -194,19 +204,21 @@ public:
 
 		{
 			Entity* entity3 = Application::GetInstance().GetEntityManager().addEntity();
-			const aiScene* scene3 = AssetImporter::LoadModel("E:\\Projects\\Git\\Constellate-Engine\\Game\\Assets\\pillar2.obj");
+
+			//TODO Rotation matrix thingy
+			const aiScene* scene3 = AssetImporter::LoadModel("E:\\Projects\\Git\\Constellate-Engine\\Game\\Assets\\13466_Canaan_Dog_v1_L3.obj");
+			entity3->setTransform(Transform(glm::vec3(0, 20, 0)));
+
 			EntityFactory::SceneToEntityHierachy(scene3, entity3);
 		}
-	
+
+
 		{
 			Entity* entity4 = Application::GetInstance().GetEntityManager().addEntity();
 			const aiScene* scene4 = AssetImporter::LoadModel("E:\\Projects\\Git\\Constellate-Engine\\Game\\Assets\\trueHidrant.obj");
 			EntityFactory::SceneToEntityHierachy(scene4, entity4);
 			entity4->setTransform(Transform(glm::vec3(4, 0, 0), glm::vec3(5, 5, 5)));
 		}
-	}
-	~Game(){
-
 	}
 };
 

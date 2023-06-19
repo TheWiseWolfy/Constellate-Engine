@@ -14,7 +14,7 @@ Keyboard keys: https://www.glfw.org/docs/3.3/group__keys.html
 
 #include "cslpch.h"
 
-#include "KeyCodes.h"
+#include "Input/KeyCodes.h"
 #include "Event.h"
 
 namespace csl {
