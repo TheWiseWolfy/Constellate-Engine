@@ -7,12 +7,10 @@ namespace csl {
 
      bool InputManager::isKeyPressed(int keyCode) {
 
-        // return isKeyPressedImpl(keyCode);
-
-        auto window = static_cast<GLFWwindow*>(Application::GetInstance().GetWindow().GetNativeWindow());
+        GLFWwindow* window = static_cast<GLFWwindow*>(Application::GetInstance().GetWindow().GetNativeWindow());
 
 
-        auto state = glfwGetMouseButton(window, keyCode);
+        int state = glfwGetKey(window, keyCode);
         return state == GLFW_PRESS;
     }
 

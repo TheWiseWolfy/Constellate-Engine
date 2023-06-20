@@ -10,32 +10,32 @@
 
 using namespace csl;
 
-class ExampleLayer : public Layer
-{
-private:
+
+class Game : public Application {
+private: 
+
 	bool _firstMouse = true;
 	float _lastX = 0;
 	float _lastY = 0;
 	FPCamera _camera;
-
 public:
-	ExampleLayer(): Layer("Example")
-	{
+	Game() {
+		PushLayer(new ImGuiLayer());
 
 
+		TestFuction();
+	}
+	~Game(){
+		
 	}
 
-	void OnUpdate() override
-	{
-	}
+	void OnEventCallback(EngineEvent& e) override {
 
-	void OnEvent(EngineEvent& event) override
-	{
-		EventDispatcher dispatcher(event);
+		EventDispatcher dispatcher(e);
 
-		dispatcher.Dispach<MouseMovedEvent>(std::bind(&ExampleLayer::OnMouseMoved, this, std::placeholders::_1));
-		dispatcher.Dispach<KeyPressedEvent>(std::bind(&ExampleLayer::OnKeyPressed, this, std::placeholders::_1));
-	}
+		dispatcher.Dispach<MouseMovedEvent>(std::bind(&Game::OnMouseMoved, this, std::placeholders::_1));
+		dispatcher.Dispach<KeyPressedEvent>(std::bind(&Game::OnKeyPressed, this, std::placeholders::_1));
+	};
 
 
 	bool OnKeyPressed(KeyPressedEvent& e) {
@@ -45,20 +45,20 @@ public:
 		if (e.GetKeyCode() == CSL_KEY_W) {
 			poz += _camera.getCameraDirection() * 0.1f;
 		}
-		
+
 		if (e.GetKeyCode() == CSL_KEY_S) {
 			poz -= _camera.getCameraDirection() * 0.1f;
 		}
 
 		if (e.GetKeyCode() == CSL_KEY_A) {
 			poz -= _camera.getRightVector() * 0.1f;
-			
+
 		}
 
 		if (e.GetKeyCode() == CSL_KEY_D) {
 			poz += _camera.getRightVector() * 0.1f;
 		}
-		 
+
 		if (e.GetKeyCode() == CSL_KEY_Z) {
 			poz.y += 0.1;
 		}
@@ -69,31 +69,20 @@ public:
 
 		if (e.GetKeyCode() == CSL_KEY_C) {
 			{
+				//_________________
+
 				Entity* entity = Application::GetInstance().GetEntityManager().addEntity();
 				const aiScene* scene = AssetImporter::LoadModel("E:\\Projects\\Git\\Constellate-Engine\\Game\\Assets\\sphere.obj");
 				EntityFactory::SceneToEntityHierachy(scene, entity);
-
+				//const aiScene* sceneCube = AssetImporter::LoadModel("E:\\Projects\\Git\\Constellate-Engine\\Game\\Assets\\cube.obj");
 				entity->addComponent<SphereCollider>(1.f);
-				entity->addComponent<PhysicsComponent>();
+				PhysicsComponent& phycomp = entity->addComponent<PhysicsComponent>();
+				entity->addComponent<PlayerComponent>(_camera);
 
-				unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
-				std::default_random_engine generator(seed);
 
-				// Define distribution for random values
-				std::uniform_real_distribution<float> distribution(-1.0f, 1.0f);
-
-				// Generate random values
-				float x = 4.5f + distribution(generator);
-				float y = 7.0f + distribution(generator);
-				float z = -5.5f + distribution(generator);
-
-				// Create the transformed entity
-				Transform transform(glm::vec3(x, y, z));
-
-				// Print the transformed entity position
-				glm::vec3 position = entity->getTransform().getPosition();
-
-				entity->setTransform(transform);
+				phycomp.applyForce(_camera.getCameraDirection() * 20.0f);
+			
+				entity->setTransform( Transform(poz) );
 			}
 		}
 
@@ -108,7 +97,7 @@ public:
 		float xpos = e.GetX();
 		float ypos = e.GetY();
 
-		if (_firstMouse){
+		if (_firstMouse) {
 			_lastX = xpos;
 			_lastY = ypos;
 			_firstMouse = false;
@@ -128,28 +117,12 @@ public:
 		_lastY = windowHeight / 2;
 
 		_camera.ProcessMouseMovement(xoffset, yoffset);
-		
+
 		Application::GetInstance().GetRenderer().SetCameraRotation(_camera.getYaw(), _camera.getPitch());
 		//The mouse gets stuck in the middle of the window to accomoate the camera.
 		Application::GetInstance().GetWindow().SetMousePosition(windowWidth / 2, windowHeight / 2);
 
 		return true;
-	}
-
-};
-
-class Game : public Application {
-
-public:
-	Game() {
-		PushLayer(new ExampleLayer());
-		PushLayer(new ImGuiLayer());
-
-
-		TestFuction();
-	}
-	~Game(){
-		
 	}
 
 	void TestFuction() {
@@ -160,7 +133,7 @@ public:
 			//const aiScene* sceneCube = AssetImporter::LoadModel("E:\\Projects\\Git\\Constellate-Engine\\Game\\Assets\\cube.obj");
 			entity->addComponent<SphereCollider>(1.f);
 			entity->addComponent<PhysicsComponent>();
-			entity->addComponent<PlayerComponent>();
+			entity->addComponent<PlayerComponent>(_camera);
 
 			entity->setTransform(Transform(glm::vec3(4.5, 7, -5.5)));
 		}

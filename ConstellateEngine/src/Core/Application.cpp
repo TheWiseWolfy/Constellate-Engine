@@ -50,8 +50,9 @@ namespace csl {
 
 		while (_running)
 		{
+
 			//Calculate delta time
-			const float targetFrameTime = 1.0f / 60.0f; // Target frame time for 144 FPS
+			const float targetFrameTime = 1.0f / 30.0f; // Target frame time for 144 FPS
 
 			auto now = std::chrono::high_resolution_clock::now();
 			float deltaTime = std::chrono::duration_cast<std::chrono::milliseconds>(now - lastTime).count() / 1000.0f;
@@ -90,6 +91,8 @@ namespace csl {
 		}
 
 		CSL_CORE_LOG("{0}", e.ToString());
+
+		OnEventCallback(e);
 	}
 
 	//PRIVATE EVENT CALLBACKS

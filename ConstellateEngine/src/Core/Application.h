@@ -24,6 +24,8 @@ namespace csl {
 		static Application* _instance;
 
 		bool OnWindowClose(WindowCloseEvent& e);
+		void OnEvent(EngineEvent& e);
+
 	public:
 
 		Application();
@@ -33,7 +35,6 @@ namespace csl {
 		void PushLayer(Layer* layer);
 		
 		void Run();
-		void OnEvent(EngineEvent& e);
 
 		//GETTERS
 		static Application& GetInstance() { return *_instance; }
@@ -41,6 +42,8 @@ namespace csl {
 
 		RendererManager& GetRenderer() { return *_rendererManager; }
 		EntityManager& GetEntityManager() { return *_entityManager; }
+
+		virtual void OnEventCallback(EngineEvent& e) {};
 
 
 		//CREATION HANDLE - implemented in client

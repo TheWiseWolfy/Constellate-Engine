@@ -15,13 +15,20 @@ namespace csl {
         bool _staticObject;
     public:
 
-       
-
         PhysicsComponent() {
             _velocity = glm::vec3(0, 0, 0);
             _acceleration = glm::vec3(0, 0, 0);
             _mass = 1;
             _staticObject = false;
+        }
+
+        //Adding force 
+        void applyForce(const glm::vec3& force) {
+            // Divide the force by mass to get acceleration
+            glm::vec3 acceleration = force / _mass;
+
+            // Add the acceleration to the current acceleration
+            _acceleration += acceleration;
         }
 
         glm::vec3 getVelocity() {
@@ -65,8 +72,6 @@ namespace csl {
         void draw() override
         {
         }
-
-
 
         ComponentType GetComponentType() override {
             return ComponentType::PhysicsComponentType;
