@@ -11,11 +11,9 @@ namespace csl {
 
     class PlaneColider : public ColliderComponent {
     private:
-        glm::vec3 _normal;
     public:
 
-        PlaneColider(glm::vec3 normal) {
-            _normal = normal;
+        PlaneColider() {
         }
 
         void update(float mFT) override
@@ -26,8 +24,10 @@ namespace csl {
         }
 
         glm::vec3 getNormal() {
-            return _normal;
-        }
+            glm::vec3 vec = this->getEntity()->getTransform().getUpVector();
+            return vec;
+        };
+        
 
         glm::vec3 getPosition() {
             return this->getEntity()->getAbsolutePosition();

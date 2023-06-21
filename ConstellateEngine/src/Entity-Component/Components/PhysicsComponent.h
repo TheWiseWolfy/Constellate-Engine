@@ -10,6 +10,8 @@ namespace csl {
     class PhysicsComponent : public Component {
     private:
         float _mass;
+        float _friction_coef;
+
         glm::vec3 _velocity;
         glm::vec3 _acceleration;
         bool _staticObject;
@@ -18,7 +20,8 @@ namespace csl {
         PhysicsComponent() {
             _velocity = glm::vec3(0, 0, 0);
             _acceleration = glm::vec3(0, 0, 0);
-            _mass = 1;
+            _mass = 0.1;
+            _friction_coef = 0.2;
             _staticObject = false;
         }
 
@@ -29,6 +32,10 @@ namespace csl {
 
             // Add the acceleration to the current acceleration
             _acceleration += acceleration;
+        }
+
+        float getFrictionCoeficient() {
+            return _friction_coef;
         }
 
         glm::vec3 getVelocity() {

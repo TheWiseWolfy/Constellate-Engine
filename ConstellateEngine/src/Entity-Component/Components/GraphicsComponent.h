@@ -56,7 +56,6 @@ namespace csl {
             {
                 for (unsigned int j = 0; j < mesh->mFaces[i].mNumIndices; j++)
                 {
-                    
                     indices.push_back(mesh->mFaces[i].mIndices[j]);
                 }
             }

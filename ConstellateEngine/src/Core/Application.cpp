@@ -52,9 +52,9 @@ namespace csl {
 		{
 
 			//Calculate delta time
-			const float targetFrameTime = 1.0f / 30.0f; // Target frame time for 144 FPS
+			const float targetFrameTime = 1.0f / 200.0f; // Target frame time for 144 FPS
 
-			auto now = std::chrono::high_resolution_clock::now();
+			auto now =  std::chrono::steady_clock::now();
 			float deltaTime = std::chrono::duration_cast<std::chrono::milliseconds>(now - lastTime).count() / 1000.0f;
 			lastTime = now;
 

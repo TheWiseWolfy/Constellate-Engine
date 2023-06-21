@@ -16,6 +16,7 @@ namespace csl {
     private:
         std::vector<std::unique_ptr<Entity>> _childrenEntities;
         std::map< ComponentType, std::unique_ptr<Component> > _componentReference;
+        std::unordered_set<std::string> _tags;
 
         const std::variant<Entity*, EntityManager*> _parent;
 
@@ -38,13 +39,37 @@ namespace csl {
             return _transform;
         }
 
-        void setTransform(Transform transform) {
-            _transform = transform;
+
+        glm::vec3 GetRotation() {
+            return _transform._rotation;
+        }
+
+        void SetPosition(glm::vec3 position) {
+            _transform.setPosition(position);
+        }
+
+        void SetScale(glm::vec3 scale) {
+            _transform.setScale(scale);
+        }
+
+        void SetRotation(glm::vec3 rotation) {
+            _transform.setRotation( rotation);
+        }
+
+        //Tag system
+        void addTag(const std::string& tag) {
+            _tags.insert(tag);
+        }
+
+        void removeTag(const std::string& tag) {
+            _tags.erase(tag);
+        }
+
+        bool hasTag(const std::string& tag) const {
+            return _tags.find(tag) != _tags.end();
         }
 
         //Component Entity Dynammic
-
-
         template <typename T, typename... TArgs>
         T& addComponent(TArgs&&... mArgs) {
             T* c(new T(std::forward<TArgs>(mArgs)...));
@@ -85,13 +110,21 @@ namespace csl {
         }
 
         glm::vec3 getAbsoluteScale() {
-        glm::vec3 absoluteScale = _transform._scale;
-        for (Entity* currentEntity = getParentEntity(); currentEntity != nullptr; currentEntity = currentEntity->getParentEntity()) {
-            absoluteScale *= currentEntity->_transform._scale;
+            glm::vec3 absoluteScale = _transform._scale;
+            for (Entity* currentEntity = getParentEntity(); currentEntity != nullptr; currentEntity = currentEntity->getParentEntity()) {
+                absoluteScale *= currentEntity->_transform._scale;
+            }
+            return absoluteScale;
         }
-        return absoluteScale;
-    }
 
+        glm::vec3 getAbsoluteRotation() {
+            glm::vec3 absoluteRotation = _transform._rotation;
+            for (Entity* currentEntity = getParentEntity(); currentEntity != nullptr; currentEntity = currentEntity->getParentEntity()) {
+                absoluteRotation += currentEntity->_transform._rotation;
+            }
+            return absoluteRotation;
+        }
+ 
         //Parent pattern
         bool isParentedByEntity() const { return std::holds_alternative<Entity*>(_parent); }
         bool isParentedByManager() const { return std::holds_alternative<EntityManager*>(_parent); }

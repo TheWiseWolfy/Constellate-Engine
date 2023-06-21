@@ -27,12 +27,9 @@ namespace csl {
 
 				node->mTransformation.Decompose(aiScale, aiRotation, aiPosition);
 
-				meshEntity->setTransform(Transform(
-					{ aiPosition.x, aiPosition.y, aiPosition.z },
-					{ aiScale.x, aiScale.y, aiScale.z },
-					{ aiRotation.x, aiRotation.y, aiRotation.z }
-				));
-
+				meshEntity->SetPosition({ aiPosition.x, aiPosition.y, aiPosition.z });
+				meshEntity->SetScale({ aiScale.x, aiScale.y, aiScale.z });
+				meshEntity->SetRotation({ aiRotation.x, aiRotation.y, aiRotation.z });	
 
 				GraphicsComponent& component = meshEntity->addComponent<GraphicsComponent>(mesh);
 				component.SetIsWireframe(wireframe);

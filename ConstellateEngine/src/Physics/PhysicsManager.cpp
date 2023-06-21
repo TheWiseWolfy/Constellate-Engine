@@ -7,7 +7,7 @@
 namespace csl {
 
 	PhysicsManager::PhysicsManager() {
-		gravitationalAcceleration = glm::vec3(0, -9.2, 0);
+		_gravitationalAcceleration = glm::vec3(0, -9.2, 0);
 	}
 
 	//This is an ugly piece of code that sadly has to live on for now
@@ -65,9 +65,10 @@ namespace csl {
 		// Calculate the total mass
 		float totalMass = massA + massB;
 
-		// Calculate the new velocities
+		// Calculate the forces of the collision
 		velA += impulse / massA * details.normal;
 		velB -= impulse / massB * details.normal;
+
 
 		// Calculate the new positions
 		glm::vec3 newPosA = objectA->getEntity()->getTransform().getPosition() + details.normal * (details.depth / totalMass) * massB;
@@ -144,7 +145,6 @@ namespace csl {
 			aux(entity, physicsComponents);
 		}
 
-		auto collisions = CheckCollisions();
 
 		for (auto&& component : physicsComponents) {
 
@@ -152,10 +152,24 @@ namespace csl {
 
 				auto calculatedPosition = component->getEntity()->getTransform().getPosition() + component->getVelocity() * mFT;
 				component->getEntity()->getTransform().setPosition(calculatedPosition);
-				component->setVelocity(component->getVelocity() + component->getAcceleration() * mFT);
-				component->setAcceleration(component->getAcceleration() + gravitationalAcceleration * mFT);
+
+				glm::vec3 velA = component->getVelocity() + component->getAcceleration() * mFT;
+
+				velA -= velA * 0.99f * mFT;
+				
+				if (velA.length() < 0.01f) {
+					velA = glm::vec3(0, 0, 0);
+				}
+				
+				component->setVelocity(velA);
+				component->setAcceleration(component->getAcceleration() + _gravitationalAcceleration * mFT);
+
+				// Calculate the contribution of friction.
 			}
 		}
+
+		auto collisions = CheckCollisions();
+
 		
 	}
 
