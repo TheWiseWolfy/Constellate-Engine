@@ -74,6 +74,8 @@ namespace csl {
         T& addComponent(TArgs&&... mArgs) {
             T* c(new T(std::forward<TArgs>(mArgs)...));
             c->SetEntity(this);
+            c->init();
+
             std::unique_ptr<Component> uPtr{ c };
 
             ComponentType type = c->GetComponentType();

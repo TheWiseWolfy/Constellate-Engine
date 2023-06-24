@@ -126,3 +126,6 @@ Keyboard keys: https://www.glfw.org/docs/3.3/group__keys.html
 #define 	CSL_KEY_RIGHT_SUPER   347
 #define 	CSL_KEY_MENU   348
 
+#define CSL_RELEASE   0
+#define CSL_PRESS   1
+#define CSL_REPEAT   2

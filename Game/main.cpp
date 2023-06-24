@@ -1,15 +1,17 @@
- #include <iostream>
+#include <iostream>
 
 #include <Constellate.h>
+#include "Core/EntryPoint.h"
+
 #include <iostream>
 #include <random>
 #include <chrono>
 
 #include "FirstPersonCamera.h"
 #include "PlayerComponent.h"
+#include "TargetComponent.h"
 
 using namespace csl;
-
 
 class Game : public Application {
 private: 
@@ -67,7 +69,7 @@ public:
 			poz.y -= 0.1;
 		}
 
-		if (e.GetKeyCode() == CSL_KEY_C) {
+		if (e.GetKeyCode() == CSL_KEY_C && e.GetAction() == CSL_PRESS) {
 			{
 				//_________________
 
@@ -133,7 +135,8 @@ public:
 			//const aiScene* sceneCube = AssetImporter::LoadModel("E:\\Projects\\Git\\Constellate-Engine\\Game\\Assets\\cube.obj");
 			entity->addComponent<SphereCollider>(1.f);
 			entity->addComponent<PhysicsComponent>();
-			entity->addComponent<PlayerComponent>(_camera);
+			//entity->addComponent<PlayerComponent>(_camera);
+			entity->addComponent<TargetComponent>();
 
 			entity->SetPosition( glm::vec3(4.5, 7, -5.5) );
 		}

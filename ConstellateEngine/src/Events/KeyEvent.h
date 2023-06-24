@@ -35,15 +35,19 @@ namespace csl {
 
 	class KeyPressedEvent : public KeyEvent{
 	private:
-		int _repeatCount;
+		int _action;
 	public:
 
-		KeyPressedEvent(int keycode, int repeatCount) : KeyEvent(keycode), _repeatCount(repeatCount) {
+		KeyPressedEvent(int keycode, int action) : KeyEvent(keycode), _action(action) {
+		}
+
+		int GetAction() {
+			return _action;
 		}
 
 		std::string ToString()  const override {
 			std::stringstream sstream;
-			sstream << "We pressed key " << _keyCode << "(" << _repeatCount << "repeats)";
+			sstream << "We pressed key " << _keyCode << "(" << _action << "repeats)";
 			return sstream.str();
 		}
 
@@ -57,6 +61,8 @@ namespace csl {
 
 		KeyReleasedEvent(int keycode, int repeatCount) : KeyEvent(keycode) {
 		}
+
+
 
 		std::string ToString()  const override {
 			std::stringstream sstream;

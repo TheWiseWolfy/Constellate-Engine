@@ -7,6 +7,8 @@
 #include "Component.h"
 #include "Physics/CollisionPrimitives.h"
 #include "Entity-Component/Entity.h"
+#include "Core/Log.h"
+
 
 namespace csl {
     
@@ -15,6 +17,8 @@ namespace csl {
 
     class ColliderComponent : public Component {
     private:
+        using CollisionCallback = std::function<void(ColliderComponent&)>;
+        CollisionCallback collisionCallback;
 
     public:
 
@@ -27,6 +31,15 @@ namespace csl {
         }
         void draw() override
         {
+        }
+        void SetCollisionCallback(CollisionCallback callback) {
+            collisionCallback = std::move(callback);
+        }
+
+        void OnCollision(ColliderComponent& collidedWith) {
+            if (collisionCallback) {
+                collisionCallback(collidedWith);
+            }
         }
 
         ComponentType GetComponentType() override {

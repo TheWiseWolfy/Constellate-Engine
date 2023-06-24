@@ -1,6 +1,5 @@
 #pragma once
 
-
 #ifdef CSL_PLATFORM_WINDOWS
 
 	#include <Core/Log.h>

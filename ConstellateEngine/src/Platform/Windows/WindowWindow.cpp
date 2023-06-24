@@ -93,7 +93,18 @@ namespace csl{
 		glfwSetKeyCallback(_window, [](GLFWwindow* window, int key, int scancode, int action, int mods) {
 			WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
 
-			KeyPressedEvent event(key, 0);
+			int csl_action = -1;
+			if (action == GLFW_RELEASE) {
+				csl_action = CSL_RELEASE;
+			}
+			if (action == GLFW_PRESS) {
+				csl_action = CSL_PRESS;
+			}
+			if (action == GLFW_REPEAT) {
+				csl_action = CSL_REPEAT;
+			}
+
+			KeyPressedEvent event(key, csl_action);
 			data.EventCallback(event);
 		});
 	}

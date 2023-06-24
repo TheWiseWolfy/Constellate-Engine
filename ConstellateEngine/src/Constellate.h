@@ -19,4 +19,3 @@
 #include "Input/InputManager.h"
 
 //Application entry
-#include "Core/EntryPoint.h"

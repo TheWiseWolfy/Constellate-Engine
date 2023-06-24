@@ -19,7 +19,8 @@ namespace csl {
         PhysicsComponentType,
         ColliderComponentType,
         GraphicsComponentType,
-        CustomComponentType1
+        CustomComponentType1,
+        CustomComponentType2
     };
 
     class Entity;
@@ -34,6 +35,7 @@ namespace csl {
     public:
         virtual void update(float mFT) {}
         virtual void draw() {}
+        virtual void init() {}
 
         void SetEntity(Entity* entity) {
             _entity = entity;

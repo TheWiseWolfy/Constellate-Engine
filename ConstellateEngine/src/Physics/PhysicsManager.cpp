@@ -103,21 +103,23 @@ namespace csl {
 			aux2(entity, coliderComponents);
 		}
 
-		for (auto&& component : coliderComponents) {
+		for (auto& component : coliderComponents) {
 			//Application::GetInstance().GetRenderer().RenderCollider(component);
 
-			for (auto&& other : coliderComponents) {
+			for (auto& other : coliderComponents) {
 				if (component == other) continue;
 
 				CollisionDetails details = component->TestCollision(other);
 				
 				if (details.hasCollided) {
-					//std::cout << "WOW";
+
+					//Call the appropiate callbacks
+					component->OnCollision(*other);
+					other->OnCollision(*component);
 
 					Collision myCollision;
 
 					// Then you can assign values to its members like this:
-
 					myCollision.objectA = component;
 					myCollision.objectB = other;
 					myCollision.details = details;
