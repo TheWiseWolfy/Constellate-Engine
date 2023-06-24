@@ -17,9 +17,22 @@ namespace csl {
 
         void update(float mFT)
         {
-            for (auto const& entity : _entityList)
+            std::vector<std::vector<std::unique_ptr<Entity>>::iterator> iteratorsToDelete;
+
+            //Update or delete children.
+            for (auto it = _entityList.begin(); it != _entityList.end();) {
+                if ((*it)->IsAlive()) {
+                    (*it)->update(mFT);
+                }
+                else {
+                    iteratorsToDelete.push_back(it);
+                }
+                it++;
+            }
+
+            for (auto it : iteratorsToDelete)
             {
-                entity->update(mFT);
+                _entityList.erase(it);
             }
         }
 

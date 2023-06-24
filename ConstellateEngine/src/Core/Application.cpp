@@ -52,10 +52,10 @@ namespace csl {
 		{
 
 			//Calculate delta time
-			const float targetFrameTime = 1.0f / 200.0f; // Target frame time for 144 FPS
+			const float targetFrameTime = 1.0f / 60.0f; // Target frame time for 144 FPS
 
 			auto now =  std::chrono::steady_clock::now();
-			float deltaTime = std::chrono::duration_cast<std::chrono::milliseconds>(now - lastTime).count() / 1000.0f;
+			float deltaTime = std::chrono::duration_cast<std::chrono::microseconds>(now - lastTime).count() / 1000000.0f;
 			lastTime = now;
 
 			CSL_CORE_LOG("Frame time:{0}", deltaTime);
@@ -70,7 +70,7 @@ namespace csl {
 			}
 			_window->OnUpdate();
 
-			float sleepTime = targetFrameTime - deltaTime;
+			float sleepTime = abs(targetFrameTime - deltaTime);
 
 			if (sleepTime > 0) {
 				std::this_thread::sleep_for(std::chrono::duration<float>(sleepTime));

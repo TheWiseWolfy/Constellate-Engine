@@ -80,7 +80,7 @@ public:
 				entity->addComponent<SphereCollider>(1.f);
 				PhysicsComponent& phycomp = entity->addComponent<PhysicsComponent>();
 				entity->addComponent<PlayerComponent>(_camera);
-
+				entity->addTag("Projectile");
 
 				phycomp.applyForce(_camera.getCameraDirection() * 2.0f);
 			
@@ -179,25 +179,25 @@ public:
 		}
 
 
-		{
-			Entity* entity3 = Application::GetInstance().GetEntityManager().addEntity();
-			const aiScene* scene3 = AssetImporter::LoadModel("E:\\Projects\\Git\\Constellate-Engine\\Game\\Assets\\13466_Canaan_Dog_v1_L3.obj");
-			entity3->SetPosition( glm::vec3(0, 5, 0) );
-			entity3->SetRotation({ -3.14/ 2,0, 0 } );  // xx zz yy
-			entity3->SetScale({0.3,0.3, 0.3 });  // xx zz yy
+		//{
+		//	Entity* entity3 = Application::GetInstance().GetEntityManager().addEntity();
+		//	const aiScene* scene3 = AssetImporter::LoadModel("E:\\Projects\\Git\\Constellate-Engine\\Game\\Assets\\13466_Canaan_Dog_v1_L3.obj");
+		//	entity3->SetPosition( glm::vec3(0, 5, 0) );
+		//	entity3->SetRotation({ -3.14/ 2,0, 0 } );  // xx zz yy
+		//	entity3->SetScale({0.3,0.3, 0.3 });  // xx zz yy
 
-			EntityFactory::SceneToEntityHierachy(scene3, entity3);
-		}
+		//	EntityFactory::SceneToEntityHierachy(scene3, entity3);
+		//}
 
 
-		{
-			Entity* entity4 = Application::GetInstance().GetEntityManager().addEntity();
-			const aiScene* scene4 = AssetImporter::LoadModel("E:\\Projects\\Git\\Constellate-Engine\\Game\\Assets\\trueHidrant.obj");
-			EntityFactory::SceneToEntityHierachy(scene4, entity4);
-			entity4->SetPosition( glm::vec3(4, 0, 0) );
-			entity4->SetScale(glm::vec3(5, 5, 5) );
-			
-		}
+		//{
+		//	Entity* entity4 = Application::GetInstance().GetEntityManager().addEntity();
+		//	const aiScene* scene4 = AssetImporter::LoadModel("E:\\Projects\\Git\\Constellate-Engine\\Game\\Assets\\trueHidrant.obj");
+		//	EntityFactory::SceneToEntityHierachy(scene4, entity4);
+		//	entity4->SetPosition( glm::vec3(4, 0, 0) );
+		//	entity4->SetScale(glm::vec3(5, 5, 5) );
+		//	
+		//}
 	}
 };
 

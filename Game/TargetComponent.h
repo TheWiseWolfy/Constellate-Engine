@@ -16,8 +16,12 @@ public:
 
 		collider->SetCollisionCallback([&](ColliderComponent& collidedWithf) {
    
-            // Example output
-			printDude();
+				// Example output
+				if (collidedWithf.getEntity()->hasTag("Projectile")) {
+					this->getEntity()->MarkForDeletion();
+					collidedWithf.getEntity()->MarkForDeletion();
+				}
+
             });
 	}
 

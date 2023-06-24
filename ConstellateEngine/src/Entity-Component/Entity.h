@@ -15,12 +15,15 @@ namespace csl {
     class Entity {
     private:
         std::vector<std::unique_ptr<Entity>> _childrenEntities;
+
         std::map< ComponentType, std::unique_ptr<Component> > _componentReference;
         std::unordered_set<std::string> _tags;
 
         const std::variant<Entity*, EntityManager*> _parent;
 
         Transform _transform;
+        bool _alive{ true };
+
     public:
 
         Entity(EntityManager* manager) : _parent(manager) {}
@@ -28,10 +31,23 @@ namespace csl {
 
         void update(float mFT)
         {
+            //Update or delete children.
+            for (auto it = _childrenEntities.begin(); it != _childrenEntities.end();) {
+                if ((*it)->IsAlive()) {
+                    (*it)->update(mFT);
+                }
+        /*        else {
+                    _childrenEntities.erase(it);
+                }*/
+                it++;
+            }
+
             for (auto const& component : _componentReference)
             {
                 component.second->update(mFT);
             }
+
+
         }
 
         //Transform 
@@ -54,6 +70,14 @@ namespace csl {
 
         void SetRotation(glm::vec3 rotation) {
             _transform.setRotation( rotation);
+        }
+
+        bool IsAlive() {
+            return _alive;
+        }
+
+        void MarkForDeletion() {
+            _alive = false;
         }
 
         //Tag system
