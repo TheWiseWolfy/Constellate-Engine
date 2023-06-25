@@ -87,15 +87,12 @@ namespace csl {
 			glm::mat4 model;
 			glm::mat4 perspective;
 
+			//Calculating the model
 			model = glm::mat4(1.0f);
-
 			model = glm::translate(model, component->getEntity()->getAbsolutePosition() );
-
 			auto scale = component->getEntity()->getAbsoluteScale();
 			model = glm::scale(model, scale);
-			
 			glm::vec3 rotation = component->getEntity()->getAbsoluteRotation();
-
 			model = glm::rotate(model, rotation.x , glm::vec3(1, 0, 0) ) ;
 			model = glm::rotate(model, rotation.y , glm::vec3(0, 1, 0));
 			model = glm::rotate(model, rotation.z , glm::vec3(0, 0, 1));
@@ -115,6 +112,21 @@ namespace csl {
 				glm::vec3 cemeraVector = _camera->GetPostion();
 				GLuint uniformID = shader.GetUniform("cameraPoz");
 				glUniform3fv(uniformID, 1, glm::value_ptr(cemeraVector));
+			}
+			{
+				GLuint uniformID = shader.GetUniform("isTextured");
+				glUniform1i(uniformID, (int)component->IsTextured());
+
+				if (component->IsTextured()) {
+
+					GLuint myTextureSamplerLocation = shader.GetUniform("myTextureSampler");
+
+					GLuint textureUnit = 0; // Choose the texture unit you want to use
+					glActiveTexture(GL_TEXTURE0 + textureUnit); // Activate the texture unit
+					glBindTexture(GL_TEXTURE_2D, component->GetTextureID()); // Bind the texture to the active texture unit
+
+					glUniform1i(myTextureSamplerLocation, textureUnit);
+				}
 			}
 
 			_currentRenderer->DrawElement( component->GetVertexArray() );

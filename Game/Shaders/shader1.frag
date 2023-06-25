@@ -5,8 +5,11 @@ out vec4 color;
 in vec3 v_Position;
 in vec3 v_Normal;
 in vec4 v_Color;
+in vec2 v_uv;
 
 uniform vec3 cameraPoz;
+uniform sampler2D myTextureSampler;
+uniform bool isTextured;
 
 vec3 lighting(vec3 pos, vec3 normal, vec3 lightPos, vec3 viewPos, vec3 ambient, vec3 diffuse, vec3 specular, float specPower);
 
@@ -20,7 +23,13 @@ void main()
     vec3 lightPos = vec3(2, 3, 6);
     
     vec3 lightColor = lighting(v_Position, v_Normal, lightPos, cameraPoz, ambient, diffuse, specular, specPower);
-    color =v_Color * vec4(lightColor, 1.0);
+    
+    if (!isTextured){
+        color =v_Color * vec4(lightColor, 1.0);
+    }
+    else{
+        color = texture( myTextureSampler, v_uv ).rgba ;
+    }
 }
 
 vec3 lighting(vec3 pos, vec3 normal, vec3 lightPos, vec3 viewPos, vec3 ambient, vec3 diffuse, vec3 specular, float specPower)

@@ -13,8 +13,11 @@ namespace csl {
     class GraphicsComponent : public Component {
     private:
         std::unique_ptr<VertexArray> _vertexArray;
-        bool _isWireframe;
+        bool _isWireframe = { false } ;
+        bool _isTextured = { false };
+        int _textureID = -1;
         std::string _shader;
+
     public:
 
         GraphicsComponent(std::unique_ptr<VertexArray> vertexArray) : _vertexArray(std::move(vertexArray)) {}
@@ -39,6 +42,16 @@ namespace csl {
                 vertices.push_back(0.4);
                 vertices.push_back(0.4);
                 vertices.push_back(1.0);
+
+                // Extract UV coordinates
+                if (mesh->HasTextureCoords(0)){
+                    vertices.push_back(1- mesh->mTextureCoords[0][i].x); // X is reverted for some reason
+                    vertices.push_back(mesh->mTextureCoords[0][i].y);
+                }
+                else {
+                    vertices.push_back(0.0f);
+                    vertices.push_back(0.0f);
+                }
             }
 
             std::unique_ptr<VertexBuffer> vertexBuffer(VertexBuffer::VertexBufferOf(&vertices[0], vertices.size()* sizeof(float)  ));
@@ -46,11 +59,11 @@ namespace csl {
             BufferLayout layout = {
                                     { OpenGLDataType::Float3, "a_Position" },
                                     { OpenGLDataType::Float3, "a_Normals" },
-                                    { OpenGLDataType::Float4, "a_Color" }
-
+                                    { OpenGLDataType::Float4, "a_Color" },
+                                    { OpenGLDataType::Float2, "a_vertexUV" }
             };
-            vertexBuffer->SetLayout(layout);
 
+            vertexBuffer->SetLayout(layout);
 
             for (unsigned int i = 0; i < mesh->mNumFaces; i++)
             {
@@ -64,7 +77,6 @@ namespace csl {
 
             _vertexArray->AddVertexBuffer(std::move(vertexBuffer));
             _vertexArray->SetIndexBuffer(std::move(indexBuffer));
-
         }
 
         bool isWireframe() {
@@ -79,15 +91,30 @@ namespace csl {
             return _shader;
         }
 
-       void setShader(std::string shader) {
-           _shader = shader;
+        void setShader(std::string shader) {
+            _shader = shader;
         }
 
+        void SetIsTextured(bool isTextured) {
+            _isTextured = isTextured;
+        }
+
+        bool IsTextured() {
+            return _isTextured;
+        }
+
+        void SetTextureID(int id) {
+            _textureID = id;
+        }
+
+        int GetTextureID() {
+            return _textureID;
+        }
 
         void update(float mFT) override
         {
         }
-        void draw() override
+            void draw() override
         {
         }
 

@@ -4,7 +4,6 @@
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
 
-
 namespace csl {
 	class Entity;
 	class AssetImporter {

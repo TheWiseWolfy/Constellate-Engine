@@ -19,7 +19,8 @@ public:
 				// Example output
 				if (collidedWithf.getEntity()->hasTag("Projectile")) {
 					this->getEntity()->MarkForDeletion();
-					collidedWithf.getEntity()->MarkForDeletion();
+					//TODO Investigate this
+					//collidedWithf.getEntity()->MarkForDeletion();
 				}
 
             });

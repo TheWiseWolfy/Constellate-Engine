@@ -58,7 +58,7 @@ namespace csl {
 			float deltaTime = std::chrono::duration_cast<std::chrono::microseconds>(now - lastTime).count() / 1000000.0f;
 			lastTime = now;
 
-			CSL_CORE_LOG("Frame time:{0}", deltaTime);
+			//CSL_CORE_LOG("Frame time:{0}", deltaTime);
 
 			//this is also temporary 
 			_rendererManager->DrawGame();

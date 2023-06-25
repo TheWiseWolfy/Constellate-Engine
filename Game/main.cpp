@@ -84,7 +84,9 @@ public:
 
 				phycomp.applyForce(_camera.getCameraDirection() * 2.0f);
 			
-				entity->SetPosition( poz );
+				entity->SetPosition(poz);
+				entity->SetScale({ 0.2f ,0.2f ,0.2f });
+
 			}
 		}
 
@@ -130,24 +132,36 @@ public:
 	void TestFuction() {
 		{
 			Entity* entity = Application::GetInstance().GetEntityManager().addEntity();
-			const aiScene* scene = AssetImporter::LoadModel("E:\\Projects\\Git\\Constellate-Engine\\Game\\Assets\\sphere.obj");
-			EntityFactory::SceneToEntityHierachy(scene, entity);
-			//const aiScene* sceneCube = AssetImporter::LoadModel("E:\\Projects\\Git\\Constellate-Engine\\Game\\Assets\\cube.obj");
+
+			const aiScene* scene = AssetImporter::LoadModel("E:\\Projects\\Git\\Constellate-Engine\\Game\\Assets\\target.obj");
+			int id = TextureImporter::loadImageFromFile("E:\\Projects\\Git\\Constellate-Engine\\Game\\Assets\\Cylinder.001.png");
+
+			EntityFactory::SceneToEntityHierachy(scene, entity, false, "shader1", id);
+
 			entity->addComponent<SphereCollider>(1.f);
 			entity->addComponent<PhysicsComponent>();
 			//entity->addComponent<PlayerComponent>(_camera);
 			entity->addComponent<TargetComponent>();
+
+
 
 			entity->SetPosition( glm::vec3(4.5, 7, -5.5) );
 		}
 
 		{
 			Entity* entity = Application::GetInstance().GetEntityManager().addEntity();
-			const aiScene* scene = AssetImporter::LoadModel("E:\\Projects\\Git\\Constellate-Engine\\Game\\Assets\\sphere.obj");
-			EntityFactory::SceneToEntityHierachy(scene, entity);
+			const aiScene* scene = AssetImporter::LoadModel("E:\\Projects\\Git\\Constellate-Engine\\Game\\Assets\\target.obj");
+			int id = TextureImporter::loadImageFromFile("E:\\Projects\\Git\\Constellate-Engine\\Game\\Assets\\Cylinder.001.png");
+
+			EntityFactory::SceneToEntityHierachy(scene, entity, false, "shader1", id);
+
+
 			//const aiScene* sceneCube = AssetImporter::LoadModel("E:\\Projects\\Git\\Constellate-Engine\\Game\\Assets\\cube.obj");
 			entity->addComponent<SphereCollider>(1.f);
 			entity->addComponent<PhysicsComponent>();
+
+			entity->addComponent<TargetComponent>();
+
 			entity->SetPosition( glm::vec3(7, 1, -5.8) );
 		}
 
@@ -159,8 +173,14 @@ public:
 			entity->addComponent<PhysicsComponent>();
 			//here entity->addComponent<RendererComponent>() is called
 
-			const aiScene* scene = AssetImporter::LoadModel("E:\\Projects\\Git\\Constellate-Engine\\Game\\Assets\\sphere.obj");
-			EntityFactory::SceneToEntityHierachy(scene, entity);
+			const aiScene* scene = AssetImporter::LoadModel("E:\\Projects\\Git\\Constellate-Engine\\Game\\Assets\\target.obj");
+			int id = TextureImporter::loadImageFromFile("E:\\Projects\\Git\\Constellate-Engine\\Game\\Assets\\Cylinder.001.png");
+
+			EntityFactory::SceneToEntityHierachy(scene, entity, false, "shader1", id);
+
+
+			entity->addComponent<TargetComponent>();
+
 
 			entity->SetPosition( glm::vec3(4, 5, -5) );
 		}
@@ -176,6 +196,9 @@ public:
 			physics.setStatic(true);
 			entity->SetPosition(glm::vec3(0, -3, 0));
 			entity->SetRotation({ 0.0f, 0.0f, 0.0f });
+
+			//entity->addComponent<TargetComponent>();
+
 		}
 
 

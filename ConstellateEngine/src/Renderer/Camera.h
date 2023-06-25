@@ -9,15 +9,6 @@
 
 #include <vector>
 
-
-// Default camera values
-const float YAW = -90.0f;
-const float PITCH = 0.0f;
-const float SPEED = 10.0f;
-const float SENSITIVITY = 0.1f;
-const float ZOOM = 45.0f;
-
-
 // An abstract camera class that processes input and calculates the corresponding Euler Angles, Vectors and Matrices for use in OpenGL
 class Camera
 {
@@ -25,10 +16,6 @@ private:
     // euler Angles
     float _yaw;
     float _pitch;
-    // camera options
-    float _movementSpeed;
-    float _mouseSensitivity;
-    float _zoom;
 
     glm::vec3 _position;
     const glm::vec3 _cameraUp;
@@ -45,11 +32,7 @@ public:
         _position(position),
         _cameraUp(up),
         _yaw(yaw),
-        _pitch(pitch),
-
-        _movementSpeed(SPEED),
-        _mouseSensitivity(SENSITIVITY),
-        _zoom(ZOOM)
+        _pitch(pitch)
     {
     }
 
