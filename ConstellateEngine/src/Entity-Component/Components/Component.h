@@ -19,8 +19,12 @@ namespace csl {
         PhysicsComponentType,
         ColliderComponentType,
         GraphicsComponentType,
+
         CustomComponentType1,
-        CustomComponentType2
+        CustomComponentType2,
+        CustomComponentType3,
+        CustomComponentType4,
+        CustomComponentType5
     };
 
     class Entity;

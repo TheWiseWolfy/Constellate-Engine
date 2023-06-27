@@ -47,11 +47,14 @@ namespace csl {
         }
 
         void setVelocity(glm::vec3 velocity) {
-            _velocity = velocity;
-
-            
+            _velocity = velocity;            
         }
-       
+        void zeroVelocity() {
+            _velocity = { 0.0f,0.0f,0.0f };
+            _acceleration = { 0.0f,0.0f,0.0f };
+        }
+
+
         void setAcceleration(glm::vec3 acceleration) {
             _acceleration = acceleration;
         }

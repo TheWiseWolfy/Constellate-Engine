@@ -79,12 +79,14 @@ namespace csl {
 		if (!rigidbodyA->getStatic()) {
 
 			rigidbodyA->setVelocity(velA);
+			rigidbodyB->applyForce(rigidbodyB->getAcceleration() * -0.1f);
 			objectA->getEntity()->getTransform().setPosition(newPosA);
 		}
 
 		if (!rigidbodyB->getStatic()) {
 
 			rigidbodyB->setVelocity(velB);
+			rigidbodyB->setAcceleration(rigidbodyA->getAcceleration() * -0.1f);
 			objectB->getEntity()->getTransform().setPosition(newPosB);
 		}
 	}

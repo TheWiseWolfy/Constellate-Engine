@@ -1,7 +1,3 @@
-
-
-
-
 #pragma once
 
 #include "Entity-Component/Components/PhysicsComponent.h"

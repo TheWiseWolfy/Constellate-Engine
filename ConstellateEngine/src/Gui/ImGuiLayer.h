@@ -14,12 +14,13 @@ namespace csl {
 		ImGuiLayer();
 		~ImGuiLayer();
 
-		void OnAttach();
-		void OnDetach();
+		virtual void OnAttach();
+		virtual void OnDetach();
 			
 		void OnUpdate() override;
 		void OnEvent(EngineEvent& event) override;
 
+		virtual void Display();
 	private:
 		bool OnMouseButtonPressedEvent(MouseButtonPressedEvent& e);
 		bool OnMouseButtonReleasedEvent(MouseButtonReleasedEvent& e);

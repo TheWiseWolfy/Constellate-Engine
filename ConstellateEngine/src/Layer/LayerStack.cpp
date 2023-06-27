@@ -8,9 +8,7 @@ namespace csl{
 	}
 	LayerStack::~LayerStack()
 	{
-		for (Layer* layer : _layers) {
-			delete layer;
-		}
+
 	}
 	
 	void LayerStack::PushLayer(Layer* layer)

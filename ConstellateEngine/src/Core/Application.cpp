@@ -4,18 +4,11 @@ File: Application.cpp
 TODO: Implement propper key pooling in order to capture key presses sincroniusly
 
 */
-
-
-
-
-
 #include "Application.h"
 #include "Log.h"
 
 #include "GLFW/glfw3.h"
 #include <glad/glad.h> //Look buddy, sometimes around february, GLFW became dependend on this exact include, so you won't be able to delete it anymore.
-
-
 
 namespace csl {
 	 
@@ -93,8 +86,9 @@ namespace csl {
 
 		_entityManager->propagateEvent(e);
 
-		CSL_CORE_LOG("{0}", e.ToString());
-
+		if ( e.ToString().find("Mouse") == std::string::npos) {
+			CSL_CORE_LOG("{0}", e.ToString());
+		}
 		OnEventCallback(e);
 	}
 

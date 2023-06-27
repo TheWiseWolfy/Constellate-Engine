@@ -1,13 +1,11 @@
 #pragma once
 
-#include "glm/glm.hpp"
-
+#include "cslpch.h"
 
 #include <glad/glad.h>
+
 #include <glm.hpp>
 #include <gtc/matrix_transform.hpp>
-
-#include <vector>
 
 // An abstract camera class that processes input and calculates the corresponding Euler Angles, Vectors and Matrices for use in OpenGL
 class Camera
@@ -28,12 +26,13 @@ private:
 public:
  
     // constructor with vectors
-    Camera(glm::vec3 position , glm::vec3 up , float yaw , float pitch ) : 
+    Camera(glm::vec3 position, glm::vec3 up, float yaw, float pitch) :
         _position(position),
         _cameraUp(up),
         _yaw(yaw),
         _pitch(pitch)
     {
+        updateCameraVectors();
     }
 
     glm::vec3 GetPostion() {

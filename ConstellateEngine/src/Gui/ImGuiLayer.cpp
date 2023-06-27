@@ -39,11 +39,19 @@ namespace csl {
 		ImGui_ImplOpenGL3_NewFrame();
 		ImGui::NewFrame();
 		
+		//ImGui::Begin("Hello");
+		//ImGui::Text("Hello World");
 		ImGui::Begin("Hello");
-		ImGui::Text("Hello World");
+		Display();
 		ImGui::End();
+
 		ImGui::Render();
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+	}
+
+	void ImGuiLayer::Display() {
+		ImGui::Begin("Hello");
+		ImGui::Text("This is the test UI");
 	}
 
 	void ImGuiLayer::OnEvent(EngineEvent& event) {

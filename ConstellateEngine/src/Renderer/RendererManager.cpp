@@ -29,15 +29,15 @@ namespace csl {
 			_camera = std::make_unique<Camera>(position, up, yaw, pitch);
 		}
 
-		ShaderLoader::getInstance().loadShader("shader1",
-			"E:\\Projects\\Git\\Constellate-Engine\\Game\\Shaders\\shader1.vert",
-			"E:\\Projects\\Git\\Constellate-Engine\\Game\\Shaders\\shader1.frag"
-		);
+		//ShaderLoader::getInstance().loadShader("shader1",
+		//	"E:\\Projects\\Git\\Constellate-Engine\\Game\\Shaders\\shader1.vert",
+		//	"E:\\Projects\\Git\\Constellate-Engine\\Game\\Shaders\\shader1.frag"
+		//);
 
-		ShaderLoader::getInstance().loadShader("shader2",
-			"E:\\Projects\\Git\\Constellate-Engine\\Game\\Shaders\\shader2.vert",
-			"E:\\Projects\\Git\\Constellate-Engine\\Game\\Shaders\\shader2.frag"
-		);
+		//ShaderLoader::getInstance().loadShader("shader2",
+		//	"E:\\Projects\\Git\\Constellate-Engine\\Game\\Shaders\\shader2.vert",
+		//	"E:\\Projects\\Git\\Constellate-Engine\\Game\\Shaders\\shader2.frag"
+		//);
 	}
 
 	//This is an ugly piece of code that sadly has to live on for now

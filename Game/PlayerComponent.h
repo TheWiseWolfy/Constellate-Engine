@@ -28,4 +28,7 @@ public:
     ComponentType GetComponentType() override {
         return ComponentType::CustomComponentType1;
     }
+
+    virtual void receiveEvent(EngineEvent& e) override;
+    bool OnKeyPressed(KeyPressedEvent& e);
 };
