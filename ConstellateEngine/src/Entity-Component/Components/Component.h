@@ -24,6 +24,7 @@ namespace csl {
     };
 
     class Entity;
+    class EngineEvent;
 
     class Component
     {
@@ -36,6 +37,7 @@ namespace csl {
         virtual void update(float mFT) {}
         virtual void draw() {}
         virtual void init() {}
+        virtual void receiveEvent(EngineEvent& e) {}
 
         void SetEntity(Entity* entity) {
             _entity = entity;

@@ -4,6 +4,7 @@
 #include "Entity.h"
 
 namespace csl {
+    class EngineEvent;
 
 	class EntityManager{
 	private:
@@ -36,6 +37,12 @@ namespace csl {
             }
         }
 
+        void propagateEvent(EngineEvent& e) {
+            for (auto& entity : _entityList) {
+                entity->propagateEvent(e);
+            }
+        }
+
         Entity* addEntity()
         {
             Entity* e(new Entity(this));
@@ -51,8 +58,5 @@ namespace csl {
             _entityList.emplace_back(std::move(uPtr));
             return e;
         }
-
-
-
     };
 }

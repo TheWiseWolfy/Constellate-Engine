@@ -1,12 +1,12 @@
 #pragma once
 
 #include <Constellate.h>
+#include "TargetHitEvent.h"
 
 using namespace csl;
 class TargetComponent : public Component {
 private:
-	int someData = 111;
-
+	bool hit =  false;
 public:
 	void init() override {
 
@@ -19,16 +19,21 @@ public:
 				// Example output
 				if (collidedWithf.getEntity()->hasTag("Projectile")) {
 					this->getEntity()->MarkForDeletion();
+					
 					//TODO Investigate this
 					//collidedWithf.getEntity()->MarkForDeletion();
+
+					if (!hit) { //trusty latch 
+						hit = true;
+						TargetHitEvent e;
+
+						Application::GetInstance().PublishEvent(e);
+					}
 				}
 
             });
 	}
 
-	void printDude() {
-		std::cout << someData;
-	}
 
 	void update(float mFT) override;
 

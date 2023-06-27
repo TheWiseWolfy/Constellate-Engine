@@ -13,7 +13,7 @@ void PlayerComponent::update(float mFT) {
 
         if (phycomp) {
             // The cast was successful, phycomp is now a valid pointer to PhysicsComponent
-            phycomp->applyForce(glm::vec3(0.0, 0.5, 0.0));
+            phycomp->applyForce(glm::vec3(0.0, 0.1, 0.0));
         }
         else {
             // The cast was unsuccessful, phycomp is nullptr

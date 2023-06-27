@@ -26,7 +26,7 @@ namespace csl {
 		_instance = this;
 		
 		_window = std::unique_ptr<Window>(Window::Create());
-		_window->SetEventCallback(std::bind(&Application::OnEvent, this, std::placeholders::_1));
+		_window->SetEventCallback(std::bind(&Application::PublishEvent, this, std::placeholders::_1));
 
 		_entityManager = std::make_unique<EntityManager>();
 		_rendererManager = std::make_unique<RendererManager>();
@@ -78,7 +78,8 @@ namespace csl {
 		}
 	}
 
-	void Application::OnEvent(EngineEvent& e) {
+	//This is the entry point for all the events in the game
+	void Application::PublishEvent(EngineEvent& e) {
 		EventDispatcher dispatcher(e);
 
 		dispatcher.Dispach<WindowCloseEvent>(std::bind(&Application::OnWindowClose, this, std::placeholders::_1));
@@ -89,6 +90,8 @@ namespace csl {
 			if (e.IsHandled())
 				break;
 		}
+
+		_entityManager->propagateEvent(e);
 
 		CSL_CORE_LOG("{0}", e.ToString());
 

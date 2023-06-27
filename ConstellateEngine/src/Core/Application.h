@@ -24,7 +24,6 @@ namespace csl {
 		static Application* _instance;
 
 		bool OnWindowClose(WindowCloseEvent& e);
-		void OnEvent(EngineEvent& e);
 
 	public:
 
@@ -43,6 +42,7 @@ namespace csl {
 		RendererManager& GetRenderer() { return *_rendererManager; }
 		EntityManager& GetEntityManager() { return *_entityManager; }
 
+		void PublishEvent(EngineEvent& e);
 		virtual void OnEventCallback(EngineEvent& e) {};
 
 

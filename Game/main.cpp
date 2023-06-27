@@ -1,7 +1,7 @@
 #include <iostream>
 
 #include <Constellate.h>
-#include "Core/EntryPoint.h"
+#include <Core/EntryPoint.h>
 
 #include <iostream>
 #include <random>
@@ -10,6 +10,7 @@
 #include "FirstPersonCamera.h"
 #include "PlayerComponent.h"
 #include "TargetComponent.h"
+
 
 using namespace csl;
 
@@ -68,7 +69,7 @@ public:
 		if (e.GetKeyCode() == CSL_KEY_X) {
 			poz.y -= 0.1;
 		}
-
+		
 		if (e.GetKeyCode() == CSL_KEY_C && e.GetAction() == CSL_PRESS) {
 			{
 				//_________________
@@ -82,11 +83,30 @@ public:
 				entity->addComponent<PlayerComponent>(_camera);
 				entity->addTag("Projectile");
 
-				phycomp.applyForce(_camera.getCameraDirection() * 2.0f);
+				phycomp.applyForce(_camera.getCameraDirection() * 0.8f);
 			
 				entity->SetPosition(poz);
 				entity->SetScale({ 0.2f ,0.2f ,0.2f });
 
+			}
+		}
+		
+		if (e.GetKeyCode() == CSL_KEY_B && e.GetAction() == CSL_PRESS) {
+			{
+				Entity* entity = Application::GetInstance().GetEntityManager().addEntity();
+				const aiScene* scene = AssetImporter::LoadModel("E:\\Projects\\Git\\Constellate-Engine\\Game\\Assets\\target.obj");
+				int id = TextureImporter::loadImageFromFile("E:\\Projects\\Git\\Constellate-Engine\\Game\\Assets\\Cylinder.001.png");
+
+				EntityFactory::SceneToEntityHierachy(scene, entity, false, "shader1", id);
+
+
+				//const aiScene* sceneCube = AssetImporter::LoadModel("E:\\Projects\\Git\\Constellate-Engine\\Game\\Assets\\cube.obj");
+				entity->addComponent<SphereCollider>(1.f);
+				entity->addComponent<PhysicsComponent>();
+
+				entity->addComponent<TargetComponent>();
+
+				entity->SetPosition(glm::vec3(7, 1, -5.8));
 			}
 		}
 
@@ -170,7 +190,8 @@ public:
 			Entity* entity = Application::GetInstance().GetEntityManager().addEntity();
 
 			entity->addComponent<SphereCollider>(1.f);
-			entity->addComponent<PhysicsComponent>();
+			auto& phy = entity->addComponent<PhysicsComponent>();
+			phy.setStatic(true);
 			//here entity->addComponent<RendererComponent>() is called
 
 			const aiScene* scene = AssetImporter::LoadModel("E:\\Projects\\Git\\Constellate-Engine\\Game\\Assets\\target.obj");

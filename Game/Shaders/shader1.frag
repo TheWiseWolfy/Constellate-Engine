@@ -28,7 +28,7 @@ void main()
         color =v_Color * vec4(lightColor, 1.0);
     }
     else{
-        color = texture( myTextureSampler, v_uv ).rgba ;
+        color = texture( myTextureSampler, v_uv ).rgba *  vec4(lightColor, 1.0) ;
     }
 }
 

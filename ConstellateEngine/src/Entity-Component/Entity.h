@@ -11,6 +11,7 @@ struct aiMesh;
 namespace csl {
 
     class EntityManager;
+    class EngineEvent;
 
     class Entity {
     private:
@@ -46,8 +47,13 @@ namespace csl {
             {
                 component.second->update(mFT);
             }
+        }
 
-
+        void propagateEvent(EngineEvent& e) {
+            for (auto const& component : _componentReference)
+            {
+                component.second->receiveEvent(e);
+            }
         }
 
         //Transform 

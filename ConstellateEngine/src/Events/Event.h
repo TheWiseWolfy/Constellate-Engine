@@ -10,7 +10,8 @@ namespace csl {
 		None = 0,
 		WindowClose, WindowResize, WindowFocus, WindowLostFocus, WindowMoved,
 		KeyPressed, KeyReleased, KeyTyped,
-		MouseButtonPressed, MouseButtonReleased, MouseMoved, MouseScrolled
+		MouseButtonPressed, MouseButtonReleased, MouseMoved, MouseScrolled,
+		CustomEvent1, CustomEvent2, CustomEvent3, CustomEvent4, CustomEvent5
 	};
 
 	enum EventCategory
@@ -20,7 +21,8 @@ namespace csl {
 		EventCategoryInput = BIT(1),
 		EventCategoryKeyboard = BIT(2),
 		EventCategoryMouse = BIT(3),
-		EventCategoryMouseButton = BIT(4)
+		EventCategoryMouseButton = BIT(4),
+		EventCategoryCustom1 = BIT(5)
 	};
 
 	//Macro for avoiding extra code
