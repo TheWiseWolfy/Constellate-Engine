@@ -47,6 +47,10 @@ target_include_directories("ConstellateEngine" PUBLIC "${PROJECT_SOURCE_DIR}/ven
 add_subdirectory(Game)
 target_link_libraries("Game" PRIVATE "ConstellateEngine")
 
+add_subdirectory(Demo)
+target_link_libraries("Demo" PRIVATE "ConstellateEngine")
+
+
 #This is a hell that will never leave me alone.
 #set_property(TARGET Game PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreadedDebugDLL$<$<CONFIG:Debug>:Debug>")
 #set_property(TARGET ConstellateEngine PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreadedDebugDLL$<$<CONFIG:Debug>:Debug>")

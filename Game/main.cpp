@@ -40,6 +40,7 @@ public:
 		_guiLayer = std::make_unique<MyGUILayer>();
 		PushLayer(_guiLayer.get());
 
+		Application::GetInstance().GetRenderer().SetSkyColor({ 0.5f, 0.7f, 1.0f });
 
 		TestFuction();
 	}

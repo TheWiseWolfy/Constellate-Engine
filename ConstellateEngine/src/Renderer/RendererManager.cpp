@@ -28,16 +28,6 @@ namespace csl {
 
 			_camera = std::make_unique<Camera>(position, up, yaw, pitch);
 		}
-
-		//ShaderLoader::getInstance().loadShader("shader1",
-		//	"E:\\Projects\\Git\\Constellate-Engine\\Game\\Shaders\\shader1.vert",
-		//	"E:\\Projects\\Git\\Constellate-Engine\\Game\\Shaders\\shader1.frag"
-		//);
-
-		//ShaderLoader::getInstance().loadShader("shader2",
-		//	"E:\\Projects\\Git\\Constellate-Engine\\Game\\Shaders\\shader2.vert",
-		//	"E:\\Projects\\Git\\Constellate-Engine\\Game\\Shaders\\shader2.frag"
-		//);
 	}
 
 	//This is an ugly piece of code that sadly has to live on for now
@@ -50,15 +40,12 @@ namespace csl {
 			}
 			aux(entity, graphicsComponents);
 		}
-
 	}
 
 	void RendererManager::DrawGame()
 	{
 		_currentRenderer->Clear();
-		_currentRenderer->SetClearColor();
-
-		//_shader->Bind();
+		_currentRenderer->SetSkyColor(_color);
 
 		std::vector<std::unique_ptr<Entity>>& entities = Application::GetInstance().GetEntityManager().GetEntityVector();
 		std::vector<GraphicsComponent*> graphicsComponents;
@@ -70,19 +57,18 @@ namespace csl {
 			aux(entity,graphicsComponents);
 		}
 
-
 		for (auto&& component : graphicsComponents) {
 
 
 			auto& shader = ShaderLoader::getInstance().getShader( component->getShader() );
 			shader.Bind();
 
-			if (component->isWireframe()) {
-				glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-			}
-			else {
-				glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-			}
+			//if (component->isWireframe()) {
+			//	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+			//}
+			//else {
+			//	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+			//}
 
 			glm::mat4 model;
 			glm::mat4 perspective;
@@ -128,7 +114,6 @@ namespace csl {
 					glUniform1i(myTextureSamplerLocation, textureUnit);
 				}
 			}
-
 			_currentRenderer->DrawElement( component->GetVertexArray() );
 		}
 		
@@ -165,10 +150,11 @@ namespace csl {
 	//		
 	//	for (const Triangle& triangle : colliderComponent->GetTriangles()) {
 	//		_currentRenderer->DrawTriangle(triangle.vertices[0], triangle.vertices[1], triangle.vertices[2]);
-
 	//	}
-
 	//}
+	void RendererManager::SetSkyColor(glm::vec3 color) {
+		_color = color;
+	}
 
 
 	void RendererManager::SetCameraPosition(glm::vec3 position)

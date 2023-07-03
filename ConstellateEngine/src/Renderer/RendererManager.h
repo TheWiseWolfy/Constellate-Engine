@@ -19,11 +19,13 @@ namespace csl {
 	private:
 		std::unique_ptr<IRenderer> _currentRenderer;
 		std::unique_ptr<Camera> _camera;
+		glm::vec3 _color;
 	public:
 		RendererManager();
 
 
 		void DrawGame();
+		void SetSkyColor(glm::vec3);
 		void RenderCollider(ColliderComponent* colliderComponent);
 		void SetCameraPosition(glm::vec3 position);
 		void SetCameraRotation(float yaw, float pitch);

@@ -48,6 +48,11 @@ namespace csl {
 		glClearColor(0.2f, 0.2f, 0.2f, 0.2f);
 	}
 
+	void OpenGLRenderer::SetSkyColor(glm::vec3 color) {
+		glClearColor(color.x, color.y, color.z, 0.2f);
+
+	}
+
 	void OpenGLRenderer::Clear()
 	{
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);

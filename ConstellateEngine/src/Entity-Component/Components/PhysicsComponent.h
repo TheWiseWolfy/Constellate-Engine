@@ -79,9 +79,7 @@ namespace csl {
         {
 
         }
-        void draw() override
-        {
-        }
+
 
         ComponentType GetComponentType() override {
             return ComponentType::PhysicsComponentType;

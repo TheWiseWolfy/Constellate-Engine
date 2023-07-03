@@ -15,6 +15,7 @@ namespace csl {
 	public:
 		virtual void Clear() = 0;
 		virtual void SetClearColor() = 0;
+		virtual void SetSkyColor(glm::vec3 color) = 0;
 
 		virtual void DrawElement(const std::unique_ptr<VertexArray>& _vertexArray) = 0;
 		virtual void DrawTriangle(const glm::vec3& v1, const glm::vec3& v2, const glm::vec3& v3) = 0;

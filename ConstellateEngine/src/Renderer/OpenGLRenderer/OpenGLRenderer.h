@@ -6,6 +6,8 @@ namespace csl {
 
 
 	class OpenGLRenderer : public IRenderer {
+	private:
+		glm::vec3 _color;
 	public:
 		OpenGLRenderer();
 
@@ -15,6 +17,8 @@ namespace csl {
 		virtual API GetAPI() override;
 
 		virtual void Clear() override;
+		virtual void SetSkyColor(glm::vec3 color) override;
+
 		virtual void SetClearColor() override;
 	};
 

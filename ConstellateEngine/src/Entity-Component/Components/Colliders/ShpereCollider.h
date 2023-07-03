@@ -21,9 +21,6 @@ namespace csl {
         void update(float mFT) override
         {
         }
-        void draw() override
-        {
-        }
 
         float getRadius() {
             return _radius;

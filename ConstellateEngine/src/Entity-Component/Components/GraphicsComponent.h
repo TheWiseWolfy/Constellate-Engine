@@ -114,9 +114,7 @@ namespace csl {
         void update(float mFT) override
         {
         }
-            void draw() override
-        {
-        }
+ 
 
         std::unique_ptr<VertexArray>& GetVertexArray() {
             return _vertexArray;

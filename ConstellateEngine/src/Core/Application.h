@@ -16,10 +16,9 @@ namespace csl {
 		std::unique_ptr<Window> _window;
 		std::unique_ptr<PhysicsManager> _physicsManager;
 		std::unique_ptr<RendererManager> _rendererManager;
-
 		std::unique_ptr<EntityManager> _entityManager;
-
 		LayerStack _layerStack;
+
 		bool _running = true;
 		static Application* _instance;
 

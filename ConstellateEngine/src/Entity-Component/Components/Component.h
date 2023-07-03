@@ -34,12 +34,8 @@ namespace csl {
     {
     private:
         Entity* _entity;
-
-        bool alive = true;
-
     public:
         virtual void update(float mFT) {}
-        virtual void draw() {}
         virtual void init() {}
         virtual void receiveEvent(EngineEvent& e) {}
 

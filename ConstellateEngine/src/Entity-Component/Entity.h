@@ -37,7 +37,8 @@ namespace csl {
                 if ((*it)->IsAlive()) {
                     (*it)->update(mFT);
                 }
-        /*        else {
+                /*      
+                else {
                     _childrenEntities.erase(it);
                 }*/
                 it++;

@@ -29,9 +29,7 @@ namespace csl {
         void update(float mFT) override
         {
         }
-        void draw() override
-        {
-        }
+
         void SetCollisionCallback(CollisionCallback callback) {
             collisionCallback = std::move(callback);
         }

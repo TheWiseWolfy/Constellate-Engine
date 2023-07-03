@@ -47,7 +47,7 @@ namespace csl {
 
 		std::string ToString()  const override {
 			std::stringstream sstream;
-			sstream << "We pressed key " << _keyCode << "(" << _action << "repeats)";
+			sstream << "We pressed key " << _keyCode << "(" << "action: " << _action << ")";
 			return sstream.str();
 		}
 

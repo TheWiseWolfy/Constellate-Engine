@@ -19,9 +19,6 @@ namespace csl {
         void update(float mFT) override
         {
         }
-        void draw() override
-        {
-        }
 
         glm::vec3 getNormal() {
             glm::vec3 vec = this->getEntity()->getTransform().getUpVector();
