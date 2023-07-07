@@ -39,6 +39,8 @@ namespace csl {
 		Window& GetWindow() { return *_window; }
 
 		RendererManager& GetRenderer() { return *_rendererManager; }
+		PhysicsManager& GetPhysicsManager() { return *_physicsManager; }
+
 		EntityManager& GetEntityManager() { return *_entityManager; }
 
 		void PublishEvent(EngineEvent& e);

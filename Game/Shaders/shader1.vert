@@ -16,7 +16,6 @@ uniform mat4 normalMatrix;
 void main()
 {
     v_Position = a_Position;
-    //v_Normal = a_Normals;
     v_Normal = (normalMatrix * vec4( a_Normals, 1.0)).xyz;
     v_Color = a_Color;
     v_uv = a_vertexUV;

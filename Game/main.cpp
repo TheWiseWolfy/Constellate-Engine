@@ -8,7 +8,6 @@
 #include <chrono>
 
 #include "FirstPersonCamera.h"
-#include "PlayerComponent.h"
 #include "TargetComponent.h"
 #include "MyGUILayer.h"
 
@@ -32,10 +31,11 @@ public:
 			"E:\\Projects\\Git\\Constellate-Engine\\Game\\Shaders\\shader1.frag"
 		);
 
-		ShaderLoader::getInstance().loadShader("shader2",
-			"E:\\Projects\\Git\\Constellate-Engine\\Game\\Shaders\\shader2.vert",
-			"E:\\Projects\\Git\\Constellate-Engine\\Game\\Shaders\\shader2.frag"
-		);
+		//ShaderLoader::getInstance().loadShader("shader1",
+		//	"E:\\Projects\\Git\\Constellate-Engine\\Game\\Shaders\\shader2.vert",
+		//	"E:\\Projects\\Git\\Constellate-Engine\\Game\\Shaders\\shader2.frag",
+		//	"E:\\Projects\\Git\\Constellate-Engine\\Game\\Shaders\\shader2.geom"
+		//);
 
 		_guiLayer = std::make_unique<MyGUILayer>();
 		PushLayer(_guiLayer.get());
@@ -120,15 +120,14 @@ public:
 				Entity* entity = Application::GetInstance().GetEntityManager().addEntity();
 				const aiScene* scene = AssetImporter::LoadModel("E:\\Projects\\Git\\Constellate-Engine\\Game\\Assets\\sphere.obj");
 				EntityFactory::SceneToEntityHierachy(scene, entity);
-				entity->addComponent<SphereCollider>(0.2f);
+				entity->addComponent<SphereCollider>(0.6f);
 				PhysicsComponent& phycomp = entity->addComponent<PhysicsComponent>();
-				entity->addComponent<PlayerComponent>(_camera);
 				entity->addTag("Projectile");
 
 				phycomp.applyForce(_camera.getCameraDirection() * 1.5f);
 
 				entity->SetPosition(poz);
-				entity->SetScale({ 0.2f ,0.2f ,0.2f });
+				entity->SetScale({ 0.6f ,0.6f ,0.6f });
 			}
 		}
 
@@ -173,7 +172,7 @@ public:
 
 	void TestFuction() {
 
-		CreateRandomTargets(50, { -20,0,-20 }, { 20,10,20 });
+		CreateRandomTargets(25, { -20,0,-20 }, { 20,10,20 });
 		{
 			Entity* entity = Application::GetInstance().GetEntityManager().addEntity();
 			const aiScene* scene = AssetImporter::LoadModel("E:\\Projects\\Git\\Constellate-Engine\\Game\\Assets\\floor.obj");
@@ -187,23 +186,6 @@ public:
 
 			//entity->addComponent<TargetComponent>();
 		}
-
-		//{
-		//	Entity* entity3 = Application::GetInstance().GetEntityManager().addEntity();
-		//	const aiScene* scene3 = AssetImporter::LoadModel("E:\\Projects\\Git\\Constellate-Engine\\Game\\Assets\\13466_Canaan_Dog_v1_L3.obj");
-		//	entity3->SetPosition( glm::vec3(0, 5, 0) );
-		//	entity3->SetRotation({ -3.14/ 2,0, 0 } );  // xx zz yy
-		//	entity3->SetScale({0.3,0.3, 0.3 });  // xx zz yy
-		//	EntityFactory::SceneToEntityHierachy(scene3, entity3);
-		//}
-	
-		//{
-		//	Entity* entity4 = Application::GetInstance().GetEntityManager().addEntity();
-		//	const aiScene* scene4 = AssetImporter::LoadModel("E:\\Projects\\Git\\Constellate-Engine\\Game\\Assets\\trueHidrant.obj");
-		//	EntityFactory::SceneToEntityHierachy(scene4, entity4);
-		//	entity4->SetPosition( glm::vec3(4, 0, 0) );
-		//	entity4->SetScale(glm::vec3(5, 5, 5) );
-		//}
 	}
 
 	void CreateRandomTargets(int numTargets, const glm::vec3& volumeMin, const glm::vec3& volumeMax) {

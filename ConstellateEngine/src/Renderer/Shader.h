@@ -12,7 +12,7 @@ namespace csl {
 	public:
 		// the program ID
 		// constructor reads and builds the shader
-		Shader(const std::string& vertexPath, const std::string& fragmentPath);
+		Shader(const std::string& vertexPath, const std::string& fragmentPath, const std::string& geometryPath = "");
 		~Shader();
 
 		void Bind();

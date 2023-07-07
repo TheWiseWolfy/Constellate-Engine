@@ -6,7 +6,7 @@
 #include <iostream>
 
 namespace csl {
-	Shader::Shader(const std::string& vertexPath, const std::string& fragmentPath)
+	Shader::Shader(const std::string& vertexPath, const std::string& fragmentPath, const std::string& geometryPath)
 	{
 		
 		GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
@@ -62,16 +62,53 @@ namespace csl {
 		}
 
 	
+		GLuint geometryShader = 0;
+		if (!geometryPath.empty())
+		{
+			geometryShader = glCreateShader(GL_GEOMETRY_SHADER);
+
+			// Note that std::string's .c_str is NULL character terminated.
+			const GLchar* geometrySource = (const GLchar*)geometryPath.c_str();
+			glShaderSource(geometryShader, 1, &geometrySource, 0);
+
+			glCompileShader(geometryShader);
+
+			glGetShaderiv(geometryShader, GL_COMPILE_STATUS, &isCompiled);
+			if (isCompiled == GL_FALSE)
+			{
+				GLint maxLength = 0;
+				glGetShaderiv(geometryShader, GL_INFO_LOG_LENGTH, &maxLength);
+
+				// The maxLength includes the NULL character
+				std::vector<GLchar> infoLog(maxLength);
+				glGetShaderInfoLog(geometryShader, maxLength, &maxLength, &infoLog[0]);
+
+				glDeleteShader(geometryShader);
+				glDeleteShader(fragmentShader);
+				glDeleteShader(vertexShader);
+
+				CSL_CORE_ERROR("Geometry shader compilation error!");
+				CSL_CORE_ERROR(infoLog.data());
+				return;
+			}
+		}
+
+
+		//Compile final program
 		GLuint program = glCreateProgram();
 
 		// Attach our shaders to our program
 		glAttachShader(program, vertexShader);
 		glAttachShader(program, fragmentShader);
+		if (geometryShader != 0)
+		{
+			glAttachShader(program, geometryShader);
+		}
 
 		// Link our program
 		glLinkProgram(program);
 
-		// Note the different functions here: glGetProgram* instead of glGetShader*.
+
 		GLint isLinked = 0;
 		glGetProgramiv(program, GL_LINK_STATUS, (int*)&isLinked);
 		if (isLinked == GL_FALSE)
@@ -85,6 +122,10 @@ namespace csl {
 			glDeleteProgram(program);
 			glDeleteShader(vertexShader);
 			glDeleteShader(fragmentShader); 
+			if (geometryShader != 0)
+			{
+				glDeleteShader(geometryShader);
+			}
 
 			CSL_CORE_ERROR("Shader program linking error !");
 			CSL_CORE_ERROR(infoLog.data());
@@ -96,6 +137,18 @@ namespace csl {
 		// Always detach shaders after a successful link.
 		glDetachShader(program, vertexShader);
 		glDetachShader(program, fragmentShader);
+		if (geometryShader != 0)
+		{
+			glDetachShader(program, geometryShader);
+		}
+
+		//Delete the shaders now
+		glDeleteShader(vertexShader);
+		glDeleteShader(fragmentShader);
+		if (geometryShader != 0)
+		{
+			glDeleteShader(geometryShader);
+		}
 	}
 
 	Shader::~Shader() {

@@ -10,11 +10,13 @@
 #include "FirstPersonCamera.h"
 #include "PlayerComponent.h"
 #include "TargetComponent.h"
+#include "RotationComponent.h"
+
 #include "MyGUILayer.h"
 
 using namespace csl;
 
-class Game : public Application {
+class Demo : public Application {
 private: 
 
 	bool _firstMouse = true;
@@ -25,8 +27,10 @@ private:
 	int _points = 0;
 	std::unique_ptr<MyGUILayer> _guiLayer;
 	bool _locked = true;
+
+	bool _gravity = true;
 public:
-	Game() {
+	Demo() {
 		ShaderLoader::getInstance().loadShader("shader1",
 			"E:\\Projects\\Git\\Constellate-Engine\\Game\\Shaders\\shader1.vert",
 			"E:\\Projects\\Git\\Constellate-Engine\\Game\\Shaders\\shader1.frag"
@@ -34,7 +38,8 @@ public:
 
 		ShaderLoader::getInstance().loadShader("shader2",
 			"E:\\Projects\\Git\\Constellate-Engine\\Game\\Shaders\\shader2.vert",
-			"E:\\Projects\\Git\\Constellate-Engine\\Game\\Shaders\\shader2.frag"
+			"E:\\Projects\\Git\\Constellate-Engine\\Game\\Shaders\\shader2.frag",
+			"E:\\Projects\\Git\\Constellate-Engine\\Game\\Shaders\\shader2.geom"
 		);
 
 		_guiLayer = std::make_unique<MyGUILayer>();
@@ -44,7 +49,7 @@ public:
 
 		TestFuction();
 	}
-	~Game(){
+	~Demo(){
 		
 	}
 
@@ -52,9 +57,9 @@ public:
 
 		EventDispatcher dispatcher(e);
 
-		dispatcher.Dispach<MouseMovedEvent>(std::bind(&Game::OnMouseMoved, this, std::placeholders::_1));
-		dispatcher.Dispach<KeyPressedEvent>(std::bind(&Game::OnKeyPressed, this, std::placeholders::_1));
-		dispatcher.Dispach<TargetHitEvent>(std::bind(&Game::OnTargetEvent, this, std::placeholders::_1));
+		dispatcher.Dispach<MouseMovedEvent>(std::bind(&Demo::OnMouseMoved, this, std::placeholders::_1));
+		dispatcher.Dispach<KeyPressedEvent>(std::bind(&Demo::OnKeyPressed, this, std::placeholders::_1));
+		dispatcher.Dispach<TargetHitEvent>(std::bind(&Demo::OnTargetEvent, this, std::placeholders::_1));
 	};
 
 	bool OnTargetEvent(TargetHitEvent& e) {
@@ -91,6 +96,12 @@ public:
 
 		if (e.GetKeyCode() == CSL_KEY_X) {
 			poz.y -= 0.1;
+		}
+
+		if (e.GetKeyCode() == CSL_KEY_N && e.GetAction() == CSL_PRESS) {
+			_gravity = !_gravity;
+			Application::GetInstance().GetPhysicsManager().setGravity(_gravity);
+			
 		}
 		if (e.GetKeyCode() == CSL_KEY_M && e.GetAction() == CSL_PRESS) {
 			_locked = !_locked;
@@ -174,7 +185,6 @@ public:
 
 	void TestFuction() {
 
-		CreateRandomTargets(1, { -20,0,-20 }, { 20,10,20 });
 		{
 			Entity* entity = Application::GetInstance().GetEntityManager().addEntity();
 			const aiScene* scene = AssetImporter::LoadModel("E:\\Projects\\Git\\Constellate-Engine\\Game\\Assets\\floor.obj");
@@ -188,58 +198,126 @@ public:
 
 			//entity->addComponent<TargetComponent>();
 		}
+		int offset = -10;
+		{
+			Entity* entity = Application::GetInstance().GetEntityManager().addEntity();
+			const aiScene* scene = AssetImporter::LoadModel("E:\\Projects\\Git\\Constellate-Engine\\Game\\Assets\\trueHidrant.obj");
+			EntityFactory::SceneToEntityHierachy(scene, entity);
+			entity->SetPosition( glm::vec3(offset, -2.5, -10) );
+			entity->SetScale(glm::vec3(2, 2, 2) );
+		}
+		offset += 5;
+		{
+			Entity* entity = Application::GetInstance().GetEntityManager().addEntity();
+			const aiScene* scene3 = AssetImporter::LoadModel("E:\\Projects\\Git\\Constellate-Engine\\Game\\Assets\\13466_Canaan_Dog_v1_L3.obj");
+			entity->addComponent<RotationComponent>();
+			entity->SetPosition(glm::vec3(offset, -3, -10));
+			entity->SetRotation({ -3.14 / 2,0, 0 });  // xx zz yy
+			entity->SetScale({ 0.1,0.1, 0.1 });  // xx zz yy
+			EntityFactory::SceneToEntityHierachy(scene3, entity);
+		}
+		offset += 5;
 
 		{
-			Entity* entity3 = Application::GetInstance().GetEntityManager().addEntity();
-			const aiScene* scene3 = AssetImporter::LoadModel("E:\\Projects\\Git\\Constellate-Engine\\Game\\Assets\\13466_Canaan_Dog_v1_L3.obj");
-			entity3->SetPosition( glm::vec3(0, 5, 0) );
-			entity3->SetRotation({ -3.14/ 2,0, 0 } );  // xx zz yy
-			entity3->SetScale({0.3,0.3, 0.3 });  // xx zz yy
-			EntityFactory::SceneToEntityHierachy(scene3, entity3);
+			Entity* entity = Application::GetInstance().GetEntityManager().addEntity();
+			const aiScene* scene = AssetImporter::LoadModel("E:\\Projects\\Git\\Constellate-Engine\\Game\\Assets\\13466_Canaan_Dog_v1_L3.obj");
+			entity->SetPosition(glm::vec3(offset, -3, -10));
+			entity->SetRotation({ -3.14 / 2,0, 0 });  // xx zz yy
+			entity->SetScale({ 0.05,0.05, 0.05 });  // xx zz yy
+			EntityFactory::SceneToEntityHierachy(scene, entity);
+		}
+		offset += 5;
+
+		{
+			Entity* entity = Application::GetInstance().GetEntityManager().addEntity();
+			const aiScene* scene = AssetImporter::LoadModel("E:\\Projects\\Git\\Constellate-Engine\\Game\\Assets\\Stone.obj");
+			int id = TextureImporter::loadImageFromFile("E:\\Projects\\Git\\Constellate-Engine\\Game\\Assets\\test.png");
+
+			EntityFactory::SceneToEntityHierachy(scene, entity, false, "shader1", id);
+			entity->SetScale({ 0.2,0.2, 0.2 });  // xx zz yy
+
+			entity->SetPosition(glm::vec3(offset, -3, -10));
+		}
+
+		offset += 5;
+
+		{
+			Entity* entity = Application::GetInstance().GetEntityManager().addEntity();
+			const aiScene* scene = AssetImporter::LoadModel("E:\\Projects\\Git\\Constellate-Engine\\Game\\Assets\\Stone.obj");
+			int id = TextureImporter::loadImageFromFile("E:\\Projects\\Git\\Constellate-Engine\\Game\\Assets\\diffuso.png");
+
+			EntityFactory::SceneToEntityHierachy(scene, entity, false, "shader1", id);
+			entity->SetScale({ 0.2,0.2, 0.2 });  // xx zz yy
+
+			entity->SetPosition(glm::vec3(offset, -3, -10));
+		}
+		offset += 5;
+
+		{
+			Entity* entity = Application::GetInstance().GetEntityManager().addEntity();
+			const aiScene* scene = AssetImporter::LoadModel("E:\\Projects\\Git\\Constellate-Engine\\Game\\Assets\\trueHidrant.obj");
+			EntityFactory::SceneToEntityHierachy(scene, entity, false, "shader2");
+			entity->SetPosition(glm::vec3(offset, -2.5, -10));
+			entity->SetScale(glm::vec3(2, 2, 2));
+		}
+		offset += 5;
+		//Ball tower
+		{
+			Entity* entity = Application::GetInstance().GetEntityManager().addEntity();
+			const aiScene* scene = AssetImporter::LoadModel("E:\\Projects\\Git\\Constellate-Engine\\Game\\Assets\\sphere.obj");
+			EntityFactory::SceneToEntityHierachy(scene, entity);
+
+			entity->addComponent<SphereCollider>(1.0f);
+			PhysicsComponent& phycomp = entity->addComponent<PhysicsComponent>();
+
+			entity->SetPosition(glm::vec3(offset, 2.5, -10));
+			entity->SetScale({ 1.0f ,1.0f ,1.0f });
+		}
+		{
+			Entity* entity = Application::GetInstance().GetEntityManager().addEntity();
+			const aiScene* scene = AssetImporter::LoadModel("E:\\Projects\\Git\\Constellate-Engine\\Game\\Assets\\sphere.obj");
+			EntityFactory::SceneToEntityHierachy(scene, entity);
+
+			entity->addComponent<SphereCollider>(0.8f);
+			PhysicsComponent& phycomp = entity->addComponent<PhysicsComponent>();
+
+			entity->SetPosition(glm::vec3(offset, 5.5, -10));
+			entity->SetScale({ 0.8f ,0.8f ,0.8f });
+		}
+		{
+			Entity* entity = Application::GetInstance().GetEntityManager().addEntity();
+			const aiScene* scene = AssetImporter::LoadModel("E:\\Projects\\Git\\Constellate-Engine\\Game\\Assets\\sphere.obj");
+			EntityFactory::SceneToEntityHierachy(scene, entity);
+
+			entity->addComponent<SphereCollider>(0.6f);
+			PhysicsComponent& phycomp = entity->addComponent<PhysicsComponent>();
+
+			entity->SetPosition(glm::vec3(offset, 7.5, -10));
+			entity->SetScale({ 0.6f ,0.6f ,0.6f });
 		}
 	
+		offset += 5;
 		{
-			Entity* entity4 = Application::GetInstance().GetEntityManager().addEntity();
-			const aiScene* scene4 = AssetImporter::LoadModel("E:\\Projects\\Git\\Constellate-Engine\\Game\\Assets\\trueHidrant.obj");
-			EntityFactory::SceneToEntityHierachy(scene4, entity4);
-			entity4->SetPosition( glm::vec3(4, 0, 0) );
-			entity4->SetScale(glm::vec3(5, 5, 5) );
+			Entity* entity = Application::GetInstance().GetEntityManager().addEntity();
+
+			entity->addComponent<SphereCollider>(1.f);
+			auto& phy = entity->addComponent<PhysicsComponent>();
+			phy.setStatic(true);
+			//here entity->addComponent<RendererComponent>() is called
+
+			const aiScene* scene = AssetImporter::LoadModel("E:\\Projects\\Git\\Constellate-Engine\\Game\\Assets\\target.obj");
+			int id = TextureImporter::loadImageFromFile("E:\\Projects\\Git\\Constellate-Engine\\Game\\Assets\\Cylinder.001.png");
+
+			EntityFactory::SceneToEntityHierachy(scene, entity, false, "shader1", id);
+			entity->addComponent<TargetComponent>();
+
+			entity->SetPosition(glm::vec3(offset, 1.0, -10));
 		}
-	}
-
-	void CreateRandomTargets(int numTargets, const glm::vec3& volumeMin, const glm::vec3& volumeMax) {
-		std::random_device rd;
-		std::mt19937 rng(rd());
-		std::uniform_real_distribution<float> distX(volumeMin.x, volumeMax.x);
-		std::uniform_real_distribution<float> distY(volumeMin.y, volumeMax.y);
-		std::uniform_real_distribution<float> distZ(volumeMin.z, volumeMax.z);
-
-		for (int i = 0; i < numTargets; ++i) {
-			glm::vec3 targetPosition(distX(rng), distY(rng), distZ(rng));
-			CreateTarget(targetPosition);
-		}
-	}
-
-	void CreateTarget(glm::vec3 poz) {
-		Entity* entity = Application::GetInstance().GetEntityManager().addEntity();
-
-		entity->addComponent<SphereCollider>(1.f);
-		auto& phy = entity->addComponent<PhysicsComponent>();
-		phy.setStatic(true);
-		//here entity->addComponent<RendererComponent>() is called
-
-		const aiScene* scene = AssetImporter::LoadModel("E:\\Projects\\Git\\Constellate-Engine\\Game\\Assets\\target.obj");
-		int id = TextureImporter::loadImageFromFile("E:\\Projects\\Git\\Constellate-Engine\\Game\\Assets\\Cylinder.001.png");
-
-		EntityFactory::SceneToEntityHierachy(scene, entity, false, "shader1", id);
-		entity->addComponent<TargetComponent>();
-
-		entity->SetPosition(poz);
 	}
 };
 
 //This is the entry point of the library
 Application* Application::CreateApplication()
 {
-	return new Game();
+	return new Demo();
 }

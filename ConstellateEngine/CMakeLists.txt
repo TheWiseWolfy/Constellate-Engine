@@ -1,4 +1,4 @@
-project (ConstellateEngine VERSION 1.0)
+project (csl_engine VERSION 1.0)
 
 #add_library("${PROJECT_NAME}" STATIC 
 #"src/Core/Log.cpp" "src/Core/Core.h" 
@@ -22,6 +22,7 @@ project (ConstellateEngine VERSION 1.0)
 #"src/Renderer/OpenGlRenderer/OpenGLVertexArray.h"
 #)
 
+set(CMAKE_BUILD_TYPE "Release")
 
 
 file(GLOB_RECURSE  csl_src CONFIGURE_DEPENDS

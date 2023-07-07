@@ -20,20 +20,24 @@ void PlayerComponent::receiveEvent(EngineEvent& e) {
 
 
 bool PlayerComponent::OnKeyPressed(KeyPressedEvent& e) {
+    PhysicsComponent* phycomp = dynamic_cast<PhysicsComponent*>(this->getEntity()->GetComponent(ComponentType::PhysicsComponentType));
 
-    if (e.GetKeyCode() == CSL_KEY_V && e.GetAction() == CSL_PRESS) {
+    if (phycomp) {
+        if (e.GetKeyCode() == CSL_KEY_V && e.GetAction() == CSL_PRESS) {
 
-        PhysicsComponent* phycomp = dynamic_cast<PhysicsComponent*>(this->getEntity()->GetComponent(ComponentType::PhysicsComponentType));
-
-        if (phycomp) {
             // The cast was successful, phycomp is now a valid pointer to PhysicsComponent
             //phycomp->applyForce(glm::vec3(0.0, 5, 0.0));
             phycomp->zeroVelocity();
         }
-        else {
-            // The cast was unsuccessful, phycomp is nullptr
+        if (e.GetKeyCode() == CSL_KEY_SPACE && e.GetAction() == CSL_PRESS) {
+
+            // The cast was successful, phycomp is now a valid pointer to PhysicsComponent
+            phycomp->applyForce(glm::vec3(0.0, 5, 0.0));
         }
     }
+    else {
+        // The cast was unsuccessful, phycomp is nullptr
+        return false;
+    }
     return true;
-
 }

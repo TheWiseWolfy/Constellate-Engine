@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.23.1)
 
-project (ConstellateProject VERSION 1.0)
+project (csl_engine VERSION 1.0)
 
 set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)     #Required for exporting the symbols in DLLs
 #set( CMAKE_VERBOSE_MAKEFILE on )   #Makes it so you can see the final linker command created by CMake
@@ -28,27 +28,27 @@ add_subdirectory(vendor/assimp)
 
 add_subdirectory(ConstellateEngine) 
 
-target_link_libraries("ConstellateEngine" glfw)
-target_link_libraries("ConstellateEngine" spdlog)
-target_link_libraries("ConstellateEngine" Glad)
-target_link_libraries("ConstellateEngine" imgui)
-target_link_libraries("ConstellateEngine" glm)
-target_link_libraries("ConstellateEngine" assimp)
+target_link_libraries("csl_engine" glfw)
+target_link_libraries("csl_engine" spdlog)
+target_link_libraries("csl_engine" Glad)
+target_link_libraries("csl_engine" imgui)
+target_link_libraries("csl_engine" glm)
+target_link_libraries("csl_engine" assimp)
 
-target_include_directories("ConstellateEngine" PUBLIC "${PROJECT_SOURCE_DIR}/vendor/spdlog/include")
-target_include_directories("ConstellateEngine" PUBLIC "${PROJECT_SOURCE_DIR}/vendor/glfw/include")
-target_include_directories("ConstellateEngine" PUBLIC "${PROJECT_SOURCE_DIR}/vendor/glad/include")
-target_include_directories("ConstellateEngine" PUBLIC "${PROJECT_SOURCE_DIR}/vendor/imgui")
-target_include_directories("ConstellateEngine" PUBLIC "${PROJECT_SOURCE_DIR}/vendor/glm/glm")
-target_include_directories("ConstellateEngine" PUBLIC "${PROJECT_SOURCE_DIR}/vendor/assimp/include")
+target_include_directories("csl_engine" PUBLIC "${PROJECT_SOURCE_DIR}/vendor/spdlog/include")
+target_include_directories("csl_engine" PUBLIC "${PROJECT_SOURCE_DIR}/vendor/glfw/include")
+target_include_directories("csl_engine" PUBLIC "${PROJECT_SOURCE_DIR}/vendor/glad/include")
+target_include_directories("csl_engine" PUBLIC "${PROJECT_SOURCE_DIR}/vendor/imgui")
+target_include_directories("csl_engine" PUBLIC "${PROJECT_SOURCE_DIR}/vendor/glm/glm")
+target_include_directories("csl_engine" PUBLIC "${PROJECT_SOURCE_DIR}/vendor/assimp/include")
 
 #_________________________
 
 add_subdirectory(Game)
-target_link_libraries("Game" PRIVATE "ConstellateEngine")
+target_link_libraries("Game" PRIVATE "csl_engine")
 
 add_subdirectory(Demo)
-target_link_libraries("Demo" PRIVATE "ConstellateEngine")
+target_link_libraries("Demo" PRIVATE "csl_engine")
 
 
 #This is a hell that will never leave me alone.

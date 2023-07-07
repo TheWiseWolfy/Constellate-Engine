@@ -1,3 +1,8 @@
+/*
+File: CollsisionPrimitives.h
+
+Simple primitives used to describe the situation of a collision, containing all the data we need to give that collision a realistic response
+*/
 #pragma once
 
 #include <glm/glm.hpp>

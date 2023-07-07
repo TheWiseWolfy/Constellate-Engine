@@ -103,6 +103,7 @@ namespace csl {
 				GLuint uniformID = shader.GetUniform("isTextured");
 				glUniform1i(uniformID, (int)component->IsTextured());
 
+
 				if (component->IsTextured()) {
 
 					GLuint myTextureSamplerLocation = shader.GetUniform("myTextureSampler");

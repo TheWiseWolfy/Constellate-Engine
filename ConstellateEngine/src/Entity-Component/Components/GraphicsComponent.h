@@ -1,3 +1,13 @@
+/*
+File: GraphicsComponent.h
+
+The graphics component is a important part of the rendering system. RendererManager is the one who 
+captures all the active GraphicsComponents and draws them on screen using an Renderer
+Here the most important fuction is the contructor who takes an assimp aiMesh and 
+builds an VertexArray, something that can be used by the Renderer
+*/
+
+
 #pragma once
 
 #include "cslpch.h"
@@ -22,7 +32,7 @@ namespace csl {
 
         GraphicsComponent(std::unique_ptr<VertexArray> vertexArray) : _vertexArray(std::move(vertexArray)) {}
 
-        GraphicsComponent(aiMesh* mesh) : _vertexArray(std::move(VertexArray::Create()))
+        GraphicsComponent(aiMesh* mesh, glm::vec3 colour = { 0.4, 0.4, 0.4}) : _vertexArray(std::move(VertexArray::Create()))
         {
             std::vector<float> vertices;
             std::vector<unsigned int> indices;
@@ -38,9 +48,9 @@ namespace csl {
                 vertices.push_back(mesh->mNormals[i].y);
                 vertices.push_back(mesh->mNormals[i].z);
 
-                vertices.push_back(0.4);
-                vertices.push_back(0.4);
-                vertices.push_back(0.4);
+                vertices.push_back(colour.x);
+                vertices.push_back(colour.y);
+                vertices.push_back(colour.z);
                 vertices.push_back(1.0);
 
                 // Extract UV coordinates

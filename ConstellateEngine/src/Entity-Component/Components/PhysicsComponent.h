@@ -14,7 +14,7 @@ namespace csl {
 
         glm::vec3 _velocity;
         glm::vec3 _acceleration;
-        bool _staticObject;
+        bool _isStatic;
     public:
 
         PhysicsComponent() {
@@ -22,7 +22,7 @@ namespace csl {
             _acceleration = glm::vec3(0, 0, 0);
             _mass = 0.1;
             _friction_coef = 0.2;
-            _staticObject = false;
+            _isStatic = false;
         }
 
         //Adding force 
@@ -68,11 +68,11 @@ namespace csl {
         }
 
         void setStatic(bool staticObj){
-            _staticObject = staticObj;
+            _isStatic = staticObj;
         }
 
         bool getStatic() {
-            return _staticObject;
+            return _isStatic;
         }
 
         void update(float mFT) override

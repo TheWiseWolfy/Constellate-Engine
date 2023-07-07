@@ -55,7 +55,7 @@ namespace csl {
 
 			//this is also temporary 
 			_rendererManager->DrawGame();
-			_physicsManager->CalculatePhysics(deltaTime);
+			_physicsManager->calculatePhysics(deltaTime);
 			_entityManager->update(deltaTime);
 
 			for (Layer* layer : _layerStack) {

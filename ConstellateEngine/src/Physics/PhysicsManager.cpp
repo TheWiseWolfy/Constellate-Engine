@@ -35,7 +35,7 @@ namespace csl {
 		}
 	}
 
-	void solveCollision(Collision collision) {
+	void PhysicsManager::solveCollision(Collision collision) {
 
 		// Get the two collider components involved in the collision
 		ColliderComponent* objectA = collision.objectA;
@@ -92,9 +92,8 @@ namespace csl {
 	}
 
 
-	std::vector<Collision> PhysicsManager::CheckCollisions() {
+	void PhysicsManager::detectCollisions() {
 
-		std::vector<Collision> collisions;
 		std::vector<std::unique_ptr<Entity>>& entities = Application::GetInstance().GetEntityManager().GetEntityVector();
 		std::vector<ColliderComponent*> coliderComponents;
 
@@ -126,18 +125,16 @@ namespace csl {
 					myCollision.objectB = other;
 					myCollision.details = details;
 
-					collisions.push_back(myCollision);
 
 					solveCollision(myCollision);
 				}
 			}
 		}
-		return collisions;
 	}
 
 	
 
-	void PhysicsManager::CalculatePhysics(float mFT) {
+	void PhysicsManager::calculatePhysics(float mFT) {
 
 		std::vector<std::unique_ptr<Entity>>& entities = Application::GetInstance().GetEntityManager().GetEntityVector();
 		std::vector<PhysicsComponent*> physicsComponents;
@@ -159,20 +156,24 @@ namespace csl {
 
 				glm::vec3 velA = component->getVelocity() + component->getAcceleration() * mFT;
 
-				velA -= velA * 0.99f * mFT;
-				
+		
+				//Simple drag force to slow things down
+				velA -= velA * 0.95f * mFT;
+
 				if (velA.length() < 0.01f) {
 					velA = glm::vec3(0, 0, 0);
 				}
 				
 				component->setVelocity(velA);
-				component->setAcceleration(component->getAcceleration() + _gravitationalAcceleration * mFT);
 
+				if (_gravity) {
+					component->setAcceleration(component->getAcceleration() + _gravitationalAcceleration * mFT);
+				}
 				// Calculate the contribution of friction.
 			}
 		}
 
-		auto collisions = CheckCollisions();
+		detectCollisions();
 
 		
 	}

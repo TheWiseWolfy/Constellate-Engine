@@ -18,10 +18,10 @@ namespace csl {
             return instance;
         }
 
-        void loadShader(std::string name, std::string vertexPathString, std::string fragmentPathString) {
-
+        void loadShader(std::string name, std::string vertexPathString, std::string fragmentPathString, std::string geometryPathString = "") {
             std::filesystem::path fragmenPath(fragmentPathString);
             std::filesystem::path vertexPath(vertexPathString);
+            std::filesystem::path geometryPath(geometryPathString);
 
             if (!std::filesystem::exists(fragmentPathString) || !std::filesystem::exists(vertexPathString) ) {
                 throw std::runtime_error("The shader files were not found.");
@@ -29,7 +29,8 @@ namespace csl {
 
             std::ifstream fileStreamVertex(vertexPath);
             std::ifstream fileStreamFragment(fragmenPath);
-            
+            std::ifstream fileStreamGeometry;  //this one is empty for now
+
             if (!fileStreamFragment.is_open() || !fileStreamVertex.is_open())
             {
                 throw std::runtime_error("Failed to open file fragment shader or vertex shader file.");
@@ -37,6 +38,7 @@ namespace csl {
 
             std::string vertexSource;
             std::string fragmentSource;
+            std::string geometrySource;
 
             std::string line;
             while (std::getline(fileStreamVertex, line))
@@ -49,7 +51,25 @@ namespace csl {
                 fragmentSource += line + '\n';
             }
 
-            _shaderMap.emplace(name, std::make_unique<Shader>(vertexSource, fragmentSource));
+            //Geometry shader code
+
+            if (!geometryPath.empty()) {
+                if (!std::filesystem::exists(geometryPathString)) {
+                    throw std::runtime_error("The geometry shader file was not found.");
+                }
+
+                fileStreamGeometry.open(geometryPath);
+
+                if (!fileStreamGeometry.is_open()) {
+                    throw std::runtime_error("Failed to open geometry shader file.");
+                }
+
+                while (std::getline(fileStreamGeometry, line)) {
+                    geometrySource += line + '\n';
+                }
+            }
+
+            _shaderMap.emplace(name, std::make_unique<Shader>(vertexSource, fragmentSource, geometrySource));
         }
 
         Shader& getShader(const std::string& name) {

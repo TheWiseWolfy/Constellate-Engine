@@ -1,7 +1,6 @@
 #include "TargetComponent.h"
 
 
-
 void TargetComponent::update(float mFT) {
 
 	glm::vec3 currentRotation = this->getEntity()->GetRotation();

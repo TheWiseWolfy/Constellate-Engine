@@ -3,6 +3,7 @@
 #include "glad/glad.h"
 #include "GLFW/glfw3.h"
 #include "Core/Core.h"
+#include "Core/Log.h"
 
 
 
@@ -14,8 +15,28 @@ namespace csl {
 	void OpenGLContext::Init()
 	{
 		glfwMakeContextCurrent(_windowHandle);
-		int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
-		CSL_CORE_ASSERT(status, "Failed to initialize Glad!");
+
+        // Load OpenGL function pointers with Glad
+        if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
+        {
+            CSL_CORE_LOG("Failed to initialize Glad");
+            glfwTerminate();
+            return;
+        }
+
+        // Retrieve and print GPU information
+        const char* renderer = reinterpret_cast<const char*>(glGetString(GL_RENDERER));
+        if (renderer)
+        {
+            CSL_CORE_LOG("GPU: {0}", renderer);
+        }
+        else
+        {
+            CSL_CORE_LOG("Failed to retrieve GPU information");
+        }
+
+        
+        return;
 	}
 
 	void OpenGLContext::SwapBuffers()

@@ -14,7 +14,7 @@ namespace csl {
 
     }
     CollisionDetails PlaneColider::TestCollision(PlaneColider* collider) {
-        return CollisionDetails();  //No cliision between planes sadly
+        return CollisionDetails();  
 
     }
 

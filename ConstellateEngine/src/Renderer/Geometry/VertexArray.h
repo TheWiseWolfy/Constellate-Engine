@@ -30,7 +30,11 @@ namespace csl {
 
 	class VertexArray {
 	private:
+		VertexArray(const VertexArray& other) {}
+		VertexArray& operator=(const VertexArray& other) {}
 	public:
+		VertexArray(){}
+
 		virtual ~VertexArray() {}
 
 		virtual void Bind() const = 0;
@@ -42,9 +46,8 @@ namespace csl {
 		virtual const std::vector<std::shared_ptr<VertexBuffer>>& GetVertexBuffers() const = 0;
 		virtual const std::shared_ptr<IndexBuffer>& GetIndexBuffer() const = 0;
 
+		
 		static VertexArray* Create();
-
-
 	};
 
 }

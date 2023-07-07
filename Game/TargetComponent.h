@@ -6,13 +6,12 @@
 using namespace csl;
 class TargetComponent : public Component {
 private:
-	bool hit =  false;
+	bool _hit =  false;
 public:
 	void init() override {
 
 		auto entity = this->getEntity();
 		ColliderComponent* collider = dynamic_cast<ColliderComponent*>(entity->GetComponent(ComponentType::ColliderComponentType));
-
 
 		collider->SetCollisionCallback([&](ColliderComponent& collidedWithf) {
    
@@ -23,8 +22,8 @@ public:
 					//TODO Investigate this
 					//collidedWithf.getEntity()->MarkForDeletion();
 
-					if (!hit) { //trusty latch 
-						hit = true;
+					if (!_hit) { //trusty latch 
+						_hit = true;
 						TargetHitEvent e;
 
 						Application::GetInstance().PublishEvent(e);
