@@ -1,3 +1,14 @@
+/*
+File: Event.h
+
+TODO: Implement propper key pooling in order to capture key presses sincroniusly
+
+The base even for all the events in CSL Engine. 
+
+Credit for the dispach fuction and clever macros: https://github.com/TheCherno/Hazel
+*/
+
+
 #pragma once
 
 #include "cslpch.h"

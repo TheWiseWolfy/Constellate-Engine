@@ -14,7 +14,7 @@ public:
 	void Display() override {
 		ImGui::Text("My Points: %d" , _points);
 
-		ImGui::Text("Commands:\nW, S, A ,D - movement\nZ, X - up down\nM - lock mouse\nC-toggle gravity\nC-trow projectile\nB-create target\nV-stop player\nSPACE-jump player");
+		ImGui::Text("Commands:\nW, S, A ,D - movement\nZ, X - up down\nM - lock mouse\nN-toggle gravity\nC-trow projectile\nB-create target\nV-stop player\nSPACE-jump player");
 
 
 	}

@@ -7,10 +7,7 @@ TODO:Replace enum with registration system, because for now, the engine user can
 
 */
 
-
-
 #pragma once
-
 
 namespace csl {
 

@@ -172,7 +172,7 @@ public:
 
 	void TestFuction() {
 
-		CreateRandomTargets(25, { -20,0,-20 }, { 20,10,20 });
+		CreateRandomTargets(10, { -20,0,-20 }, { 20,10,20 });
 		{
 			Entity* entity = Application::GetInstance().GetEntityManager().addEntity();
 			const aiScene* scene = AssetImporter::LoadModel("E:\\Projects\\Git\\Constellate-Engine\\Game\\Assets\\floor.obj");

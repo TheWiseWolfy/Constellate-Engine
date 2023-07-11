@@ -1,3 +1,10 @@
+/*
+File: EntityManager.h
+
+
+This class is concerned with handling the creation,updating, storage and dispossal of entities.
+*/
+
 #pragma once
 
 #include "cslpch.h"

@@ -1,6 +1,5 @@
 #pragma once
 
-
 #include "Platform/Windows/WindowWindow.h"
 #include "Core/Window.h"
 #include "Events/Event.h"
@@ -45,7 +44,6 @@ namespace csl {
 
 		void PublishEvent(EngineEvent& e);
 		virtual void OnEventCallback(EngineEvent& e) {};
-
 
 		//CREATION HANDLE - implemented in client
 		static Application* CreateApplication();

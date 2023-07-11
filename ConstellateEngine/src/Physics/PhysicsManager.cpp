@@ -59,7 +59,7 @@ namespace csl {
 		float massA = rigidbodyA->getMass();
 		float massB = rigidbodyB->getMass();
 
-		float e = 0.1f; // Restitution coefficient (set to 0.5 for example purposes)
+		float e = 0.1f; // Restitution coefficient (set to 0.1 for example purposes)
 		float impulse = (-(1.0f + e) * glm::dot(relVel, details.normal)) / (1.0f / massA + 1.0f / massB);
 
 		// Calculate the total mass
@@ -89,6 +89,8 @@ namespace csl {
 			rigidbodyB->setAcceleration(rigidbodyA->getAcceleration() * -0.1f);
 			objectB->getEntity()->getTransform().setPosition(newPosB);
 		}
+
+
 	}
 
 
@@ -134,7 +136,7 @@ namespace csl {
 
 	
 
-	void PhysicsManager::calculatePhysics(float mFT) {
+	void PhysicsManager::calculatePhysics(float dt) {
 
 		std::vector<std::unique_ptr<Entity>>& entities = Application::GetInstance().GetEntityManager().GetEntityVector();
 		std::vector<PhysicsComponent*> physicsComponents;
@@ -151,14 +153,14 @@ namespace csl {
 
 			if (!component->getStatic()) {
 
-				auto calculatedPosition = component->getEntity()->getTransform().getPosition() + component->getVelocity() * mFT;
+				auto calculatedPosition = component->getEntity()->getTransform().getPosition() + component->getVelocity() * dt;
 				component->getEntity()->getTransform().setPosition(calculatedPosition);
 
-				glm::vec3 velA = component->getVelocity() + component->getAcceleration() * mFT;
+				glm::vec3 velA = component->getVelocity() + component->getAcceleration() * dt;
 
 		
 				//Simple drag force to slow things down
-				velA -= velA * 0.95f * mFT;
+				velA -= velA * 0.95f * dt;
 
 				if (velA.length() < 0.01f) {
 					velA = glm::vec3(0, 0, 0);
@@ -167,7 +169,7 @@ namespace csl {
 				component->setVelocity(velA);
 
 				if (_gravity) {
-					component->setAcceleration(component->getAcceleration() + _gravitationalAcceleration * mFT);
+					component->setAcceleration(component->getAcceleration() + _gravitationalAcceleration * dt);
 				}
 				// Calculate the contribution of friction.
 			}

@@ -1,3 +1,10 @@
+/*
+File:EntryPoint.h
+
+A technique that makes it so the library compiles main first, efectivly taking ownership of it.
+
+Credit: https://github.com/TheCherno/Hazel
+*/
 #pragma once
 
 #ifdef CSL_PLATFORM_WINDOWS

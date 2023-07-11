@@ -189,6 +189,5 @@ namespace csl {
             return _childrenEntities;
         }
 
-
     };
 }

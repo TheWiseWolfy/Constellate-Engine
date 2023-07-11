@@ -3,12 +3,14 @@ File: Application.cpp
 
 TODO: Implement propper key pooling in order to capture key presses sincroniusly
 
+This class is the central featre of CSL Engine, so it holds all the managers and all engine fuctionality goes though it.
 */
+
 #include "Application.h"
 #include "Log.h"
 
 #include "GLFW/glfw3.h"
-#include <glad/glad.h> //Look buddy, sometimes around february, GLFW became dependend on this exact include, so you won't be able to delete it anymore.
+#include <glad/glad.h> 
 
 namespace csl {
 	 
@@ -37,15 +39,13 @@ namespace csl {
 	}
 
 
-
 	void Application::Run() {
 		auto lastTime = std::chrono::high_resolution_clock::now();
 
 		while (_running)
 		{
-
 			//Calculate delta time
-			const float targetFrameTime = 1.0f / 60.0f; // Target frame time for 144 FPS
+			const float targetFrameTime = 1.0f / 60.0f; // Target frame time 
 
 			auto now =  std::chrono::steady_clock::now();
 			float deltaTime = std::chrono::duration_cast<std::chrono::microseconds>(now - lastTime).count() / 1000000.0f;
@@ -53,10 +53,9 @@ namespace csl {
 
 			//CSL_CORE_LOG("Frame time:{0}", deltaTime);
 
-			//this is also temporary 
-			_rendererManager->DrawGame();
-			_physicsManager->calculatePhysics(deltaTime);
 			_entityManager->update(deltaTime);
+			_physicsManager->calculatePhysics(deltaTime);
+			_rendererManager->DrawGame();
 
 			for (Layer* layer : _layerStack) {
 				layer->OnUpdate();
