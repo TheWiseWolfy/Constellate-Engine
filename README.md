@@ -10,8 +10,8 @@ A demo video of the engine:
 <img width="800" src="https://s12.gifyu.com/images/Scb6f.gif">
 </p>
 
-## Arhitecture
-The aritecture of Constellate Engine is based on a basic game loop, systems and the entity-component hierachy. In each iteration of a game loop, systems work on the entities in a scene then a new frame is created. 
+## Architecture
+The architecture of Constellate Engine is based on a basic game loop, systems and the entity-component hierachy. In each iteration of a game loop, systems work on the entities in a scene then a new frame is created. 
 
 <p align="center">
 <img width="800" src="https://i.imgur.com/W9Q3s4u.png">
